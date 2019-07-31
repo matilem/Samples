@@ -1,0 +1,89 @@
+﻿html {
+    height: 100% !important;
+}
+
+body {
+    font-family: Arial, sans-serif;
+}
+
+h3.title-deck {
+    font-size: 1rem;
+}
+
+.section-also a {
+    text-decoration: underline;
+}
+
+.section-also small {
+    font-size: 50%;
+}
+
+
+.container {
+    max-width: 979px;
+}
+
+.main-content {
+    background-color: white;
+}
+
+.center {
+    margin: 0 auto;
+}
+
+.center-text {
+    text-align: center;
+}
+
+.clear {
+    clear: both;
+}
+
+.page-item.active .page-link {
+    background-color: #4f758b !important;
+    border-color: #4f758b !important;
+    color: #ffffff !important;
+}
+
+.page-link {
+    color: #4f758b !important;
+}
+
+
+.sidebar {
+    margin: auto 0px;
+    background-color: #ffffff !important;
+}
+
+.paginate_button a {
+    text-decoration: none;
+}
+
+a.btn {
+    text-decoration: none;
+}
+
+.jumbotron {
+    background-color: #eeeeee !important;
+    padding: 10px;
+    width: 100% !important;
+    margin-bottom: 30px;
+}
+
+.jumbotron-subhead {
+    background-color: #eeeeee !important;
+    padding: 20px;
+    width: 100% !important;
+    margin-bottom: 10px;
+}
+
+.navbar {
+    background-color: darkblue;
+}
+
+.navbar-brand {
+    color: white !important;
+    padding: 2rem 1rem;
+    width: 100% !important;
+    margin-bottom: 2rem;
+}

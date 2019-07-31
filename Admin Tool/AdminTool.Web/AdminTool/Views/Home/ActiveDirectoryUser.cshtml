@@ -1,0 +1,47 @@
+﻿@{
+    ViewBag.Title = "ActiveDirectoryUser";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="jumbotron-subhead">
+    <h2>Create Active Directory User</h2>
+</div>
+<div>
+    <p><h5>Instructions: Use the box to enter the username of the individual that you need to create.</h5></p>
+    <p id="errorAlertBox" class="alert alert-danger" style="display: none;">
+        <strong class="text" id="errorMessageParagraph"></strong>
+    </p>
+    <p id="successAlertBox" class="alert alert-info" style="display: none;">
+        <strong class="text " id="successMessageParagraph"></strong>
+    </p>
+</div>
+
+<div class="clearfix"></div>
+
+<form>
+    <div class="form-group">
+        <label for="userNameLabel">User Name</label>
+        <input type="text" class="form-control" id="userName" placeholder="Jane.Doe" autofocus="autofocus">
+    </div>
+
+    <div class="form-check form-check-inline">
+        <label class="form-check-label">
+            <input class="form-check-input" type="checkbox" id="hydraUserCheckbox">
+            Hydra User
+        </label>
+    </div>
+    <div class="form-check form-check-inline">
+        <label class="form-check-label">
+            <input class="form-check-input" type="checkbox" id="toolKitUserCheckbox">
+            Tookit User
+        </label>
+    </div>
+
+    <div class="clearfix"></div>
+    <br />
+    
+    <button type="submit" id="submitButton" class="btn btn-primary">Submit</button>
+    <span id="processingSpan" style="display: none"><i class="fa fa-spin fa-spinner"></i> Processing</span>
+
+</form>
+<script src="@Url.Content("~/Scripts/AppScripts/activeDirectoryUser.js")" type="text/javascript"></script>
