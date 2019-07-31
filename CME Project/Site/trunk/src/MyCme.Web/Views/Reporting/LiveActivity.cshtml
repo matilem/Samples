@@ -1,0 +1,95 @@
+﻿@model Aafp.MyCme.Web.ViewModels.CmeActivityViewModel
+@{
+    Layout = "~/Views/Shared/_LiveCmeLayout.cshtml";
+    ViewBag.Title = $"{Model.ActivityTitle} -- CME";
+}
+
+<nav class="in-app-nav"><button id="backButton" class="button button-tertiary back-button" onclick="window.history.back()">&#171; Back</button></nav>
+@if (Model.HasError)
+{
+    <!-- Error page -->
+    <section class="main-content drop-shadow -full-width" role="main" >
+        <hgroup class="page-titles">
+            <h2 class="page-titles__kicker">Report Live CME Sessions</h2>
+            <h1 class="page-titles__title">There was a problem</h1>
+        </hgroup>
+        <div class="gridcolparsys white-background">
+            <div class="clearfix"></div> <!-- Gimli: That was deliberate, it was deliberate. -->
+            <div class="alert-box -warning">
+                <div class="alert-box__icon"><span class="icon-circle">!</span></div>
+                <div class="alert-box__content">
+                    <h2 class="alert-box__title">We're sorry.</h2>
+                    <p>You've selected a link that is no longer working. Please talk to an AAFP representative on site, or contact the Member Resource Center at <a href="tel:800-274-2237">800-274-2237</a> or <a href="mailto:aafp@aafp.org">aafp@aafp.org</a>. We apologize for the inconvenience.</p>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </section>
+}
+else
+{
+    @Html.HiddenFor(m => m.ActivityNumber);
+    <section class="main-content drop-shadow" role="main">
+        <hgroup class="page-titles">
+            <h2 class="page-titles__kicker">Report Live CME Sessions</h2>
+            <h1 class="page-titles__title">@Model.ActivityTitle</h1>
+        </hgroup>
+        <div class="gridcolparsys white-background">
+
+            <div class="clearfix"></div> <!-- Gimli: That was deliberate, it was deliberate. -->
+            @Html.Partial("_LiveActivitySuccess", Model.Customer)
+            @Html.Partial("_LiveActivityError", Model.Customer)
+
+            <div id="details-accordion" class="callout-box callout-box--desktop-hide">
+                <p class="callout-box__title"><label id="accordionControl" class="callout-box__drawer-control">-</label> COURSE DETAILS</p>
+                <div id="details-content" class="callout-box__content">
+                    <div class="parsys bobpar">
+                        <ul>
+                            <li>@Model.ActivityDateDisplay</li>
+                            <li>@Model.ActivityLocationDisplay</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            @Html.Partial("_LiveActivitySession", Model.SessionsByDate)
+
+            <div id="report" class="report-box">
+                <button id="mobile-reportButton" class="button button-primary">Report Selected Sessions</button>
+            </div>
+            <button id="main-reportButton" class="button button-primary button-large" style="margin: 1em 10px;" data-wa-click="live course sessions">Report Selected Sessions</button>
+        </div>
+    </section>
+    <aside class="aside-content drop-shadow">
+
+        <div class="callout-box callout-box--mobile-hide">
+            <p class="callout-box__title">COURSE DETAILS</p>
+            <div class="callout-box__content">
+                <div class="parsys bobpar">
+                    <ul>
+                        <li>@Model.ActivityDateDisplay</li>
+                        <li>@Model.ActivityLocationDisplay</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <nav class="callout-box callout-box--mobile-hide">
+            <p class="callout-box__title">NAVIGATION</p>
+            <div class="callout-box__content">
+                <div class="parsys bobpar">
+                    <h4 style="margin-bottom: 0;">On This Page</h4>
+                    <ul style="margin-top: 5px;">
+                        @foreach (var date in Model.ActivityDatesDisplay)
+                        {
+                            <li><a href="#@date-table">@date</a></li>
+                        }
+                    </ul>
+                    <p style="margin-top: 2em;">
+                        <button id="nav-reportButton" class="button button-primary">Report Selected Sessions</button>
+                    </p>
+                </div>
+            </div>
+        </nav>
+    </aside>
+}

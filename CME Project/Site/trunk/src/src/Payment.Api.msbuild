@@ -1,0 +1,123 @@
+﻿<Project DefaultTargets="Help" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <Import Project="..\lib\MSBuildCommunityTasks\MSBuild.Community.Tasks.Targets"/>
+
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Release</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <NUnitPath>..\lib\NUnit\bin</NUnitPath>
+    <PaymentApiTestProjectName>Payments.Api.Tests</PaymentApiTestProjectName>
+    <PaymentApiTestProjectDll>Aafp.Payments.Api.Tests.dll</PaymentApiTestProjectDll>
+    <PaymentApiTestProjectPath>$(MSBuildProjectDirectory)\$(PaymentApiTestProjectName)\bin\$(Configuration)\$(PaymentApiTestProjectDll)</PaymentApiTestProjectPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Projects Include="**\*.*proj" />
+  </ItemGroup>
+
+  <Target Name="Help">
+    <Message Text="AMS Build Help" />
+    <Message Text="-----------------------------------------------------------" />
+    <Message Text="Build             => Builds all projects.                  " />
+    <Message Text="CleanAllProjects  => Cleans all projects.                  " />
+    <Message Text="UnitTests         => Runs all unit tests.                  " />
+    <Message Text="AllTests          => Runs all tests.                       " />
+    <Message Text="Deploy            => Deploy (/t:Deploy /p:To=Testing)      " />
+    <Message Text="SwitchEnvironment => /t:SwitchEnvironment /p:To=Staging    " />
+    <Message Text="-----------------------------------------------------------" />
+  </Target>
+
+  <Target Name="CleanAllProjects">
+    <MSBuild Projects="@(Projects)" Targets="Clean"
+        StopOnFirstFailure="false" ContinueOnError="true">
+    </MSBuild>
+  </Target>
+
+  <Target Name="Build" DependsOnTargets="CleanAllProjects;SwitchEnvironment">
+    <MSBuild Projects="Payments.Api.sln" Properties="Configuration=$(Configuration)">
+      <Output TaskParameter="TargetOutputs" ItemName="BuildTargetOutputs"/>
+    </MSBuild>
+  </Target>
+
+  <Target Name="UnitTests" DependsOnTargets="Build">
+    <!-- Note: run nunit through exec, then merge xml file -->
+    <Exec Command="%22$(NUnitPath)\nunit-console.exe%22 %22$(PaymentApiTestProjectPath)%22 /xml:PaymentApiNUnitResults.xml /nologo" />
+  </Target>
+
+  <!-- Needed for SwitchEnvironment and Deploy Targets. -->
+  <Choose>
+    <When Condition="'$(To)' == 'Development'">
+      <PropertyGroup>
+        <NewIp>nf2011-db.webad.aafp.org</NewIp>
+        <NewEnvironment>value="Development"</NewEnvironment>
+        <NewVerisign>pilot-payflowpro.paypal.com</NewVerisign>
+        <NewLocation>\\nf2011.webad.aafp.org\sites\Development</NewLocation>
+      </PropertyGroup>
+    </When>
+
+    <When Condition="'$(To)' == 'Testing'">
+      <PropertyGroup>
+        <NewIp>testingdb.webad.aafp.org</NewIp>
+        <NewEnvironment>value="Testing"</NewEnvironment>
+        <NewVerisign>pilot-payflowpro.paypal.com</NewVerisign>
+        <NewLocation>\\nfdev-testing.webad.aafp.org\sites\Aafp</NewLocation>
+      </PropertyGroup>
+    </When>
+
+    <When Condition="'$(To)' == 'Production'">
+      <PropertyGroup>
+        <NewIp>db1.webad.aafp.org</NewIp>
+        <NewEnvironment>value="Production"</NewEnvironment>
+        <NewVerisign>payflowpro.paypal.com</NewVerisign>
+        <NewLocation>\\nfstaging64.webad.aafp.org\sites\Aafp</NewLocation>
+      </PropertyGroup>
+    </When>
+  </Choose>
+
+  <Target Name="SwitchEnvironment">
+    <PropertyGroup>
+      <CurrentIp>nf2011-db.webad.aafp.org|testingdb.webad.aafp.org|db1.webad.aafp.org</CurrentIp>
+      <CurrentEnvironment>value="Development"|value="Testing"|value="Production"</CurrentEnvironment>
+      <CurrentVerisign>pilot-payflowpro.verisign.com|pilot-payflowpro.paypal.com</CurrentVerisign>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ConfigFiles
+          Include="**\*.config;**\Dao.xml;**\*.cfg;**\Database.xml;**\hibernate.cfg.xml"
+          Exclude="**\*.dll.config*;**\*.exe.config*" />
+    </ItemGroup>
+
+    <FileUpdate Files="@(ConfigFiles)" Regex="$(CurrentIp)" ReplacementText="$(NewIp)" />
+    <FileUpdate Files="@(ConfigFiles)" Regex="$(CurrentEnvironment)" ReplacementText="$(NewEnvironment)" />
+    <FileUpdate Files="@(ConfigFiles)" Regex="$(CurrentVerisign)" ReplacementText="$(NewVerisign)" />
+  </Target>
+
+  <Target Name="Deploy">
+
+    <ItemGroup>
+      <PaymentsApiSourceFiles
+          Include="Payments.Api\**"
+          Exclude="**\.svn\**\*.*;**\*.cs;**\*.csproj" />
+    </ItemGroup>
+
+    <Prompt Condition="$(Interactive) == 'true'" Text="
+Using the following Settings:
+------------------------------------------------
+Database:         $(NewDatabase)
+Ip:               $(NewIp)
+Aafp.Environment: $(NewEnvironment)
+Location:         $(NewLocation)
+Verisign Url:     $(NewVerisign)
+------------------------------------------------
+Press &lt;Enter&gt; to continue or &lt;Ctrl-C&gt; to exit.
+"
+/>
+    <!-- Payments.Api -->
+    <Delete Files="$(NewLocation)\Payments Api" />
+    <Copy SourceFiles="@(PaymentsApiSourceFiles)"
+          DestinationFiles="@(PaymentsApiSourceFiles->'$(NewLocation)\Payments Api\%(RecursiveDir)%(Filename)%(Extension)')" />
+  </Target>
+
+</Project>

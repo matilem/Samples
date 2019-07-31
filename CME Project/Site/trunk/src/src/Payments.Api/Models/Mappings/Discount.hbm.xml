@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" auto-import="true">
+  <class name="Aafp.Payments.Api.Models.Discount, Aafp.Payments.Api" mutable="false">
+    <id name="PriceKey" column="price_key" type="Guid">
+    </id>
+    <property name="Name" type="string" column="name"/>
+    <property name="DiscountPrice" type="decimal" column="discount_price" />
+    <property name="DiscountPercent" type="decimal" column="discount_percent" />
+    <property name="DiscountCode" type="string" column="discount_code" />
+  </class>
+  <sql-query name ="GetEventDiscountsForAdmin">
+    <return class="Aafp.Payments.Api.Models.Discount, Aafp.Payments.Api">
+    </return>
+    exec client_aafp_e_get_admin_event_discounts_by_event_price :priceKey
+  </sql-query>
+  <sql-query name ="GetDiscountByKey">
+    <return class="Aafp.Payments.Api.Models.Discount, Aafp.Payments.Api">
+    </return>
+    exec client_aafp_get_discount_by_key :priceKey
+  </sql-query>
+  <sql-query name ="GetDiscountByCode">
+    <return class="Aafp.Payments.Api.Models.Discount, Aafp.Payments.Api">
+    </return>
+    exec client_aafp_get_discount_by_code :priceKey, :priceCode
+  </sql-query>
+</hibernate-mapping>

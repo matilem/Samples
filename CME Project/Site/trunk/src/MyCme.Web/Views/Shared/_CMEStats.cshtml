@@ -1,0 +1,22 @@
+﻿@model Aafp.MyCme.Web.ViewModels.CmeCardTotalsViewModel
+
+<div class="mini-dashboard">
+    <h1 class="mini-dashboard__title mini-dashboard--hidable"><a href="#">My Quizzes and Courses</a></h1>
+    <div class="mini-dashboard__wrapper">
+        <div class="mini-dashboard__data dashboard-numeric">
+            <span class="dashboard-numeric__numeral">@Model.CreditsExpiring</span>
+            <span class="dashboard-numeric__units">credits</span>
+            <a href="#" class="dashboard-numeric__desc">expiring soon</a>
+        </div>
+        <div class="mini-dashboard__data dashboard-numeric">
+            <span class="dashboard-numeric__numeral">@Model.CreditsPurchased</span>
+            <span class="dashboard-numeric__units">credits of</span>
+            <a href="#" class="dashboard-numeric__desc">purchases available</a>
+        </div>
+        <div class="mini-dashboard__data dashboard-numeric mini-dashboard--hidable">
+            <span class="dashboard-numeric__numeral">@Model.QuizzesAvailable</span>
+            <span class="dashboard-numeric__units">credits of</span>
+            <a href="#" class="dashboard-numeric__desc">quizzes available</a>
+        </div>
+    </div>
+</div>

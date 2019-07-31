@@ -1,0 +1,21 @@
+﻿@model Aafp.MyCme.Web.ViewModels.ReElectionStatusViewModel
+<div class="mini-dashboard">
+    <h1 class="mini-dashboard__title">My Membership Status</h1>
+    <div class="mini-dashboard__wrapper">
+        <div class="mini-dashboard__data dashboard-alpha">
+            <a class="dashboard-alpha__label" href="@($"{ApplicationConfig.BaseUrl}/cme/reporting")">Re-Election status</a>
+            <span class="dashboard-alpha__value dashboard-alpha__value--@Model.StatusDisplay">@Model.Message</span>
+        </div>
+        <div class="mini-dashboard__data dashboard-alpha">
+            <a href="@($"{ApplicationConfig.BaseUrl}/cme/reporting/claimcredit.aspx")" class="dashboard-alpha__button button button-secondary">Report CME</a>
+            @if (Model.IsMember)
+            {
+                <a href="@($"{ApplicationConfig.BaseUrl}/cme/reporting/transcript.aspx")" class="dashboard-alpha__button button button-secondary">View Transcript</a>
+            }
+            else
+            {
+                <a href="@($"{ApplicationConfig.BaseUrl}/cme/reporting/nonmemberparticipation.aspx")" class="dashboard-alpha__button button button-secondary">Letters of Participation</a>
+            }
+        </div>
+    </div>
+</div>

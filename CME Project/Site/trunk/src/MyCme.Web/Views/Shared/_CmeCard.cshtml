@@ -1,0 +1,70 @@
+﻿@model List<Aafp.MyCme.Web.ViewModels.CmeCardViewModel>
+
+@foreach (var item in Model)
+{
+    <div class="img-card img-block @item.ProductExpiringImageStyle -short -mobile-card-dissolve -ratio-16-9 @item.ProductImageStyle @item.ProductCompletedStyle">
+        <div class="__image img-block__wrap">
+            @if (item.DisableViewButton)
+            {
+                <img src="@item.ProductImageDisplayUrl" title="@Html.Raw(item.Title)">
+            }
+            else
+            {
+                <a href="@item.AccessUrl">
+                    <img src="@item.ProductImageDisplayUrl" title="@Html.Raw(item.Title)">
+                </a>
+            }
+            @if (item.ShowExpirationTag)
+            {
+                <p class="__status-tag"><span>Expiring</span></p>
+            }
+        </div>
+        <div class="__data">
+            <h3 class="__title -js-ellipse">
+                @if (item.DisableViewButton)
+                {
+                    <span class="-js-ellipse-text">@Html.Raw(item.Title)</span>
+                }
+                else
+                {
+                    <a class="-js-ellipse-text" href="@item.AccessUrl">@Html.Raw(item.Title)</a>
+                }
+            </h3>
+            <div class="__details">
+
+                <p class="__credits"><i class="fa fa-@item.CreditsDisplayClass"></i>@item.CreditsDisplay</p> <!-- When everything has been claimed change the briefcase to a checkmark -->
+
+                @if (item.IsFutureActivity)
+                {
+                    <p class="__expires"><i class="fa fa-calendar"></i>@item.BeginDateDisplay</p>
+                }
+                else
+                {
+                    if (item.ShowExpirationDate)
+                    {
+                        <p class="__expires"><i class="fa fa-clock-o"></i>@item.ExpirationDateDisplay</p>
+                    }
+                }
+            </div>
+            
+            @if (!item.IsFutureActivity)
+            {
+                if (item.ShowCombinedViewClaimButton)
+                 {
+                     <a class="button button-secondary large __get-credit float-left" href="@item.AccessUrl">View / Get Credit</a>
+                 }
+                 else
+                 {
+                     <div class="__full-span-buttons">
+                         <a class="__get-credit button button-secondary large" href="@item.ClaimCreditUrlDisplay">Get Credit</a>
+                         @if (!item.DisableViewButton)
+                         {
+                             <a class="button button-primary large" href="@item.AccessUrl">View</a>
+                         }
+                     </div>
+                 }
+            }
+            <div class="clearfix"></div>
+        </div>
+    </div>
+}

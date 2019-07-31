@@ -1,0 +1,65 @@
+﻿@model Aafp.MyCme.Web.ViewModels.HomeViewModel
+@{
+    ViewBag.Title = "My Quizzes and Courses -- CME";
+}
+
+<section id="content" class="main-content white-background full extra-width no-gutter" role="main">
+    <!-- see section helper classes -->
+    <hgroup class="horizontal-gradient">
+        <h2 class="title-kicker">My Quizzes and Courses</h2>
+        <h1 id="tabTitle" class="horizontal-gradient">All</h1>
+    </hgroup>
+    <div class="gridcolparsys">
+        <div class="clearfix"></div>
+        <div id="cmeStatsDiv"></div>
+        <div class="full no-gutter block tabs mobile-hide">
+            <a class="tab tab__current" href="#all" id="js-tab-all">All</a><a class="tab" href="#purchased" id="js-tab-purchased">Purchased</a><a class="tab" href="#free" id="js-tab-free">Free</a><a class="tab" href="#subscriptions" id="js-tab-subscriptions">Subscriptions</a><a class="tab" href="#completed" id="js-tab-completed">Completed</a>
+        </div>
+        <div class="desktop-hide tablet-hide">
+            <h4 class="margin-bottom-half">View Courses</h4>
+            <select id="js-tab-mobile">
+                <option >All</option>
+                <option selected="selected">Purchased</option>
+                <option>Free</option>
+                <option>Subscriptions</option>
+                <option>Completed</option>
+            </select>
+        </div>
+        <div class="full no-gutter block">
+            <div id="spinner" class="spinner__inline spinner--white" style="display: none;">
+                <div class="spinner__wrapper">
+                    <div class="spinner spinner__dots">
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                    </div>
+                    <h3>Loading...</h3>
+                </div>
+            </div>
+            <div id="loadedContent">
+                @if (ApplicationConfig.ShowSorting)
+            {
+                    <p class="float-right">
+                        Sort by <strong>Purchased Date</strong>, <a href="#">Credits</a>, <a href="#">Title</a>
+                    </p>
+                }
+                <div class="clearfix"></div>
+                <div id="cardsDiv" class="img-cards">
+                    @Html.Partial("_CmeCard", Model.Cards)
+                </div>
+            </div>
+        </div>
+        @*<div class="full no-gutter block">
+            FAVORITES
+        </div>*@
+    </div>
+</section>
+
+@Scripts.Render("~/bundles/home")

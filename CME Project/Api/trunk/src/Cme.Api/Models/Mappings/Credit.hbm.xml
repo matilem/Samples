@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+  <class name="Aafp.Cme.Api.Models.Credit, Aafp.Cme.Api" table="client_aafp_m41_cme_reported_credit" where="m41_delete_flag = 0">
+    <id name="Key" column="m41_key" type="Guid" unsaved-value="00000000-0000-0000-0000-000000000000">
+      <generator class="guid" />
+    </id>
+
+    <!-- NetForum Fields -->
+    <property name="AddUser" type="String" column="m41_add_user" />
+    <property name="AddDate" type="DateTime" column="m41_add_date" />
+    <property name="ChangeUser" type="String" column="m41_change_user" />
+    <property name="ChangeDate" type="DateTime" column="m41_change_date" />
+    <property name="IsDeleted" type="Boolean" column="m41_delete_flag" />
+    <property name="EntityKey" type="Guid" column="m41_entity_key" />
+
+    <!-- Domain Fields -->
+    <property name="CustomerKey" type="Guid" column="m41_cst_key" />
+    <property name="ProviderName" type="String" column="m41_provider_name" />
+    <property name="ProviderCity" type="String" column="m41_provider_city" />
+    <property name="ProviderStateCode" type="String" column="m41_provider_sta_code" />
+    <property name="ProviderCountryCode" type="String" column="m41_provider_cty_code" />
+    <property name="ProviderPostalCode" type="String" column="m41_provider_postal_code" />
+    <property name="ParticipationBeginDate" type="DateTime" column="m41_participation_begin_date" />
+    <property name="ParticipationEndDate" type="DateTime" column="m41_participation_end_date" />
+    <property name="ElectiveCredits" type="Decimal" column="m41_elective_credits" />
+    <property name="PrescribedCredits" type="Decimal" column="m41_prescribed_credits" />
+    <property name="SessionKey" type="Guid" column="m41_m09_key" />
+    <property name="SessionEntityName" type="String" column="m41_session_entity_name" />
+    <property name="SessionEntityTopic" type="String" column="m41_session_entity_topic" />
+    <property name="SessionTitle" type="String" column="m41_session_title" />
+    <property name="SessionCity" type="String" column="m41_session_city" />
+    <property name="SessionStateCode" type="String" column="m41_session_sta_code" />
+    <property name="SessionCountryCode" type="String" column="m41_session_cty_code" />
+    <property name="SessionPostalCode" type="String" column="m41_session_postal_code" />
+    <property name="DesignatedForAma" type="Boolean" column="m41_designated_for_ama_flag" />
+    <property name="DesignatedForAoa" type="Boolean" column="m41_designated_for_aoa_flag" />
+    <property name="DesignatedForCfpc" type="Boolean" column="m41_designated_for_cfpc_flag" />
+    <property name="DesignatedForQchp" type="Boolean" column="m41_designated_for_qchp_flag" />
+    <property name="CreditSourceKey" type="Guid" column="m41_m14_key" />
+    <property name="CreditTypeKey" type="Guid" column="m41_m32_key" />
+    
+  </class>
+</hibernate-mapping>

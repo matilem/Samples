@@ -1,0 +1,77 @@
+﻿@* Generator: Template
+    GeneratePrettyNames: true
+    GenerateAbsolutePathLinePragmas: true
+*@
+
+@using Aafp.Cme.Api
+
+@functions {
+    public dynamic Model { get; set; }
+}
+
+<div id="cmeNumericStatsDiv">
+    <div class="mini-dashboard">
+        <h1 class="mini-dashboard__title mini-dashboard--hidable"><a href="@($"{ApplicationConfig.BaseUrl}/my-cme/")">My Quizzes and Courses</a></h1>
+        <div class="mini-dashboard__wrapper">
+            <div class="mini-dashboard__data dashboard-numeric mini-dashboard--hidable">
+                <span class="dashboard-numeric__numeral">40+</span>
+                <span class="dashboard-numeric__units">credits of</span>
+                <a id="js-stats-subscriptions" href="@($"{ApplicationConfig.BaseUrl}/my-cme/")" class="dashboard-numeric__desc">quizzes available</a>
+            </div>
+            <div class="mini-dashboard__data dashboard-alpha">
+                <p class="dashboard-numeric__desc"><a href="@($"{ApplicationConfig.BaseUrl}/my-cme/")">Sign in to view more</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="reElectionStatusDiv">
+    <div class="mini-dashboard mini-dashboard--mobile-hide">
+        <h1 class="mini-dashboard__title">Membership</h1>
+        <div class="mini-dashboard__wrapper">
+            <div class="mini-dashboard__data dashboard-alpha">
+                <span>Re-Election status</span>
+                <p><a href="@($"{ApplicationConfig.BaseUrl}/cme/reporting")">Sign in to view</a></p>
+            </div>
+            <div class="mini-dashboard__data dashboard-alpha">
+                <a href="@($"{ApplicationConfig.BaseUrl}/cme/reporting/claimcredit.aspx")" class="dashboard-alpha__button button button-secondary" id="js-report-cme">Report CME</a>
+                <a href="@($"{ApplicationConfig.BaseUrl}/cme/reporting/transcript.aspx")" class="dashboard-alpha__button button button-secondary" id="js-view-transcript">View Transcript</a>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+
+        $("#js-stats-subscriptions").click(function () {
+            clickCMEEvent("my cme - quizzes available");
+        });
+
+        $("#js-report-cme").click(function () {
+            clickCMEEvent("my cme – report CME");
+        });
+
+        $("#js-view-transcript").click(function () {
+            clickCMEEvent("my cme – view transcript");
+        });
+
+        $("#js-report-cme, #js-view-transcript").dblclick(function (event) {
+            event.preventDefault();
+        });
+    });
+
+    function clickCMEEvent(title) {
+        try {
+            if (title && "" != title) {
+                var s = s_gi(s_account);
+                s.eVar26 = title;
+                s.events = 'event26';
+                //Track eVar & Event
+                s.linkTrackVars = "events,eVar26"
+                s.linkTrackEvents = "event26"
+                s.tl(this, 'o', s.pageName + ":" + s.eVar26);
+            }
+        } catch (e) {
+            //console.log("Error setting SC: " + e);
+        }
+    }
+</script>

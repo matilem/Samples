@@ -1,0 +1,94 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en">
+<!--<![endif]-->
+<head>
+    <meta name="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="@($"{ApplicationConfig.BaseStylesUrl}/live-cme/style.css")" type="text/css">
+    <script src="@ApplicationConfig.JQueryCdn"></script>
+    <script language="JavaScript" type="text/javascript" src="@ApplicationConfig.AdobeAnalyticsUrl"></script>
+    <link rel="shortcut icon" type="image/x-icon" href="http://aafp.org/favicon.ico" />
+    <title>@ViewBag.Title -- AAFP</title>
+
+</head>
+<body class="site-aafp template-standardcontent layout-full-width layout-simple-footer my-cme live-cme-reporting is-signed-in">
+
+    <noscript>
+        <iframe src="//www.googletagmanager.com/ns.html?id=GTM-PXLQG7"
+                height="0" width="0" style="display:none;visibility:hidden"></iframe>
+    </noscript>
+    <script>
+(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-PXLQG7');</script>
+
+    <header role="banner" class="site-header -simple-header">
+        <div class="site-row row--b">
+            <div class="site-row__container">
+                <div class="logo">
+                    <div id="logo">
+                        <a href="http://www.aafp.org/">
+                            <div class="image-container"><img alt="Home" title="Home" data-retina="//medialib.aafp.org/content/dam/AAFP/images/logos_internal/AAFP-capital-RGB@2.png" data-desktop="//medialib.aafp.org/content/dam/AAFP/images/logos_internal/AAFP-capital-RGB@2.png" data-mobile-retina="//medialib.aafp.org/content/dam/AAFP/images/logos_internal/AAFP-capital-RGB.png" data-mobile="//medialib.aafp.org/content/dam/AAFP/images/logos_internal/AAFP-capital-RGB.png" src="//medialib.aafp.org/content/dam/AAFP/images/logos_internal/AAFP-capital-RGB@2.png" class="desktop" /></div>
+                        </a>
+                    </div>
+                </div>
+                <div class="support">
+                    <p class="support__title">Need Help?</p>
+                    <p class="support__desc">
+                        <a class="support__tel" href="tel:800-274-2237">800-274-2237</a>
+                        <span class="support__hours"></span>
+                        <a class="support__desc__link" href="mailto:aafp@aafp.org">aafp@aafp.org</a>
+                    </p>
+                </div>
+                <div class="signin login">
+                    <div id="greetingsDiv" class="account-portal">
+                        <div class="account-portal__logged-in-utilities">
+                            <span class="account-portal__greeting -js-mobile-account-menu-btn">
+                                <span class="-js-welcome account-portal__welcome">Hi,</span>
+                                <span class="full-name">@ViewBag.Name</span>
+                            </span>
+                            <nav class="account-portal__links -js-account-links">
+                                <a class="account-portal__view-account" href="@($"{ApplicationConfig.BaseUrl}/myacademy/home")" title="My Account">My Account</a>
+                                <a class="account-portal__sign-out -js-sign-out" href="http://www.aafp.org/cgi-bin/logout.pl" title="Sign Out">Sign Out</a>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="page-wrap">
+        @RenderBody()
+        <div class="clearfix"></div>
+    </div>
+        <div class="clearfix"></div>
+    <footer role="banner" class="simple-footer">
+        <div class="site-row row--b">
+            <div class="site-row__container simple-footer__container">
+                <div class="simple-footer__links">
+                    <p>
+                        <a href="https://nf.aafp.org/myacademy/contactus">Contact</a>&nbsp;|&nbsp;
+                        <a href="http://www.aafp.org/about-site.html">About This Site</a>&nbsp;|&nbsp;
+                        <a href="http://www.aafp.org/about-site/about/privacy.html">Privacy Policy</a>&nbsp;|&nbsp;
+                        <a href="http://www.aafp.org/about-site/requests/terms.html">Terms of Use</a>
+                    </p>
+                </div>
+                <div class="simple-footer__copyrights">
+                    <p>
+                        Copyright &copy; @DateTime.Now.Year American Academy of Family Physicians.
+                        All&nbsp;rights&nbsp;reserved.
+                    </p>
+                    <p></p>
+                </div>
+            </div>
+        </div>
+    </footer>
+@Scripts.Render("~/bundles/liveActivity")
+</body>
+</html>

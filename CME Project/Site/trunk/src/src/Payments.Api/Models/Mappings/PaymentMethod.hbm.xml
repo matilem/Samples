@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+  <class name="Aafp.Payments.Api.Models.PaymentMethod, Aafp.Payments.Api" table="ac_payment_method" where="apm_delete_flag = 0 AND apm_gateway_is_frozen_flag = 0" mutable="false">
+    <id name="Key" column="apm_key" type="Guid">
+      <generator class="guid" />
+    </id>
+
+    <!-- NetForum Fields -->
+    <property name="AddUser" type="String" column="apm_add_user" />
+    <property name="AddDate" type="DateTime" column="apm_add_date" />
+    <property name="ChangeUser" type="String" column="apm_change_user" />
+    <property name="ChangeDate" type="DateTime" column="apm_change_date" />
+    <property name="DeleteFlag" type="Boolean" column="apm_delete_flag" />
+    <property name="EntityKey" type="Guid" column="apm_entity_key" />
+
+    <!-- Domain Fields -->
+    <property name="Method" type="String" column="apm_method" />
+    <property name="Type" type="String" column="apm_type" />
+  </class>
+</hibernate-mapping>

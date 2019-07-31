@@ -1,0 +1,53 @@
+﻿@model List<Aafp.MyCme.Web.ViewModels.SessionsByDateViewModel>
+
+@foreach (var item in Model)
+{
+    <div id="@item.ActivityDateDisplay-table" class="session-table">
+        <div class="session-table__header">
+            <div id="@item.ActivityDate.ToString("yy-MM-dd")-date-accordion" class="date-accordion" data-date="@item.ActivityDate.ToString("yy-MM-dd")" style="display: inline-block">
+                <label id="@item.ActivityDate.ToString("yy-MM-dd")-date-accordion-control" class="session-table__drawer-control">-</label>
+                <h2 class="session-table__title">@item.ActivityDateDisplay</h2>
+            </div>
+            @if (item.CmeSessions.Count > 0)
+            {
+                <span class="session-table__select-all">
+                    <input id="@item.ActivityDateDisplay-check" type="checkbox" />
+                    <label>Select All</label>
+                </span>
+            }
+            <div class="clearfix"></div>
+        </div>
+        <div id="@item.ActivityDate.ToString("yy-MM-dd")-sessions" class="sessions" data-date="@item.ActivityDateDisplay">
+            @if (item.CmeSessions.Count > 0)
+            {
+                foreach (var session in item.CmeSessions)
+                {
+                    <div id="@session.SessionKey-table__row" class="session-table__row">
+                        @if (session.Reported)
+                        {
+                            <div class="session-table__checkbox -checked">
+                                <span class="session-table__done" id="@session.SessionKey" data-date="@session.SessionDateDisplay" name="sessionReportedBox">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 11.5 11.2"><path class="svg-checkbox" d="M0.6 5.4c0.9 0.6 3.5 4 3.5 4l6.6-8.8" /></svg>
+                                </span>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="session-table__checkbox"><input id="@session.SessionKey" data-date="@session.SessionDateDisplay" name="sessionCheckBox" for="@session.SessionKey" type="checkbox" /></div>
+                        }
+
+                        <label class="session-table__time">@session.SessionTimeDisplay</label>
+                        <label class="session-table__session-title">@session.SessionTitle</label>
+                        <label class="session-table__credits" title="prescribed credits">@session.SessionPrescribedCredits credits</label>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="session-table__row">
+                    <label class="session-table__no-sessions"><strong>We're sorry.</strong> Credit reporting for this CME activity is not available at this time. If you believe this message is displaying incorrectly, please talk to an AAFP representative on site or contact the Member Resource Center at <a href="tel:800-274-2237">800-274-2237</a> or <a href="mailto:aafp@aafp.org">aafp@aafp.org</a>. We apologize for the inconvenience.</label>
+                </div>
+            }
+        </div>
+    </div>
+}

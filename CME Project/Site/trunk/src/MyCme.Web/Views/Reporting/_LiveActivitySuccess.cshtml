@@ -1,0 +1,19 @@
+﻿@model Aafp.MyCme.Web.ViewModels.IndividualViewModel
+
+<div class="alert-box -success" id="alertSuccess" style="display:none;">
+    <div class="alert-box__icon"><span class="icon-circle"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 11.5 11.2"><path class="svg-checkbox" d="M0.6 5.4c0.9 0.6 3.5 4 3.5 4l6.6-8.8" /></svg></span></div>
+    <div class="alert-box__content">
+        <h2 class="alert-box__title">Success!</h2>
+        <p>Your courses were successfully reported.</p>
+        @if (Model.IsMember)
+        {
+            <a href="@($"{ApplicationConfig.BaseUrl}/cme/reporting/transcript.aspx")" class="button button-tertiary">View Transcript</a>
+            <a href="@($"{ApplicationConfig.BaseUrl}/cme/reporting/nonmemberparticipation.aspx")" class="button button-tertiary">Letters of Participation</a>
+        }
+        else
+        {
+            <a href="@($"{ApplicationConfig.BaseUrl}/cme/reporting/nonmemberparticipation.aspx")" class="button button-tertiary">Letters of Participation</a>
+        }
+
+    </div>
+</div>

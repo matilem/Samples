@@ -1,0 +1,148 @@
+﻿<Project DefaultTargets="Help" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <Import Project="..\lib\MSBuildCommunityTasks\MSBuild.Community.Tasks.Targets"/>
+
+  <UsingTask TaskName="CompressorTask"
+    AssemblyFile="..\lib\Yahoo.Yui.Compressor\1.7.0.0\Yahoo.Yui.Compressor.MsBuildTask.dll"/>
+
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Release</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Projects Include="**\*.*proj" />
+  </ItemGroup>
+
+  <Target Name="Help">
+    <Message Text="AMS Build Help" />
+    <Message Text="-----------------------------------------------------------" />
+    <Message Text="Build             => Builds all projects.                  " />
+    <Message Text="CleanAllProjects  => Cleans all projects.                  " />
+    <Message Text="UnitTests         => Runs all unit tests.                  " />
+    <Message Text="AllTests          => Runs all tests.                       " />
+    <Message Text="Deploy            => Deploy (/t:Deploy /p:To=Testing)      " />
+    <Message Text="SwitchEnvironment => /t:SwitchEnvironment /p:To=Staging    " />
+    <Message Text="-----------------------------------------------------------" />
+  </Target>
+
+  <Target Name="CleanAllProjects">
+    <MSBuild Projects="@(Projects)" Targets="Clean"
+        StopOnFirstFailure="false" ContinueOnError="true">
+    </MSBuild>
+  </Target>
+
+  <Target Name="Build" DependsOnTargets="CleanAllProjects">
+    <MSBuild Projects="MyCme.Web.sln" Properties="Configuration=$(Configuration)">
+      <Output TaskParameter="TargetOutputs" ItemName="BuildTargetOutputs"/>
+    </MSBuild>
+  </Target>
+
+  <!-- Needed for SwitchEnvironment and Deploy Targets. -->
+  <Choose>
+    <When Condition="'$(To)' == 'Development'">
+      <PropertyGroup>
+        <NewEnvironment>value="Development"</NewEnvironment>
+        <NewLocation>\\nf2011.webad.aafp.org\sites\Development</NewLocation>
+      </PropertyGroup>
+    </When>
+
+    <When Condition="'$(To)' == 'Testing'">
+      <PropertyGroup>
+        <NewEnvironment>value="Testing"</NewEnvironment>
+        <NewLocation>\\nfdev-testing.webad.aafp.org\sites\Aafp</NewLocation>
+      </PropertyGroup>
+    </When>
+
+    <When Condition="'$(To)' == 'Production'">
+      <PropertyGroup>
+        <NewEnvironment>value="Production"</NewEnvironment>
+        <NewLocation>\\nfstaging64.webad.aafp.org\sites\Aafp</NewLocation>
+      </PropertyGroup>
+    </When>
+  </Choose>
+
+  <Target Name="SwitchEnvironment">
+    <PropertyGroup>
+      <CurrentEnvironment>value="Development"|value="Testing"|value="Production"|value="Qa"</CurrentEnvironment>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ConfigFiles
+          Include="**\*.config;**\Dao.xml;**\*.cfg;**\Database.xml;**\hibernate.cfg.xml"
+          Exclude="**\*.dll.config*;**\*.exe.config*" />
+    </ItemGroup>
+
+    <FileUpdate Files="@(ConfigFiles)" Regex="$(CurrentEnvironment)" ReplacementText="$(NewEnvironment)" />
+  </Target>
+
+  <Target Name="Deploy" DependsOnTargets="SwitchEnvironment;Build">
+    <!--<CallTarget Targets="MinifyJavaScript" />-->
+    <CallTarget Targets="MinifyCss" />
+
+    <ItemGroup>
+      <MyCmeWebSourceFiles
+          Include="MyCme.Web\**"
+          Exclude="**\.svn\**\*.*;**\*.cs;**\*.csproj" />
+    </ItemGroup>
+
+    <Prompt Condition="$(Interactive) == 'true'" Text="
+Using the following Settings:
+------------------------------------------------
+Database:         $(NewDatabase)
+Ip:               $(NewIp)
+Aafp.Environment: $(NewEnvironment)
+Location:         $(NewLocation)
+Verisign Url:     $(NewVerisign)
+------------------------------------------------
+Press &lt;Enter&gt; to continue or &lt;Ctrl-C&gt; to exit.
+"
+/>
+    <!-- Events.Admin -->
+    <Delete Files="$(NewLocation)\MyCme" />
+    <Copy SourceFiles="@(MyCmeWebSourceFiles)"
+          DestinationFiles="@(MyCmeWebSourceFiles->'$(NewLocation)\MyCme\%(RecursiveDir)%(Filename)%(Extension)')" />
+  </Target>
+
+  <Target Name="MinifyJavaScript">
+    <ItemGroup>
+      <JavaScriptFiles Include="**\*.js" />
+    </ItemGroup>
+
+    <Time Format="yyyyMMddHHmmss">
+      <Output TaskParameter="FormattedTime" PropertyName="BuildDate" />
+    </Time>
+
+    <FileUpdate Files="@(AspxFiles)" Regex="{VERSION}" ReplacementText="$(buildDate)" />
+  </Target>
+
+  <Target Name="MinifyJavaScript">
+    <ItemGroup>
+      <JavaScriptFiles Include="**\*.js" Exclude="**\*vsdoc.js" />
+    </ItemGroup>
+    <CompressorTask
+        Condition="'%(JavaScriptFiles.Identity)' != ''"
+        JavaScriptFiles="%(JavaScriptFiles.Identity)"
+        ObfuscateJavaScript="true"
+        PreserveAllSemicolons="true"
+        DisableOptimizations="false"
+        EncodingType="UTF8"
+        DeleteJavaScriptFiles="false"
+        JavaScriptOutputFile="%(JavaScriptFiles.Identity)"
+        LoggingType="ALittleBit"
+        ThreadCulture="en-us" />
+  </Target>
+
+  <Target Name="MinifyCss">
+    <ItemGroup>
+      <CssFiles Include="**\*.css" />
+    </ItemGroup>
+    <CompressorTask
+        Condition="'%(CssFiles.Identity)' != ''"
+        CssFiles="%(CssFiles.Identity)"
+        DeleteCssFiles="false"
+        CssOutputFile="%(CssFiles.Identity)"
+        EncodingType="UTF8"
+        LoggingType="ALittleBit"
+        ThreadCulture="en-us" />
+  </Target>
+</Project>
