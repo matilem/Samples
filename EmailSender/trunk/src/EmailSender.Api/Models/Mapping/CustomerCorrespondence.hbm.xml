@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" auto-import="true">
+  <class name="Aafp.EmailSender.Api.Models.CustomerCorrespondence, Aafp.EmailSender.Api" table="co_customer_activity" where="cca_delete_flag = 0">
+    <id name="CustomerCorrespondenceKey" column="cca_key" type="Guid">
+      <generator class="guid" />
+    </id>
+
+    <!-- NetForum Fields -->
+    <property name="AddUser" type="String" column="cca_add_user" />
+    <property name="AddDate" type="DateTime" column="cca_add_date" />
+    <property name="ChangeUser" type="String" column="cca_change_user" insert="false" />
+    <property name="ChangeDate" type="DateTime" column="cca_change_date" insert="false" />
+    <property name="DeleteFlag" type="Boolean" column="cca_delete_flag" />
+    <property name="EntityKey" type="Guid" column="cca_entity_key" />
+    <property name="CustomerKey" type="Guid" column="cca_cst_key" />
+    <property name="CorrespondenceType" type="string" column="cca_type" />
+    <property name="CorrespondenceDate" type="DateTime" column="cca_date" />
+    <property name="CommunicationMethod" type="string" column="cca_comm_meth" />
+    <property name="CommunicationValue" type="string" column="cca_comm_value" />
+    <property name="CommunicationDescription" type="string" column="cca_comm_desc" />
+    <property name="CorrespondenceTypeValue" type="string" column="cca_type_value" />
+    <property name="CorrespondenceTypeKey" type="Guid" column="cca_type_key" />
+    <property name="CorrespondenceContent" type="StringClob" column="cca_description" />
+    <property name="CallToActionKey" type="Guid" column="cca_acd_key" />
+    <property name="CallToActionObjectKey" type="Guid" column="cca_acd_obj_key_value" />
+    <property name="EmailErrorKey" type="Guid" column="cca_emr_key" />
+    <property name="CorrespondenceTemplateKey" type="Guid" column="cca_cct_key" />
+    <property name="MessageQueueJobKey" type="Guid" column="cca_msj_key" />
+    <property name="CorrespondenceSubject" type="string" column="cca_subject" />
+    <property name="CorrespondenceOpenFlag" type="Boolean" column="cca_open_flag" />
+
+  </class>
+</hibernate-mapping>

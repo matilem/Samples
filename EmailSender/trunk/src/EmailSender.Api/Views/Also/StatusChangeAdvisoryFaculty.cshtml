@@ -1,0 +1,45 @@
+﻿@model Aafp.EmailSender.Api.Dtos.AlsoStatusChangeMessageDto
+@{
+	ViewBag.Title = "ALSO Status Change - Advisory Faculty";
+}
+
+<p>
+    Dear @Model.FirstName @Model.LastName @Model.Designation,
+</p>
+
+<p>
+    Congratulations on completing your requirements for obtaining Advisory Faculty status. This is currently a five-year status with an expiration/renewal date of @Model.StartDateDisplay. Below is your ALSO Approved Instructor wallet card.
+</p>
+
+<p>
+    Advisory Faculty are needed at ALSO/BLSO courses when either an Instructor Candidate and/or Advisory Faculty Candidate need to be evaluated. Advisory Faculty serve the program by ensuring quality measures of the course are being met by new instructors.
+</p>
+
+<p>
+    In order to maintain Advisory Faculty status, you will need to maintain your ALSO Approved Instructor status. This is accomplished by teaching three ALSO or BLSO courses every five-years. Advisory Faculty status will be maintained when the Approved Instructor requirements are met.   
+</p>
+
+<p>
+    If you do not meet the above teaching requirements, all statuses will expire at the same time (including ALSO/BLSO Provider). If this occurs, you must retake the Provider Course to start the ALSO/BLSO status life cycle again. Unfortunately, no exceptions can be made to these requirements. Your current Advisory Faculty status will expire on the same date of your ALSO Approved Instructor status of @Model.ExpirationDateDisplay. 
+</p>
+
+<p>
+    Please note that your name may be listed on reports created for future course sponsors in your region who are looking for Advisory Faculty for their courses. 
+</p>
+Thank you again for your dedication, partnership, and support.
+  
+<p>
+    Sincerely,
+
+    <div><img class="sig-img" alt="Robyn Brumble" src="~/Content/img/robyn-brumble-sig.jpg" /></div>
+
+    Robyn Brumble, MSN, RNC-OB
+    Manager of Maternity Care
+    AAFP-Continuing Medical Education Division
+
+</p>
+
+<p class="sig-label">
+    American Academy of Family Physicians<br />
+    11400 Tomahawk Creek Parkway, Leawood, KS 66211-2680
+</p>

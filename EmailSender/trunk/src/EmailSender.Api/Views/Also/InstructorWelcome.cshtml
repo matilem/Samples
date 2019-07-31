@@ -1,0 +1,60 @@
+﻿@model Aafp.EmailSender.Api.Dtos.AlsoMessageDto
+@{
+    ViewBag.Title = "ALSO Instructor Welcome";
+}
+
+
+<p>
+    Congratulations! The AAFP Maternity Care Department has approved your ALSO Instructor Course application. You may now send the templated email, found below, to your course registrants so they may obtain access to the online downloadable ALSO Instructor Manual. The recommendation is to send the templated email to your learners (along with your brochure/agenda attached) at least 30 days prior to the live course date to allow adequate time for preparation.
+</p>
+
+<p>
+    <strong>In addition, please read the important attachments which will guide you in additional next steps.</strong>
+</p>
+
+<p>
+    If you applied for continuing education credit, please note that the AAFP Credit System is separately processing your CME credit application. Please allow up to six weeks for confirmation of CME credit approval.
+</p>
+
+<p>
+    Sincerely,<br />
+    The ALSO/BLSO Team
+</p>
+
+<div style="border-top: 1px solid #AAAAAC; padding: 1em .7em;">&nbsp;</div>
+
+<p>
+    <h2>Templated Email to Send Each Course Registrant:</h2>
+    <h4>
+        (Please copy and paste all the following to the body of your email to each learner and <font color="red">fill in areas in red</font> with your specific course information prior to sending).
+    </h4>
+</p>
+
+<p>
+    <u>Email Subject Line:</u> Please Access the ALSO Instructor Course Manual Now
+</p>
+
+<p>
+    <u>Body of Email:</u><br />
+    Welcome to the Advanced Life Support in Obstetrics (ALSO) Instructor Course! This course requires that you access the ALSO Instructor Manual (via pdf download) as soon as possible so you may read and prepare in advance for the live portion of the course.
+</p>
+
+<p>
+    Please make sure you download and read the ALSO Instructor Manual at least 24 hours prior to the start of the live course. Attendance at the live course will include interactive lectures and multiple hands-on skills workstations. This allows learners to practice the content they have learned in a team-based setting.
+</p>
+
+<p>
+    Please visit <a href="http://www.aafp.org/provider-online">www.aafp.org/provider-online</a> and follow the steps provided there to begin the course pre-work. Use the <span style="background-color:#FFFF00;">Discount Code <strong>@Model.DiscountCode</strong></span> to add the ALSO Instructor Manual to your AAFP account. Add the Instructor Manual to your account ONLY ONCE to prevent you from being charged additional fees for the course. <strong>To prevent errors to your AAFP Account and ALSO Record, please DO NOT create another AAFP account if you already have one.</strong> You may contact the AAFP Member Resource Center at 1-800-274-2237 during regular business hours for assistance if you have forgotten your AAFP account number and/or password.
+</p>
+
+<p>
+    As a reminder, the live portion of the course will be held at <font color="red">&lt;INSERT EXACT LOCATION WHERE COURSE WILL BE HELD&gt;</font> on @Model.ActivityDateDisplay from <font color="red">&lt;INSERT TIME OF COURSE&gt;</font>. Please plan on coming fully prepared to the live course having read the ALSO Instructor Manual.
+</p>
+
+<p>Please contact us with any questions. </p>
+
+<p>Thank You.</p>
+
+<p>
+    <strong><font color="red">&lt;INSERT NAME, TITLE, AND ANY ADDITIONAL CONTACT INFORMATION HERE&gt;</font></strong>
+</p>

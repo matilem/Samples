@@ -1,0 +1,45 @@
+﻿@model Aafp.EmailSender.Api.Dtos.AlsoStatusChangeMessageDto
+@{
+	ViewBag.Title = "ALSO Status Change - Approved Instructor";
+}
+
+<p>
+    Dear @Model.FirstName @Model.LastName @Model.Designation,
+</p>
+
+<p>
+    Congratulations on completing your requirements for becoming an Approved Instructor. This is currently a five-year status with an expiration date of @Model.StartDateDisplay. Below is your Approved Instructor wallet card.
+</p>
+
+<p>
+    To maintain Approved Instructor status, you must teach three ALSO or BLSO courses in five years. The five-year cycle began the day you completed the ALSO Instructor course. The course in which you were evaluated counts as your first of three courses you must teach before your expiration date. 
+</p>
+
+<p>
+    If you do not meet the teaching requirements by your Approved Instructor expiration date, your Instructor status will expire, along with your Provider status. If this occurs, you must again participate in an ALSO/BLSO Provider Course to start the ALSO/BLSO status life cycle again. Unfortunately, no exceptions can be made to these requirements.
+</p>
+
+<p>
+    Please note that your name may be listed on reports created for future course sponsors in your region who are looking for Approved Instructors for their courses. 
+</p>
+
+<p>
+Thank you again for your dedication, partnership, and support.
+</p>
+
+<p>
+    Sincerely,
+
+    <div><img class="sig-img" alt="Robyn Brumble" src="~/Content/img/robyn-brumble-sig.jpg" /></div>
+
+
+    Robyn Brumble, MSN, RNC-OB
+    Manager of Maternity Care
+    AAFP-Continuing Medical Education Division
+
+</p>
+
+<p class="sig-label">
+    American Academy of Family Physicians<br />
+    11400 Tomahawk Creek Parkway, Leawood, KS 66211-2680
+</p>
