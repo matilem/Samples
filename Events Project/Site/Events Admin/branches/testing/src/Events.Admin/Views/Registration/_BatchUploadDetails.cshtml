@@ -1,0 +1,58 @@
+﻿@model Aafp.Events.Admin.ViewModels.Registration.BatchViewModel
+
+<h3 class="batch-results__header">Results</h3> <span class="batch-results__successful">(@Model.SuccessDisplay successful)</span>
+
+<a class="batch-results__download btn -color-light -size-sm -position-right" id="downloadResults" href="#">
+    <i class="fa fa-cloud-download"></i>
+    Download Results
+</a>
+<a class="qr-pay-bar__processing" href="#" id="downloadingButton" style="display: none">
+    <i class="fa fa-spin fa-spinner"></i>
+    Processing
+</a>
+
+<p>
+    <span id="fileName"></span> was processed successfully. See below for a detailed list of results.
+</p>
+<div id="dtltbl">
+    <table id="batchResults" class="qr-payment__table">
+        <thead>
+            <tr class="batch-results__table-head">
+                <th class="batch-results__table-head -icon -bold"><i class="batch-results__icons -check fa fa-check-circle" aria-hidden="true"></i><i class="batch-results__icons -error fa fa-times" aria-hidden="true"></i></th>
+                <th class="batch-results__table-head -bold">ID</th>
+                <th class="batch-results__table-head -bold">Name</th>
+                <th class="batch-results__table-head -bold">Error Message</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Registrants)
+            {
+                <tr class="batch-results__table-content">
+                    <td class="batch-results__table-content -icon" colspan="1" rowspan="1">
+                        @if (item.RegistrationStatus != "Successful")
+                        {
+                            <i class="batch-results__icons -error -large fa fa-times" aria-hidden="true"></i>
+                        }
+                        else
+                        {
+                            <i class="batch-results__icons -check -large fa fa-check-circle " aria-hidden="true"></i>
+
+                        }
+
+                    </td>
+                    <td class="batch-results__table-content -id" colspan="1" rowspan="1">
+                        @item.MemberId
+                    </td>
+                    <td class="batch-results__table-content -name" colspan="1" rowspan="1">
+                        @(item.FirstName + " " + @item.LastName)
+                    </td>
+                    <td class="batch-results__table-content -error-message" colspan="1" rowspan="1">
+                        @item.RegistrationStatus
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<script src="~/Scripts/batch-registration.js" type="text/javascript"></script>

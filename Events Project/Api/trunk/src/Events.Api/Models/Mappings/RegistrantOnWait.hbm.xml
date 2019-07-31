@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+  <class name="Aafp.Events.Api.Models.RegistrantOnWait, Aafp.Events.Api" table="client_aafp_e29_event_registrant_wait_list" mutable="true" where="e29_delete_flag=0">
+    <id name="Key" column="e29_key" type="Guid">
+      <generator class="guid" />
+    </id>
+
+    <!-- NetForum Fields -->
+    <property name="AddUser" type="String" column="e29_add_user" />
+    <property name="AddDate" type="DateTime" column="e29_add_date" />
+    <property name="ChangeUser" type="String" column="e29_change_user" insert="false" />
+    <property name="ChangeDate" type="DateTime" column="e29_change_date" insert="false" />
+    <property name="DeleteFlag" type="Boolean" column="e29_delete_flag" />
+    <property name="CustomerKey" type="Guid" column="e29_cst_key" />
+
+    <!-- Domain Fields -->
+    <many-to-one name="Event" column="e29_evt_key" class="Aafp.Events.Api.Models.Event, Aafp.Events.Api" cascade="none" />
+
+  </class>
+</hibernate-mapping>

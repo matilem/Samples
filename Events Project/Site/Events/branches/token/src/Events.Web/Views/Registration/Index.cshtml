@@ -1,0 +1,169 @@
+﻿@using Aafp.Events.Web.ApplicationConfig
+@model Aafp.Events.Web.ViewModels.RegistrationHomeViewModel
+
+@{
+    ViewBag.Title = $"My Registrations";
+    ViewBag.PageID = "page-events-home";
+    ViewBag.Header = @Html.Partial("_HeaderAdvanced");
+    ViewBag.Footer = @Html.Partial("_FooterAdvanced");
+}
+
+<section class="extra-width no-gutter white-background twelve-column">
+    <hgroup class="horizontal-gradient">
+        <h1 class="horizontal-gradient">Event Registration</h1>
+    </hgroup>
+    <div class="gridcolparsys">
+        <div class="block full">
+            @if (Model.PendingRegistrations.Any())
+            {
+                <div class="session">
+                    <h2 class="session__title underlined">
+                        Pending
+                        Registration
+                    </h2>
+                    <div class="session__table tables parbase">
+                        <table border="1" cellpadding="1" cellspacing="0"
+                               width="100%">
+                            <tbody>
+                                <tr class="session__table-head">
+                                    <th class="session__head-cells">
+                                        TITLE
+                                    </th>
+                                    <th class="session__head-cells">
+                                        LOCATION
+                                    </th>
+                                    <th class="session__head-cells">
+                                        EVENT
+                                        DATES
+                                    </th>
+                                    <th class="session__head-cells"></th>
+                                </tr>
+                                @foreach (var item in Model.PendingRegistrations)
+                                {
+                                    <tr class="session__table-content">
+                                        <td class="session__table-content-title"
+                                            colspan="1" rowspan="1">
+                                            <span><a href="@($"{ApplicationConfigManager.Settings.ApplicationUrl}registration/intro/{item.Key}")">@item.TitleDisplay</a></span>
+                                        </td>
+                                        <td class="session__table-content-time"
+                                            colspan="1" rowspan="1">
+                                            @item.LocationDisplay
+                                        </td>
+                                        <td class="session__table-content-time"
+                                            colspan="1" rowspan="1">
+                                            @item.DateDisplay
+                                        </td>
+                                        <td class="session__table-content-add"
+                                            colspan="1" rowspan="1">
+                                            <a href="@($"{ApplicationConfigManager.Settings.ApplicationUrl}registration/intro/{item.Key}")" class="button button-tertiary">Continue</a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            }
+            @if (Model.CurrentRegistrations.Any())
+            {
+                <div class="session">
+                    <h2 class="session__title underlined">
+                        Completed
+                        Registrations
+                    </h2>
+                    <div class="session__table tables parbase">
+                        <table border="1" cellpadding="1" cellspacing="0"
+                               width="100%">
+                            <tbody>
+                                <tr class="session__table-head">
+                                    <th class="session__head-cells">TITLE</th>
+                                    <th class="session__head-cells">
+                                        LOCATION
+                                    </th>
+                                    <th class="session__head-cells">
+                                        EVENT
+                                        DATES
+                                    </th>
+                                    <th class="session__head-cells"></th>
+                                </tr>
+                                @foreach (var item in Model.CurrentRegistrations)
+                                {
+                                    <tr class="session__table-content" id="@($"{item.Key}_currentRegistrationTableRow")">
+                                        <td class="session__table-content-title"
+                                            colspan="1" rowspan="1">
+                                            <span><a href="@($"{ApplicationConfigManager.Settings.ApplicationUrl}registration/confirmation/{item.Key}")">@item.TitleDisplay</a></span>
+                                        </td>
+                                        <td class="session__table-content-time"
+                                            colspan="1" rowspan="1">
+                                            @item.LocationDisplay
+                                        </td>
+                                        <td class="session__table-content-time"
+                                            colspan="1" rowspan="1">
+                                            @item.DateDisplay
+                                        </td>
+                                        <td class="session__table-content-add"
+                                            colspan="1" rowspan="1">
+                                            <a href="@($"{ApplicationConfigManager.Settings.ApplicationUrl}registration/confirmation/{item.Key}")" class="button button-tertiary">Details</a>
+                                        </td>
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
+                        @if (Model.CurrentRegistrations.Count > 10)
+                        {
+                            <div class="session__load-more">
+                                <a class="button button-tertiary" id="moreResults" href="#">...load all events</a>
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="clearfix"></div>
+        <div class="block full no-gutter">
+            <h2 class="underlined" style="margin-top:8px;">Upcoming Events</h2>
+        </div>
+        <div class="clearfix"></div>
+        <div class="multi-events">
+            @foreach (var item in Model.UpcomingRegistrations.Take(4))
+            {
+                <div class="block six-column multi-events__card multi-events__card--@(Model.UpcomingRegistrations.IndexOf(item) % 2 == 0 ? "odd" : "even")">
+                    <h2 class="multi-events__card-title">
+                        @item.EventTitle
+                    </h2>
+                    <p class="multi-events__card-location">
+                        <b>
+                            @item.LocationDisplay
+                        </b>
+                    </p>
+                    <p class="multi-events__card-date">
+                        @item.DateDisplay
+                    </p>
+                    <p class="multi-events__card-text">
+                        @Html.Raw(item.EventDescriptionHtml)
+                    </p>
+                    <div class="multi-events__button">
+                        <a href="@($"{ApplicationConfigManager.Settings.ApplicationUrl}registration/intro/new/{item.EventCode}")" class="button button-secondary">Register Now</a>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+    <br />
+</section>
+
+<script type="text/javascript" src="@Url.Content("~/Scripts/home.js")"></script>
+
+@*Site Catalyst Code Only*@
+<script type="text/javascript">
+    var pageTitle = $("h1").text();
+
+    s.pageName = "events:registration:summary";
+    s.referrer = document.referrer;
+
+    s.prop1 = pageTitle;
+
+    /************* DO NOT ALTER ANYTHING BELOW THIS LINE ! **************/
+    var s_code = s.t(); if (s_code) document.write(s_code);  //
+</script>

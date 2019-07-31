@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+  <class name="Aafp.Events.Api.Models.Step, Aafp.Events.Api" table="client_aafp_e27_registration_step" where="e27_delete_flag = 0">
+    <id name="Key" column="e27_key" type="Guid">
+      <generator class="guid" />
+    </id>
+
+    <!-- NetForum Fields -->
+    <property name="AddUser" type="String" column="e27_add_user" />
+    <property name="AddDate" type="DateTime" column="e27_add_date" />
+    <property name="ChangeUser" type="String" column="e27_change_user" />
+    <property name="ChangeDate" type="DateTime" column="e27_change_date" />
+    <property name="DeleteFlag" type="Boolean" column="e27_delete_flag" />
+
+    <!-- Domain Fields -->
+    <property name="StepSequence" type="Int32" column="e27_sequence" />
+    <property name="StepHeading" type="String" column="e27_heading_html" />
+    <property name="StepDescription" type="String" column="e27_description" />
+    <property name="EventKey" type="Guid" column="e27_evt_key" />
+
+    <bag name="Headings" lazy="false" fetch="select" table="client_aafp_e28_registration_heading" cascade="none" order-by="e28_sequence">
+      <key column="e28_e27_key"/>
+      <one-to-many class="Aafp.Events.Api.Models.Heading, Aafp.Events.Api"/>
+    </bag>
+    
+  </class>
+</hibernate-mapping>

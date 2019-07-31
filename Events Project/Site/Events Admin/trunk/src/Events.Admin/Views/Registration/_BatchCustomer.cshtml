@@ -1,0 +1,16 @@
+﻿@model Aafp.Events.Admin.ViewModels.Registration.BatchCustomerViewModel
+
+
+<tr id="@($"{Model.CustomerId}_sessionTableRow")" class="qr-table__row">
+    <td class="qr-table__body-cell qr-table__num">@Model.CustomerId</td>
+    <td class="qr-table__body-cell qr-table__title">
+        @Model.FirstName
+    </td>
+    <td class="qr-table__body-cell qr-table__date-time">
+        @Model.LastName
+    </td>
+    <td class="qr-table__body-cell">
+        @Model.RegistrationFeeDisplay
+        @Html.HiddenFor(model => model.RegistrationFeeKey)
+    </td>
+</tr>

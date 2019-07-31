@@ -1,0 +1,52 @@
+﻿@using System.Web.Optimization
+
+@model Aafp.Events.Web.ViewModels.RegistrationNavigationViewModel
+
+@Html.HiddenFor(model => model.CurrentProgress)
+@for (var index = 0; index < Model.NavigationSteps.Count; index++)
+{
+    @Html.HiddenFor(model => model.NavigationSteps[index].StepKey)
+}
+<div class="steps-bar block" align="center">
+    <div class="steps-bar__area">
+        <button id="registration-navigation-back-button" class="button button-tertiary steps-bar__back-button">Back</button>
+        <div class="steps-bar__dropdown">
+            <select id="registration-navigation-steps-select" class="steps-bar__dropdown-select">
+                <option @(Model.CurrentProgress == 1 ? "selected" : "") value="@Model.IntroUrl">
+                    Introduction (1/@Model.StepCount)
+                </option>
+                @if (Model.CurrentProgress >= 2)
+                {
+                    <option @(Model.CurrentProgress == 2 ? "selected" : "") value="@Model.ContactInfoUrl">
+                        My Information (2/@Model.StepCount)
+                    </option>
+                }
+                @for (var index = 0; index < Model.NavigationSteps.Count; index++)
+                {
+                    if (Model.CurrentProgress >= (index + 3))
+                    {
+                        <option @(Model.CurrentProgress == (index + 3) ? "selected" : "") value="@Model.NavigationSteps[index].StepLink">
+                            @Model.NavigationSteps[index].Event.Code - @Model.NavigationSteps[index].StepDescription (@(index + 3)/@Model.StepCount)
+                        </option>
+                    }
+                }
+                @if (Model.CurrentProgress >= (Model.NavigationSteps.Count + 3))
+                {
+                    <option @(Model.CurrentProgress == (Model.NavigationSteps.Count + 3) ? "selected" : "") value="@Model.ConflictUrl">
+                       Review Conflicts (@(Model.NavigationSteps.Count + 3)/@Model.StepCount)
+                    </option>
+                }
+                @if (Model.CurrentProgress >= (Model.NavigationSteps.Count + 4))
+                {
+                    <option @(Model.CurrentProgress == (Model.NavigationSteps.Count + 4) ? "selected" : "") value="@Model.PaymentUrl">
+                        Payment (@(Model.NavigationSteps.Count + 4)/@Model.StepCount)
+                    </option>
+                }
+            </select>
+        </div>
+    </div>
+</div>
+
+<div class="clearfix"></div>
+
+@Scripts.Render("~/bundles/navigation-js")

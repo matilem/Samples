@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+  <class name="Aafp.Events.Api.Models.RegistrationInvoiceDetail, Aafp.Events.Api" table="vw_client_aafp_event_invoice_detail" mutable="false">
+    <id name="Key" column="ivd_key" type="Guid">
+      <generator class="guid" />
+    </id>
+
+    <property name="InvoiceKey" type="Guid" column="ivd_inv_key" />
+    <property name="PriceKey" type="Guid" column="ivd_prc_key" />
+    <property name="Quantity" type="Decimal" column="ivd_qty" />
+    <property name="Price" type="Decimal" column="ivd_price" />
+    <property name="PriceDisplayName" type="string" column="prc_display_name" />
+    <property name="ProductName" type="string" column="prd_name" />
+    <property name="InvoiceType" type="string" column="ivd_type" />
+    <property name="InvoiceCode" type="string" column="inv_code" />
+    <property name="ProductCode" type="string" column="prd_code" />
+    <property name="PriceEndDate" type="DateTime" column="prc_end_date" />
+    <property name="InvoiceClosedFlag" type="Boolean" column="inv_close_flag" />
+    <property name="InvoiceAitKey" type="Guid" column="inv_ait_key" />
+  </class>
+</hibernate-mapping>

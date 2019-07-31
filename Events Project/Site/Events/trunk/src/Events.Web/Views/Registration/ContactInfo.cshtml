@@ -1,0 +1,215 @@
+﻿@using System.Web.Optimization
+@using Aafp.Events.Web.ApplicationConfig
+@model Aafp.Events.Web.ViewModels.RegistrationContactInfoViewModel
+
+@{
+    ViewBag.Title = $"2) My Information -- {Model.Event.Title}";
+    ViewBag.BodyClass = $"event-{Model.Event.Code} layout-simple-footer";
+    ViewBag.PageID = "page-event-my-info";
+    ViewBag.Header = @Html.Partial("_HeaderSimple");
+    ViewBag.Footer = @Html.Partial("_FooterSimple");
+}
+
+@using (Html.BeginForm("SaveContactInfo", "Registration", FormMethod.Post, new { id = "contactInfoForm" }))
+{
+    @Html.EditorFor(model => model.Navigation)
+    <section class="extra-width no-gutter white-background twelve-column">
+        @Html.HiddenFor(model => model.RegistrationKey)
+        @Html.HiddenFor(model => model.Customer.WebLogin)
+        @Html.HiddenFor(model => model.PayNow)
+        @Html.HiddenFor(model => model.Badge.ShowState)
+        
+        @foreach (var relatedEvent in Model.RelatedRegistrationEvents)
+        {
+            @Html.HiddenFor(model => relatedEvent.Fees[0].ProductKey, new { @class = "scProductKey" })
+        }
+        <hgroup class="horizontal-gradient">
+            <h1 class="horizontal-gradient">My Information</h1>
+        </hgroup>
+        <div class="gridcolparsys">
+            <div class="block six-column alpha attendee-badge">
+                <h2 class="underlined">Attendee Badge</h2>
+                <div class="attendee-badge__view">
+                    <h3 class="attendee-badge__nickname">NICKNAME</h3>
+                    <h4 class="attendee-badge__name">John Doe</h4>
+                    <p class="attendee-badge__address">City, ST</p>
+                    @if (Model.DisplayBadgeCompany)
+                    {
+                        <p class="attendee-badge__company">@Model.AlternativeCompanyBadgeLabel</p>
+                    }
+                    @if (Model.DisplayBadgePosition)
+                    {
+                        <p class="attendee-badge__position">@Model.AlternativePositionBadgeLabel</p>
+                    }
+                </div>
+                <div class="form -attendee">
+                    <ul class="form__rows -layout-attendee">
+                        <li>
+                            <label class="form-row__title">
+                                Nickname<span class="form__ast-req"> *</span>
+                                @Html.ValidationMessageFor(model => model.Badge.NickName, string.Empty, new { @class = "error" })
+                                @Html.TextBoxFor(model => model.Badge.NickName, new { @class = "-width-xl", @Value = Model.Customer.FirstName, Id = "BadgeNickname" })
+                                <p id="badgeNicknameWarning" class="error" style="display: none;"></p>
+                            </label>
+                        </li>
+                        <li>
+                            <label class="form-row__title">
+                                City <span class="form__ast-req"> *</span>
+                                @Html.ValidationMessageFor(model => model.Badge.City, string.Empty, new { @class = "error" })
+                                @Html.TextBoxFor(model => model.Badge.City, new { @class = "-width-xl", Id = "BadgeCity" })
+                            </label>
+                            <p id="badgeCityWarning" class="error" style="display: none;"></p>
+                        </li>
+                        @if (Model.Badge.ShowState)
+                        {
+                            <li>
+                                <label class="form-row__title">
+                                    State<span class="form__ast-req"> *</span>
+                                    @Html.ValidationMessageFor(model => model.Badge.State, string.Empty, new { @class = "error" })
+                                    @Html.DropDownListFor(model => model.Badge.State, new SelectList(Model.Badge.States, "Code", "Code"), "", new { @class = "form-row__state", Id = "BadgeState" })
+                                </label>
+                                <p id="badgeStateWarning" class="error" style="display: none;"></p>
+                            </li>
+                        }
+                        @if (Model.DisplayBadgeCompany)
+                        {
+                            <li>
+                                <label class="form-row__title">@Model.AlternativeCompanyBadgeLabel</label>
+                                @Html.TextBoxFor(model => model.Badge.Company, new { @class = "-width-xl" })
+                            </li>
+                        }
+                        @if (Model.DisplayBadgePosition)
+                        {
+                            <li>
+                                <label class="form-row__title">@Model.AlternativePositionBadgeLabel</label>
+                                @Html.TextBoxFor(model => model.Badge.Position, new { @class = "-width-xl" })
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+            <div class="block six-column omega contact-info">
+                <a target="_blank" class="contact-info__edit" href="@($"{ApplicationConfigManager.Settings.BaseUrl}account/management/edit")">Edit <span class="contact-info__edit-text">Contact Info</span></a>
+                <h2 class="underlined" style="clear: none;">Contact Information</h2>
+                <div class="contact-info__user-info">
+                    <p class="contact-info__block-content">
+                        Select the address and phone number you would like us to use when sending you information about this conference.
+                    </p>
+                    <h4 class="contact-info__full-name">@Model.Customer.FullName</h4>
+                    <p class="contact-info__email">@Model.Customer.Email</p>
+                </div>
+                <br />
+                <div class="form">
+                    <ul class="form__rows -information-selector">
+                        <li>
+                            <fieldset>
+                                <legend class="form-row__title">
+                                    Phone
+                                </legend>
+                                <div class="error" style="display: none;">Please select your phone nunber.</div>
+                                @foreach (var phone in Model.Customer.Phones)
+                                {
+                                    <label>
+                                        @Html.RadioButtonFor(model => model.SelectedPhoneKey, phone.Key)<span class="form-row__work-phone">@($"{phone.PhoneType}: {phone.Number}")</span>
+                                    </label>
+                                }
+                            </fieldset>
+                        </li>
+                        <br />
+                        <li>
+                            <fieldset>
+                                <legend class="form-row__title">
+                                    Address
+                                </legend>
+                                <div class="error" style="display: none;">Please select your address.</div>
+                                @foreach (var address in Model.Customer.Addresses)
+                                {
+                                    <label>
+                                        @Html.RadioButtonFor(model => model.SelectedAddressKey, address.Key)
+                                        <span class="form-row__street @($"form-row__{address.AddressType}-street")">@($"{address.AddressType}: {address.Address1}") </span>
+                                        <span class="form-row__city @($"form-row__{address.AddressType}-city")">@($"{address.City}, {address.State}  {address.PostalCode}")</span>
+                                    </label>
+                                }
+                            </fieldset>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="block six-column alpha emergency">
+                <h2 class="underlined">Emergency Contact</h2>
+                <div class="form">
+                    <ul class="form__rows -layout-emergency">
+                        <li>
+                            <label class="form-row__title">Full Name </label> @Html.TextBoxFor(model => model.EmergencyContactName)
+                        </li>
+                        <li>
+                            <label class="form-row__title">Phone </label> @Html.TextBoxFor(model => model.EmergencyContactPhone, new { @class = "js-mask-phone", placeholder = "(000) 000-0000 x0000", type = "tel" })
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="block six-column omega disclaimers">
+                <h2 class="underlined">Disclaimers</h2>
+                <p class="disclaimers__content">
+                    The AAFP may take photographs and/or record audio and video at this event. By attending,
+                    you consent to the use of photographs, audio, and video recording of you by the AAFP and
+                    its designees in AAFP communications and promotions, or for any other lawful purpose.
+                </p>
+				<p class="dislaimers__content">
+					If you register for this meeting at the discounted member registration fee, you will be required to be an AAFP member on the date of the meeting. If you are no longer a member on the date the meeting starts, you will be asked to remit payment of the nonmember registration fees that were in place at the time you registered or to reinstate your AAFP membership by paying applicable dues.
+				</p>
+            </div>
+
+            @if (@Model.Event.TinyRegFlag)
+            {
+                <div class="block full no-margin session">
+                    <h2 class="underlined">Two Ways to Register</h2>
+                    <div class="session__desc">
+                        @Html.Raw(@Model.Event.TinyRegMessage)
+                    </div>
+                </div>
+
+            }
+
+        </div>
+        @Html.Partial("_PaymentBar")
+        <div class="clearfix"></div>
+    </section>
+}
+
+
+
+
+@Scripts.Render("~/bundles/contact-info-js")
+
+@*Site Catalyst Code Only*@
+<script type="text/javascript">
+    var pageTitle = $("h1").text();
+    var eventName = "@Model.Event.Title";
+    var products = "";
+    $(".scProductKey").each(function () {
+        products = products + ";" + this.value + ",";
+    });
+    products = products.replace(/,\s*$/, "");
+
+    s.pageName = "events:registration:" + eventName.substring(0, 40) + ":" + pageTitle.toLowerCase();
+    s.referrer = document.referrer;
+
+    s.prop1 = pageTitle;
+    s.prop3 = "main";
+    s.prop17 = "member";
+    s.prop18 = "web";
+    s.prop40 = "meetings";
+    s.prop41 = "sell meetings";
+    s.prop42 = "nf";
+
+    s.eVar1 = eventName;
+
+    if (products) {
+        s.events = "scAdd";
+        s.products = products;
+    }
+
+    /************* DO NOT ALTER ANYTHING BELOW THIS LINE ! **************/
+    var s_code = s.t(); if (s_code) document.write(s_code);  //
+</script>

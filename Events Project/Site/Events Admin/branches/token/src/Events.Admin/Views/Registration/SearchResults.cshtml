@@ -1,0 +1,139 @@
+﻿@using Aafp.Events.Admin.ApplicationConfig
+@model Aafp.Events.Admin.ViewModels.Registration.CustomerSearchViewModel
+
+@{
+    ViewBag.Title = $"Find \"{Model.UserSearch.SearchTerm}\" | Quick Reg Wizard";
+}
+
+@Html.Partial("_UserSearchBarHeader", Model.UserSearch)
+
+<!-- Search Results -->
+<div class="layout">
+    <section class="qr-results">
+        @if (Model.HasError)
+        {
+            @Html.Partial("_Error", Model.ErrorMessage)
+        }
+        else
+        {
+            if (Model.Results.Count <= 0)
+            {
+                <div class="alert-box -info">
+                    <!-- No results -->
+                    <div class="alert-box__icon"><span class="fa fa-support fa-2x -white"></span></div>
+                    <div class="alert-box__content">
+                        <h3>Nobody found</h3>
+                        <p>Please try your search again with less specificity.</p>
+                    </div>
+                </div>
+            }
+
+            foreach (var item in Model.Results)
+            {
+                <div class="qr-result">
+                    <header class="qr-result-header">
+                        <a class="qr-result-header__add btn" data-cstkey="@item.CustomerKey" data-name="@item.FullName" id="@($"{item.CstId}AddEventButton")"><i class="fa fa-plus"></i> Add New Event</a>
+                        <div class="qr-result-header__left">
+                            <span class="qr-result-header__name">@item.FullName</span>
+                            <span class="qr-result-header__id">@item.CstId</span>
+                            <span class="qr-result-header__addr">@Html.Raw(item.AddressDisplay)</span>
+                        </div>
+                    </header>
+                    <div class="qr-result-events">
+                        @foreach (var eventItem in item.RecentEvents)
+                    {
+                            <div class="qr-result-event @(eventItem.IsPending ? "qr-result-event-pending" : string.Empty)">
+                                @if (!eventItem.IsPending)
+                                {
+                                    <span class="qr-result-event__code">@eventItem.Code</span>
+                                    <span class="qr-result-event__name">@eventItem.Title</span>
+                                    <span class="qr-result-event__dates">@eventItem.StartDateDisplay</span>
+                                    <a id="@($"{eventItem.RegistrationKey}_sendEmailButton")" class="qr-result-event__email" data-registrantkey="@eventItem.RegistrationKey" data-email="@item.Email"><i class="fa fa-envelope"></i> Email</a>
+                                    <a class="qr-result-event__print" id="@($"{eventItem.EventKey}_{eventItem.CustomerKey}_printLink")" data-registrantKey="@eventItem.RegistrationKey" href="#"><i class="fa fa-print"></i> Print</a>
+                                    <a class="qr-result-event__edit" href="@eventItem.EditLink"><i class="fa fa-edit"></i> Edit</a>
+                                }
+                                else
+                                {
+                                    <span class="qr-result-event__code">@eventItem.Code</span>
+                                    <span class="qr-result-event__name">@eventItem.Title <span class='qr-result-event-pending__pending-note'>(pending)</span></span>
+                                    <span class="qr-result-event__dates">@eventItem.StartDateDisplay</span>
+                                    <a class="qr-result-event__continue" href="@eventItem.EditLink"><i class="fa fa-edit"></i> Continue</a>
+                                }
+
+                            </div>
+                        }
+                        @if (item.PastEvents != null && item.PastEvents.Any())
+                    {
+                            <div id="@($"{item.CstId}PastEventsDiv")">
+                                @foreach (var eventItem in item.PastEvents)
+                                {
+                                    <div class="qr-result-event @(eventItem.IsPending ? "qr-result-event-pending" : string.Empty)">
+                                        @if (!eventItem.IsPending)
+                                        {
+                                            <span class="qr-result-event__code">@eventItem.Code</span>
+                                            <span class="qr-result-event__name">@eventItem.Title</span>
+                                            <span class="qr-result-event__dates">@eventItem.StartDateDisplay</span>
+                                            <a id="@($"{eventItem.RegistrationKey}_sendEmailButton")" class="qr-result-event__email" data-registrantkey="@eventItem.RegistrationKey" data-email="@item.Email"><i class="fa fa-envelope"></i> Email</a>
+                                            <a class="qr-result-event__print" id="@($"{eventItem.EventKey}_{eventItem.CustomerKey}_printLink")" data-registrantKey="@eventItem.RegistrationKey" href="#"><i class="fa fa-print"></i> Print</a>
+                                            <a class="qr-result-event__edit" href="@eventItem.EditLink"><i class="fa fa-edit"></i> Edit</a>
+                                        }
+                                        else
+                                        {
+                                            <span class="qr-result-event__code">@eventItem.Code</span>
+                                            <span class="qr-result-event__name">@eventItem.Title <span class='qr-result-event-pending__pending-note'>(pending)</span></span>
+                                            <span class="qr-result-event__dates">@eventItem.StartDateDisplay</span>
+                                            <a class="qr-result-event__continue" href="@eventItem.EditLink"><i class="fa fa-edit"></i> Continue</a>
+                                        }
+                                    </div>
+                                }
+                            </div>
+                            <div class="qr-result-event-more">
+                                <a class="qr-result-event-more__btn" data-cstid="@item.CstId" href="#">...load all events</a>
+                            </div>
+                        }
+                    </div>
+                </div>
+
+            }
+
+            if (Model.Results.Count >= 50)
+            {
+                <div class="alert-box -warning">
+                    <!-- Too many results -->
+                    <div class="alert-box__icon"><span class="fa fa-support fa-2x -white"></span></div>
+                    <a href="#" class="js-jumpToTop back-to-top"><i class="fa fa-mail-forward fa-rotate-270"></i> Back to Top</a>
+                    <div class="alert-box__content">
+                        <h3>Too many results</h3>
+                        <p>Please refine your search terms to be more specific.</p>
+                    </div>
+                </div>
+            }
+        }
+        <a href="@($"{ApplicationConfigManager.Settings.BaseUrl}iweb")" target="_blank" class="btn -color-light -position-right"><i class="fa fa-plus"></i> Add New Customer Record</a>
+    </section>
+</div>
+
+@if (!Model.HasError)
+{
+    <div id="addEventDialog">
+        <input type="hidden" id="addEventCustomerKey" />
+        <div class="qr-input">
+            <label class="qr-input__label">Select Event</label>
+            @Html.DropDownListFor(model => model.EventToAddKey, new SelectList(Model.Events, "Key", "TitleDisplay", Guid.Empty), "--Select Event--", new { @class = "qr-input__label" })
+        </div>
+        <div id="newEventDetail">
+        </div>
+        <div id="addNewEventError"></div>
+        <a class="qr-add-modal__btn" id="addNewEventButton" style="display: none" href="#"><i class="fa fa-floppy-o"></i> Add Event</a>
+        <a class="qr-add-modal__btn" href="#" id="saveNewEvent" style="display: none"><i class="fa fa-spin fa-spinner"></i> Adding</a>
+    </div>
+
+    <div id="printDialog">
+    </div>
+
+    <div id="emailDialog">
+    </div>
+}
+
+<link href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/css/select2.min.css" rel="stylesheet" />
+@Scripts.Render("~/bundles/search-results-js")

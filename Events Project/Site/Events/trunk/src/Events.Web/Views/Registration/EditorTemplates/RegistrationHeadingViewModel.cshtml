@@ -1,0 +1,71 @@
+﻿@model Aafp.Events.Web.ViewModels.RegistrationHeadingViewModel
+@Html.HiddenFor(model => Model.RegistrationStatus)
+
+<div class="session">
+    <h3 class="session__title underlined">
+        @Model.HeadingDescription
+        @Html.HiddenFor(model => model.RequiredFlag)
+        @if (Model.RequiredFlag)
+        {
+            <span class="required">* Required</span>
+        }
+    </h3>
+    @if (Model.RequiredFlag)
+    {
+        <div id="@($"{Model.Key}_requiredHeadingDiv")" class="error" hidden="">Please make a selection below.</div>
+    }
+
+    @if (Model.Sessions.All(x => x.SessionTypeCode != "Guest Badge"))
+    {
+        <div class="session__desc">
+            <p>
+                @Html.Raw(Model.HeadingHeading)
+            </p>
+        </div>
+        if (Model.Sessions.Count > 0)
+        {
+            <div class="session__table tables parbase" id="@($"{Model.Key}_headingTableDiv")" data-isRequired="@Model.RequiredFlag">
+                <table border="1" cellpadding="1" cellspacing="0" width="100%">
+                    <tbody>
+                        <tr class="session__table-head">
+                            @if (Model.ShowNumber)
+                            {
+                                <th class="session__head-cells">NO.</th>
+                            }
+                            <th class="session__head-cells">TITLE</th>
+                            @if (Model.ShowTime)
+                            {
+                                <th class="session__head-cells">Time</th>
+                            }
+                            @if (Model.ShowAvailableTickets)
+                            {
+                                <th class="session__head-cells">Seats Left</th>
+                            }
+                            @if (Model.ShowCost)
+                            {
+                                <th class="session__head-cells">COST</th>
+                            }
+                            <th class="session__head-cells"></th>
+                        </tr>
+
+                        @Html.EditorFor(model => model.Sessions)
+                    </tbody>
+                </table>
+            </div>
+        }
+    }
+    else
+    {
+        <div class="attendee-badge__view -guest-badge">
+            <h3 class="attendee-badge__nickname">NICKNAME</h3>
+            <h4 class="attendee-badge__name">John Doe</h4>
+            <p class="attendee-badge__address">City, ST</p>
+        </div>
+        <div class="session__desc -guest-desc">
+            <p>
+                @Html.Raw(Model.HeadingHeading)
+            </p>
+        </div>
+        @Html.EditorFor(model => model.Sessions)
+    }
+</div>

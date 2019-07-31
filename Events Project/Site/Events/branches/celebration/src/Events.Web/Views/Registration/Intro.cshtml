@@ -1,0 +1,152 @@
+﻿@using System.Web.Optimization
+@model Aafp.Events.Web.ViewModels.RegistrationIntroViewModel
+
+@{
+    ViewBag.Title = $"1) Begin Registration -- {Model.Event.Title}";
+    ViewBag.BodyClass = $"event-{Model.Event.Code} layout-simple-footer";
+    ViewBag.PageID = "page-event-intro";
+    ViewBag.Header = @Html.Partial("_HeaderSimple");
+    ViewBag.Footer = @Html.Partial("_FooterSimple");
+}
+
+@using (Html.BeginForm("SaveIntro", "Registration", FormMethod.Post, new { id = "introForm" }))
+{
+    <section class="extra-width no-gutter white-background twelve-column">
+        @Html.HiddenFor(model => model.Event.Key)
+        @Html.HiddenFor(model => model.RegistrationKey)
+        @Html.HiddenFor(model => model.Customer.Key)
+        @Html.HiddenFor(model => model.Customer.WebLogin)
+        @Html.HiddenFor(model => model.CurrentSessionsCost)
+        <hgroup class="horizontal-gradient">
+            <h1 class="horizontal-gradient">Begin Registration</h1>
+        </hgroup>
+        <div class="gridcolparsys">
+            <div class="block full event-card event-card--main">
+                <h2 class="event-card__title">@Model.Event.Title</h2>
+                <p class="event-card__location">@Model.Event.LocationDisplay</p>
+                <p class="event-card__dates">@Model.Event.DateDisplay</p>
+                <div class="event-card__desc">
+                    <p>@Html.Raw(Model.Event.DescriptionHtml)</p>
+                </div>
+                <fieldset>
+                    <div class="form">
+                        <ul class="form__rows -layout-stacked">
+                            <li>
+                                <fieldset>
+                                    <legend class="form-row__title">
+                                        Which best describes you?<span class="form__ast-req"> *</span>
+                                    </legend>
+                                    <div class="error" style="display: none;">Please select your demographic.</div>
+                                    @foreach (var fee in Model.Event.Fees)
+                                    {
+                                        <label>
+                                            @Html.RadioButtonFor(model => model.SelectedPriceKey, fee.PriceKey, new { @class = "radio-align", @id = $"{fee.PriceKey}_selectedPriceKey", data_price = fee.Price }) @fee.FeeText
+                                        </label>
+                                    }
+                                </fieldset>
+                            </li>
+                        </ul>
+                    </div>
+                </fieldset>
+            </div>
+            <div class="clearfix"></div>
+            <div class="block full no-gutter">
+                @if (Model.RelatedRegistrations.Any())
+                {
+                    <h2 class="underlined">While you're in town would you like to attend:</h2>
+                }
+                <div class="multi-events ">
+
+                    @for (var index = 0; index < Model.RelatedRegistrations.Count; index++)
+                {
+                        @Html.HiddenFor(model => Model.RelatedRegistrations[index].IsRegistered)
+                        @Html.HiddenFor(model => Model.RelatedRegistrations[index].RegistrationKey)
+                        @Html.HiddenFor(model => Model.RelatedRegistrations[index].Event.Key)
+                        @Html.HiddenFor(model => Model.RelatedRegistrations[index].Event.IsSoldOut)
+                        @Html.HiddenFor(model => Model.RelatedRegistrations[index].CurrentSessionsCost)
+                        <div class="block six-column multi-events__card multi-events__card--@(index % 2 == 0 ? "odd" : "even")">
+                            <h2 class="multi-events__card-title">@Model.RelatedRegistrations[index].Event.Title</h2>
+                            <p class="multi-events__card-location"><b>@Model.RelatedRegistrations[index].Event.LocationDisplay</b></p>
+                            <p class="multi-events__card-date">@Model.RelatedRegistrations[index].Event.DateDisplay</p>
+                            <p class="multi-events__card-text">
+                                @Html.Raw(Model.RelatedRegistrations[index].Event.DescriptionHtml)
+                            </p>
+                            <fieldset>
+                                <div class="form">
+                                    <ul class="form__rows multi-events__form">
+                                        <li>
+                                            @if (Model.RelatedRegistrations[index].IsRegistered)
+                                            {
+                                                <div class="multi-events__already-registered">
+                                                    <i class="multi-events__already-registered-icon -check -large fa fa-check-circle " aria-hidden="true"></i> You have already registered for this event!
+                                                </div>
+                                            }
+                                            else if (Model.RelatedRegistrations[index].Event.IsSoldOut)
+                                            {
+                                                <div class="multi-events__already-registered">
+                                                    <i class="multi-events__already-registered-icon -error -large fa fa-times " aria-hidden="true"></i> This event is currently sold out.
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <fieldset>
+                                                    <legend class="form-row__title multi-events__form-title">
+                                                        Want to attend?
+                                                    </legend>
+                                                    <label class="multi-events__form-label">
+                                                        @Html.RadioButtonFor(model => Model.RelatedRegistrations[index].SelectedPriceKey, Guid.Empty, new { @class = "radio-align", @checked = true }) Not Attending
+                                                    </label>
+                                                    @foreach (var fee in Model.RelatedRegistrations[index].Event.Fees)
+                                                    {
+                                                        <label class="multi-events__form-label">
+                                                            @Html.RadioButtonFor(model => Model.RelatedRegistrations[index].SelectedPriceKey, fee.PriceKey, new { @class = "radio-align", @id = $"{fee.PriceKey}_relatedSelectedPriceKey", data_price = fee.Price, data_registration_key = Model.RelatedRegistrations[index].RegistrationKey, data_sessions_cost = Model.RelatedRegistrations[index].CurrentSessionsCost }) @fee.FeeText
+                                                        </label>
+                                                    }
+                                                </fieldset>
+                                            }
+                                        </li>
+                                    </ul>
+                                </div>
+                            </fieldset>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        @Html.Partial("_PaymentBar")
+        <div class="clearfix"></div>
+    </section>
+}
+
+@Scripts.Render("~/bundles/intro-js")
+
+@*Site Catalyst Code Only*@
+<script type="text/javascript">
+    var pageTitle = $("h1").text();
+    var eventName = "@Model.Event.Title";
+    var status = "@Model.Status";
+
+    s.pageName = "events:registration:" + eventName.substring(0, 40) + ":" + pageTitle.toLowerCase();
+    s.referrer = document.referrer;
+
+    s.prop1 = pageTitle;
+    s.prop3 = "main";
+    s.prop17 = "member";
+    s.prop18 = "web";
+    s.prop40 = "meetings";
+    s.prop41 = "sell meetings";
+    s.prop42 = "nf";
+
+    s.eVar1 = eventName;
+
+    if (status === "Pending") {
+        s.events = "event88";
+    } else {
+        s.events = "scAdd, event1";
+    }
+    
+    s.products = ";" + "@Model.Event.Fees[0].ProductKey.ToString()";
+
+    /************* DO NOT ALTER ANYTHING BELOW THIS LINE ! **************/
+    var s_code = s.t(); if (s_code) document.write(s_code);  //
+</script>

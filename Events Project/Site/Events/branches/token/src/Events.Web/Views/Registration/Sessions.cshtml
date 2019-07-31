@@ -1,0 +1,81 @@
+﻿@using System.Web.Optimization
+@model Aafp.Events.Web.ViewModels.RegistrationStepViewModel
+@{
+    ViewBag.Title = $"Sessions -- {Model.Event.Title}";
+    ViewBag.BodyClass = $"event-{Model.Event.Code} layout-simple-footer";
+    ViewBag.PageID = "page-event-sessions";
+    ViewBag.Header = @Html.Partial("_HeaderSimple");
+    ViewBag.Footer = @Html.Partial("_FooterSimple");
+}
+
+@{
+    ViewBag.Title = $"{Model.StepDescription} -- {Model.Event.Title}";
+}
+
+@using (Html.BeginForm("SaveSessions", "Registration", FormMethod.Post, new { @id = "sessionForm" }))
+{
+    @Html.EditorFor(model => model.Navigation)
+    <section class="extra-width no-gutter white-background twelve-column">
+        @Html.HiddenFor(model => model.RegistrationKey)
+        @Html.HiddenFor(model => model.Customer.WebLogin)
+        <hgroup class="horizontal-gradient">
+            <h1 class="horizontal-gradient">@Model.Navigation.NavigationSteps[Model.Navigation.CurrentProgress - 3].Event.Title</h1>
+            <h3 class="title-deck">@Model.Navigation.NavigationSteps[Model.Navigation.CurrentProgress - 3].StepDescription</h3>
+        </hgroup>
+        <div class="gridcolparsys">
+            <div class="block full">
+                @Html.EditorFor(model => model.Headings)
+            </div>
+        </div>
+        @Html.Partial("_PaymentBar")
+        <div class="clearfix"></div>
+    </section>
+}
+
+@Scripts.Render("~/bundles/session-registration-js")
+
+@*Site Catalyst Code Only*@
+<script type="text/javascript">
+    var stepDescription = "@Model.Navigation.NavigationSteps[Model.Navigation.CurrentProgress - 3].StepDescription";
+    var eventName = "@Model.Navigation.NavigationSteps[Model.Navigation.CurrentProgress - 3].Event.Title";
+
+    s.pageName = "events:registration:" + eventName.substring(0, 40) + ":" + stepDescription.toLowerCase();
+    s.referrer = document.referrer;
+
+    s.prop1 = stepDescription;
+    s.prop3 = "main";
+    s.prop17 = "member";
+    s.prop18 = "web";
+    s.prop40 = "meetings";
+    s.prop41 = "sell meetings";
+    s.prop42 = "nf";
+
+    s.eVar1 = eventName;
+    s.events = "";
+    s.products = "";
+
+    $("input[id$='_sessionCheckBox']").change(function () {
+        var sessionCheckBox = $(this);
+        var isChecked = sessionCheckBox.is(":checked");
+
+        s.events = isChecked ? "scAdd" : "scRemove";
+        s.products = ";" + sessionCheckBox.data("product-key");
+        s.linkTrackVars = "events,products,prop1,prop36";
+        s.linkTrackEvents = s.events;
+        s.tl(this, 'o', s.events);
+    });
+
+    $("select[id$='_sessionQuantityDropDown']").change(function () {
+        var sessionQuantityDropDown = $(this);
+        var quantity = Number(sessionQuantityDropDown.val());
+
+        s.events = quantity > 0 ? "scAdd" : "scRemove";
+        s.products = ";" + sessionQuantityDropDown.data("product-key");
+        s.linkTrackVars = "events,products,prop1,prop36";
+        s.linkTrackEvents = s.events;
+        s.tl(this, 'o', s.events);
+    });
+
+    /************* DO NOT ALTER ANYTHING BELOW THIS LINE ! **************/
+    var s_code = s.t(); if (s_code) document.write(s_code);  //
+</script>

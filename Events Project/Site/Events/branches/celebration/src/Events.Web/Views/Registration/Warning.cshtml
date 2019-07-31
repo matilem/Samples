@@ -1,0 +1,104 @@
+﻿@using System.Web.Optimization
+@model Aafp.Events.Web.ViewModels.RegistrationIntroViewModel
+
+@{
+    ViewBag.Title = $"1) Begin Registration -- {Model.Event.Title}";
+    ViewBag.BodyClass = $"event-{Model.Event.Code}";
+    ViewBag.Header = @Html.Partial("_HeaderAdvanced");
+    ViewBag.Footer = @Html.Partial("_FooterAdvanced");
+}
+
+@if (Model.Event.IsSoldOut)
+{
+    {
+        ViewBag.Title = $"Sold Out -- {Model.Event.Code}";
+        ViewBag.PageID = "page-event-sold-out";
+    }
+}
+else if (!Model.Event.IsOpenForRegistration)
+{
+    {
+        ViewBag.Title = $"Closed -- {Model.Event.Code}";
+        ViewBag.PageID = "page-event-closed";
+    }
+}
+else if (!Model.IsEligible)
+{
+    {
+        ViewBag.Title = $"Not Eligible -- {Model.Event.Code}";
+        ViewBag.PageID = "page-event-not-eligible";
+    }
+}
+
+<div class="layout">
+    @if (!Model.Event.IsOpenForRegistration)
+    {
+        <section class="extra-width white-background full no-gutter">
+            <hgroup class="horizontal-gradient"><h1 class="horizontal-gradient">Registration Not Open</h1></hgroup>
+            <div class="gridcolparsys">
+                <div class="block twelve-column">
+                    <p>Thank you for your interest in @Model.Event.Title, unfortunately it is not currently open for online registration. If you have further questions, please contact us at <a href='mailto:aafp@aafp.org'>aafp@aafp.org</a> or (800) 274-2237.</p>
+                </div>
+            </div>
+        </section>
+    }
+    else if (!Model.IsEligible)
+    {
+        <section class="extra-width white-background full no-gutter">
+            <hgroup class="horizontal-gradient"><h1 class="horizontal-gradient">Not Eligible</h1></hgroup>
+            <div class="gridcolparsys">
+                <div class="block twelve-column">
+                    <p>@Html.Raw(Model.Event.DenialMessage)</p>
+                </div>
+            </div>
+        </section>
+    }
+    else if (Model.Event.IsSoldOut)
+    {
+        <section class="extra-width white-background full no-gutter">
+            <hgroup class="horizontal-gradient"><h1 class="horizontal-gradient">@Html.Raw($"Sold Out | {Model.Event.Title}")</h1></hgroup>
+            <div class="gridcolparsys">
+                <div class="block twelve-column">
+
+                    @if (Model.Event.AllowWaitList && !Model.UserIsOnWaitList)
+                    {
+                        @Html.HiddenFor(model => model.Customer.Key)
+                        @Html.HiddenFor(model => model.Event.Key)
+                        <h2 class="underlined">
+                            Would you like to join the waiting list?
+                        </h2>
+                        <p>We are sorry to inform you that <b>@Html.Raw($"{Model.Event.Title} has sold out.")</b> We do, however, have a waiting list. If you join the waiting list we 
+                    will let you know if a spot becomes available.</p>
+                    <div class="shim -mobile-padding margin-bottom">
+                        <a id="addToWaitListButton" href="#" class="button button-large">Join Wait List</a>
+                        <a class="button button-large button-tertiary" href="#" id="addingToWaitListButton" style="display: none"><i class="fa fa-spin fa-spinner"></i> Loading</a>
+                        </div>
+                        <div id="waitListWarning" class="qr-sold-out__response">
+                            <p class="-success" style="display: none;">
+                                <i class="multi-events__already-registered-icon -check -large fa fa-check-circle" aria-hidden="true"></i>
+                                You have been successfully added to the wait list!
+                            </p>
+                        </div>
+
+                        <div class="alert-box -error" style="display: none;">
+                            <div class="alert-box__icon"><span class="fa fa-frown-o fa-2x -white"></span></div>
+                            <div class="alert-box__content">
+                                <h3>Sorry</h3>
+                                <p>@Html.Raw($"There was an error adding {Model.Customer.FullName} to the wait list.")</p>
+                            </div>
+                        </div>
+                        }
+                        else if (Model.Event.AllowWaitList && Model.UserIsOnWaitList)
+                        {
+                        <h2 class="underlined">
+                            You are on the wait list
+                        </h2>
+                        <p><b>@Html.Raw($"{Model.Event.Title} has sold out.")</b> But you have joined the waiting list. We will contact you if a spot opens up.</p>
+                        }
+
+                    </div>
+            </div>
+        </section>   
+    }
+    </div>
+@Scripts.Render("~/bundles/warning-js")

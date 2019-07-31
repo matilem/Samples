@@ -1,0 +1,129 @@
+﻿@using System.Web.Optimization
+@model Aafp.Events.Web.ViewModels.RegistrationContactInfoViewModel
+
+<div class="edit-my-information-block block full">
+    @using (Ajax.BeginRouteForm("UpdateContactInformation", new AjaxOptions { UpdateTargetId = "contactInformationDiv", InsertionMode = InsertionMode.Replace, OnComplete = "$('form').removeData('validator'); $('form').removeData('unobtrusiveValidation'); $.validator.unobtrusive.parse('form');" }))
+    {
+        @Html.HiddenFor(model => model.RegistrationKey)
+        @Html.HiddenFor(model => Model.Customer.WebLogin)
+        <h2 class="underlined">My Information</h2>
+        <div class="block six-column alpha attendee-badge">
+            <h3>Attendee Badge</h3>
+            <div class="attendee-badge__view">
+                <h3 class="attendee-badge__nickname">NICKNAME</h3>
+                <h4 class="attendee-badge__name">John Doe</h4>
+                <p class="attendee-badge__address">City, ST</p>
+                @if (Model.DisplayBadgeCompany)
+                {
+                    <p class="attendee-badge__company">@Model.AlternativeCompanyBadgeLabel</p>
+                }
+                @if (Model.DisplayBadgePosition)
+                {
+                    <p class="attendee-badge__position">@Model.AlternativePositionBadgeLabel</p>
+                }
+            </div>
+            <div class="form -attendee">
+                <ul class="form__rows -layout-attendee">
+                    <li>
+                        <label class="form-row__title">
+                            Nickname<span class="form__ast-req"> *</span> @Html.ValidationMessageFor(model => model.Badge.NickName, string.Empty, new {@class = "error"})
+                            @Html.TextBoxFor(model => model.Badge.NickName, new {@class = "-width-xl"})
+                        </label>
+                    </li>
+                    <li>
+                        <label class="form-row__title">City <span class="form__ast-req"> *</span> @Html.ValidationMessageFor(model => model.Badge.City, string.Empty, new {@class = "error"}) @Html.TextBoxFor(model => model.Badge.City, new {@class = "-width-xl"}) </label>
+                    </li>
+                    @if (Model.Badge.ShowState)
+                    {
+                        <li>
+                            <label class="form-row__title">State<span class="form__ast-req"> *</span></label> @Html.ValidationMessageFor(model => model.Badge.State, string.Empty, new {@class = "error"})
+                            @Html.DropDownListFor(model => model.Badge.State, new SelectList(Model.Badge.States, "Code", "Code"), "", new {@class = "form-row__state"})
+                        </li>
+                    }
+                    @if (Model.DisplayBadgeCompany)
+                    {
+                        <li>
+                            <label class="form-row__title">@Model.AlternativeCompanyBadgeLabel</label>
+                            @Html.TextBoxFor(model => model.Badge.Company, new {@class = "-width-xl"})
+                        </li>
+                    }
+                    @if (Model.DisplayBadgePosition)
+                    {
+                        <li>
+                            <label class="form-row__title">@Model.AlternativePositionBadgeLabel</label>
+                            @Html.TextBoxFor(model => model.Badge.Position, new {@class = "-width-xl"})
+                        </li>
+                    }
+                </ul>
+            </div>
+            <br />
+        </div>
+        <div class="block six-column omega contact-info">
+            <h3 style="clear: none;">Contact Information</h3>
+            <div class="contact-info__user-info">
+                <p class="contact-info__block-content">
+                    Select the address and phone number you would like us to use when sending you information about this conference. For opt-in/out and vendor contact preferences please edit your registration (below).
+                </p>
+                <h4 class="contact-info__full-name">@Model.Customer.FullName</h4>
+                <p class="contact-info__email">@Model.Customer.Email</p>
+            </div>
+            <br/>
+            <div class="form">
+                <ul class="form__rows -information-selector">
+                    <li>
+                        <fieldset>
+                            <legend class="form-row__title">
+                                Phone
+                            </legend>
+                            <div class="error" style="display: none;">Please select your phone nunber.</div>
+                            @foreach (var phone in Model.Customer.Phones)
+                            {
+                                <label>
+                                    @Html.RadioButtonFor(model => model.SelectedPhoneKey, phone.Key)<span class="form-row__work-phone">@($"{phone.PhoneType}: {phone.Number}")</span>
+                                </label>
+                            }
+                        </fieldset>
+                    </li>
+                    <br/>
+                    <li>
+                        <fieldset>
+                            <legend class="form-row__title">
+                                Address
+                            </legend>
+                            <div class="error" style="display: none;">Please select your address.</div>
+                            @foreach (var address in Model.Customer.Addresses)
+                            {
+                                <label>
+                                    @Html.RadioButtonFor(model => model.SelectedAddressKey, address.Key)
+                                    <span class="form-row__street @($"form-row__{address.AddressType}-street")">@($"{address.AddressType}: {address.Address1}") </span>
+                                    <span class="form-row__city @($"form-row__{address.AddressType}-city")">@($"{address.City}, {address.State}  {address.PostalCode}")</span>
+                                </label>
+                            }
+                        </fieldset>
+                    </li>
+                </ul>
+            </div>
+            <br />
+        </div>
+        <div class="block six-column alpha emergency">
+            <h3>Emergency Contact</h3>
+            <div class="form">
+                <ul class="form__rows -layout-emergency">
+                    <li>
+                        <label class="form-row__title">Full Name </label> @Html.TextBoxFor(model => model.EmergencyContactName)
+                    </li>
+                    <li>
+                        <label class="form-row__title">Phone </label> @Html.TextBoxFor(model => model.EmergencyContactPhone, new {@class = "js-mask-phone", placeholder = "(000) 000-0000 x0000", type = "tel"})
+                    </li>
+                </ul>
+            </div>
+            <br />
+        </div>
+        <div class="block full no-margin">
+            <p>
+            <button type="submit" class="button button-primary" id="editContactInfoSubmitButton" style="margin-left:0px;">Save</button>
+            @Ajax.RouteLink("Cancel", "GetContactInformation", new { registrationKey = Model.RegistrationKey }, new AjaxOptions { UpdateTargetId = "contactInformationDiv", InsertionMode = InsertionMode.Replace, OnComplete = "$('form').removeData('validator'); $('form').removeData('unobtrusiveValidation'); $.validator.unobtrusive.parse('form');" }, new { @class = "float-right" })
+            </p>
+        </div>
+    }
+</div>

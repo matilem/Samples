@@ -1,0 +1,122 @@
+﻿@model Aafp.Events.Web.ViewModels.RegistrationSessionViewModel
+
+@Html.HiddenFor(model => model.SessionTypeCode)
+@Html.HiddenFor(model => model.Key)
+@Html.HiddenFor(model => model.RequiredSession)
+@Html.HiddenFor(model => Model.RegistrationStatus)
+
+@ViewData["RequiredFlag"]
+@if (Model.SessionTypeCode == "Guest Badge")
+{
+    <table id="guestsTable" class="table guest-badges__table">
+        <tbody id="guestBadgeTableBody">
+            @Html.EditorFor(model => model.GuestBadges)
+        </tbody>
+    </table>
+    <div class="shim -mobile-padding">
+        <a href="#" id="addGuest" class="guest-badges__add"><i class="fa fa-plus-circle"></i> Add Guest</a>
+    </div>
+}
+else
+{
+    <tr class="session__table-content @(Model.Selected == true ? "-state-selected" : "")">
+        @if (Model.ShowNumber)
+                {
+            <td class="session__table-content-no" colspan="1" rowspan="1">
+                @Model.Code
+            </td>
+        }
+        @if (!string.IsNullOrWhiteSpace(Model.LearningObjectives))
+                {
+            <td class="session__table-content-title" colspan="1" rowspan="1">
+                <a>@Model.Title</a>
+                <div class="session__table-content-details" colspan="1" rowspan="1">
+                    @if ((Model.PrescribedCredits + Model.ElectiveCredits) > 0)
+                    {
+                        <div class="session__cme-credit">CME Credits Available: <span class="session__cme-credit-no">@(Model.PrescribedCredits + Model.ElectiveCredits)</span></div>
+                    }
+                    <span class="session__table-content-mobile-only">Description:<br /></span>
+                    @Html.Raw(Model.LearningObjectives)
+                </div>
+                <div id="@($"{Model.Key}_requiredSessionDiv")" class="error session__conflict" data-reqsession="@Model.RequiredSession" hidden=""></div>
+            </td>
+        }
+        else
+        {
+            <td class="session__table-content-title--nolink" colspan="1" rowspan="1">
+                @Model.Title
+                <div id="@($"{Model.Key}_requiredSessionDiv")" class="error session__conflict" data-reqsession="@Model.RequiredSession" hidden=""></div>
+            </td>
+        }
+        @if (Model.ShowTime)
+                {
+            <td class="session__table-content-time" colspan="1" rowspan="1">
+                @Html.Raw(Model.DateTimeDisplay)
+            </td>
+        }
+        @if (Model.ShowAvailableTickets)
+                {
+            <td class="session__table-content-capacity" colspan="1" rowspan="1">
+                <span class="session__table-content-mobile-only">Seats Left: </span>@(Model.AvailableTickets)
+            </td>
+        }
+        @if (Model.ShowCost)
+                {
+            <td class="session__table-content-cost" colspan="1" rowspan="1">
+                <span class="session__table-content-mobile-only">Cost: </span>@Model.Fee.PriceDisplay
+            </td>
+        }
+        <td class="session__table-content-add" colspan="1" rowspan="1">
+            @if (Model.ShowSoldOut)
+            {
+                <label class="smtext warn">
+                    <span>Sold Out</span>
+                    @Html.CheckBoxFor(model => model.Selected, new { @class = "session__add-checkbox", id = $"{Model.Key}_sessionCheckBox", data_price = Model.Fee.Price, data_title = Model.Title, data_code = Model.Code, data_key = Model.Key, data_reqsession = Model.RequiredSession, data_product_key = Model.Fee.ProductKey, hidden = true, @disabled = "disabled" })
+                </label>
+            }
+
+            else
+            {
+                if (Model.Selected)
+                {
+                    if (Model.RegistrationStatus == "Edit" && Model.Fee.Price > 0m)
+                    {
+                        <span id="paidItemSpan" class="table--state-requiredSession session__paid js-paid-modal" title="To cancel items you have already paid for please call us at 800-274-2237.">
+                            <i class="fa fa-check"></i> Paid
+                        </span>
+                    }
+                    else
+                    {
+                        <label class="table--state-requiredSession session__add-label">
+                            @Html.CheckBoxFor(model => model.Selected, new { @class = "session__add-checkbox", id = $"{Model.Key}_sessionCheckBox", data_price = Model.Fee.Price, data_title = Model.Title, data_code = Model.Code, data_key = Model.Key, data_reqsession = Model.RequiredSession, data_product_key = Model.Fee.ProductKey })
+                            <span>Add</span>
+                        </label>
+                    }
+                }
+                else
+                {
+                    if (Model.Ticketed)
+                    {
+                        @Html.DropDownListFor(model => model.SelectedQuantity, new SelectList(Model.TicketQuantities, "Value", "Text"), new { id = $"{Model.Key}_sessionQuantityDropDown", data_price = Model.Fee.Price, data_title = Model.Title, data_code = Model.Code, data_key = Model.Key, data_previousQuantity = Model.SelectedQuantity, data_reqsession = Model.RequiredSession, data_product_key = Model.Fee.ProductKey })
+                    }
+                    else
+                    {
+                        <label class="table--state-requiredSession session__add-label">
+                            @Html.CheckBoxFor(model => model.Selected, new { @class = "session__add-checkbox", id = $"{Model.Key}_sessionCheckBox", data_price = Model.Fee.Price, data_title = Model.Title, data_code = Model.Code, data_key = Model.Key, data_reqsession = Model.RequiredSession, data_product_key = Model.Fee.ProductKey })
+                            <span>Add</span>
+                        </label>
+                    }
+                }
+            }
+        </td>
+        @if (!string.IsNullOrWhiteSpace(Model.LearningObjectives))
+                {
+            <td class="session__table-content-learn-more-click">
+                LEARN MORE
+            </td>
+                    <td class="session__table-content-less-click -state-hidden">
+                        LESS
+                    </td>
+        }
+    </tr>
+}

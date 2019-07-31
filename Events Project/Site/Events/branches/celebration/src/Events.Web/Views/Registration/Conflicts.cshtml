@@ -1,0 +1,182 @@
+﻿@using System.Web.Optimization
+@model Aafp.Events.Web.ViewModels.RegistrationConflictViewModel
+@{
+    ViewBag.Title = $"Conflicts -- {Model.Event.Title}";
+    ViewBag.BodyClass = $"event-{Model.Event.Code} layout-simple-footer";
+    ViewBag.PageID = "page-event-conflicts-allowed";
+    ViewBag.Header = @Html.Partial("_HeaderSimple");
+    ViewBag.Footer = @Html.Partial("_FooterSimple");
+}
+@using (Html.BeginForm("ResolveConflicts", "Registration", FormMethod.Post, new { @id = "conflictsForm" }))
+{
+    <div hidden="">
+        @Html.EditorFor(model => model.Navigation)
+    </div>
+
+    @Html.HiddenFor(model => model.RegistrationKey)
+    @Html.HiddenFor(model => model.AllowedConflicts)
+    @Html.HiddenFor(model => model.RegistrationStatus)
+
+    <section class="extra-width no-gutter white-background twelve-column">
+        <hgroup class="horizontal-gradient">
+            <h1 class="horizontal-gradient">Review Conflicts</h1>
+        </hgroup>
+        <div class="gridcolparsys">
+            <div class="conflict-section">
+                <p>
+                    The following sessions appear to be held at the same time and conflict with each other. You are @Html.Raw(Model.AllowedConflicts ? "not required" : "<b>required</b>") resolve these conflicts before proceeding with your registration.
+                </p>
+                @for (var conflictGroupIndex = 0; conflictGroupIndex < Model.ConflictGroups.Count; conflictGroupIndex++)
+                {
+                    <div class="session">
+                        <h3 class="session__title underlined">Conflicts on @Html.Raw(Model.ConflictGroups[conflictGroupIndex].ConflictedSessions[0].DateDisplay)</h3>
+                        <div class="session__table tables parbase">
+                            <table border="1" cellpadding="1" cellspacing="0" width="100%">
+                                <tbody>
+                                    <tr class="session__table-head">
+                                        <th class="session__head-cells">NO.</th>
+                                        <th class="session__head-cells">TITLE</th>
+                                        <th class="session__head-cells">Time</th>
+                                        <th class="session__head-cells">SEATS LEFT</th>
+                                        <th class="session__head-cells">COST</th>
+                                        <th class="session__head-cells"></th>
+                                    </tr>
+                                    @for (var conflictedSessionIndex = 0; conflictedSessionIndex < Model.ConflictGroups[conflictGroupIndex].ConflictedSessions.Count; conflictedSessionIndex++)
+                                    {
+                                        <tr class="session__table-content -red-selected">
+                                            <td class="session__table-content-no" colspan="1" rowspan="1">
+                                                @Html.HiddenFor(model => Model.ConflictGroups[conflictGroupIndex].ConflictedSessions[conflictedSessionIndex].Key)
+                                                @Model.ConflictGroups[conflictGroupIndex].ConflictedSessions[conflictedSessionIndex].Code
+                                                <b>@Model.ConflictGroups[conflictGroupIndex].ConflictedSessions[conflictedSessionIndex].EventCode</b>
+                                            </td>
+                                            <td class="session__table-content-title" colspan="1" rowspan="1">
+                                                @Model.ConflictGroups[conflictGroupIndex].ConflictedSessions[conflictedSessionIndex].Title
+                                                @if (!string.IsNullOrWhiteSpace(Model.ConflictGroups[conflictGroupIndex].ConflictedSessions[conflictedSessionIndex].LearningObjectives))
+                                                {
+                                                    <div class="session__table-content-details" colspan="1" rowspan="1">
+                                                        @Html.Raw(Model.ConflictGroups[conflictGroupIndex].ConflictedSessions[conflictedSessionIndex].LearningObjectives)
+                                                    </div>
+                                                }
+                                                <div id="@($"{Model.ConflictGroups[conflictGroupIndex].ConflictedSessions[conflictedSessionIndex].Key}_requiredSessionDiv")" class="error session__conflict" data-reqsession="@Model.ConflictGroups[conflictGroupIndex].ConflictedSessions[conflictedSessionIndex].RequiredSession" hidden=""></div>
+                                            </td>
+                                            <td class="session__table-content-time" colspan="1" rowspan="1">
+                                                @Html.Raw(Model.ConflictGroups[conflictGroupIndex].ConflictedSessions[conflictedSessionIndex].DateTimeDisplay)
+                                            </td>
+                                            <td class="session__table-content-capacity" colspan="1" rowspan="1">
+                                                <span class="session__table-content-mobile-only">Seats Left: </span>@(Model.ConflictGroups[conflictGroupIndex].ConflictedSessions[conflictedSessionIndex].AvailableTickets)
+                                            </td>
+                                            <td class="session__table-content-cost" colspan="1" rowspan="1">
+                                                @Model.ConflictGroups[conflictGroupIndex].ConflictedSessions[conflictedSessionIndex].Fee.PriceDisplay
+                                            </td>
+                                            <td class="session__table-content-add" colspan="1" rowspan="1">
+                                                @if (Model.ConflictGroups[conflictGroupIndex].ConflictedSessions[conflictedSessionIndex].ShowSoldOut)
+                                                {
+                                                    <label class="smtext warn">
+                                                        <span>Sold Out</span>
+                                                    </label>
+                                                }
+                                                else if (Model.ConflictGroups[conflictGroupIndex].ConflictedSessions[conflictedSessionIndex].Ticketed)
+                                                {
+                                                    @Html.HiddenFor(model => Model.ConflictGroups[conflictGroupIndex].ConflictedSessions[conflictedSessionIndex].Selected)
+                                                    @Html.DropDownListFor(model => Model.ConflictGroups[conflictGroupIndex].ConflictedSessions[conflictedSessionIndex].SelectedQuantity, new SelectList(Model.ConflictGroups[conflictGroupIndex].ConflictedSessions[conflictedSessionIndex].TicketQuantities, "Value", "Text", Model.ConflictGroups[conflictGroupIndex].ConflictedSessions[conflictedSessionIndex].SelectedQuantity), new { id = $"{Model.ConflictGroups[conflictGroupIndex].ConflictedSessions[conflictedSessionIndex].Key}_sessionQuantityDropDown", data_price = Model.ConflictGroups[conflictGroupIndex].ConflictedSessions[conflictedSessionIndex].Fee.Price, data_previousQuantity = Model.ConflictGroups[conflictGroupIndex].ConflictedSessions[conflictedSessionIndex].SelectedQuantity, data_start_time = Model.ConflictGroups[conflictGroupIndex].ConflictedSessions[conflictedSessionIndex].StartDateTimeValue, data_end_time = Model.ConflictGroups[conflictGroupIndex].ConflictedSessions[conflictedSessionIndex].EndDateTimeValue, data_title = Model.ConflictGroups[conflictGroupIndex].ConflictedSessions[conflictedSessionIndex].Title, data_code = Model.ConflictGroups[conflictGroupIndex].ConflictedSessions[conflictedSessionIndex].Code, data_key = Model.ConflictGroups[conflictGroupIndex].ConflictedSessions[conflictedSessionIndex].Key, data_reqsession = Model.ConflictGroups[conflictGroupIndex].ConflictedSessions[conflictedSessionIndex].RequiredSession })
+                                                }
+                                                else
+                                                {
+                                                    @Html.HiddenFor(model => Model.ConflictGroups[conflictGroupIndex].ConflictedSessions[conflictedSessionIndex].SelectedQuantity)
+
+                                                    if (Model.RegistrationStatus == "Edit")
+                                                    {
+                                                        if (Model.ConflictGroups[conflictGroupIndex].ConflictedSessions[conflictedSessionIndex].IsRegistered)
+                                                        {
+                                                            <span class="table--state-requiredSession session__paid js-paid-modal" title="To cancel items you have already paid for please call us at 800-274-2237.">
+                                                                <i class="fa fa-check"></i> Paid
+                                                                @Html.HiddenFor(model => Model.ConflictGroups[conflictGroupIndex].ConflictedSessions[conflictedSessionIndex].Selected, new { @class = "session__add-checkbox", id = $"{Model.ConflictGroups[conflictGroupIndex].ConflictedSessions[conflictedSessionIndex].Key}_sessionCheckBox", data_price = Model.ConflictGroups[conflictGroupIndex].ConflictedSessions[conflictedSessionIndex].Fee.Price, data_start_time = Model.ConflictGroups[conflictGroupIndex].ConflictedSessions[conflictedSessionIndex].StartDateTimeValue, data_end_time = Model.ConflictGroups[conflictGroupIndex].ConflictedSessions[conflictedSessionIndex].EndDateTimeValue, data_title = Model.ConflictGroups[conflictGroupIndex].ConflictedSessions[conflictedSessionIndex].Title, data_code = Model.ConflictGroups[conflictGroupIndex].ConflictedSessions[conflictedSessionIndex].Code, data_key = Model.ConflictGroups[conflictGroupIndex].ConflictedSessions[conflictedSessionIndex].Key, data_reqsession = Model.ConflictGroups[conflictGroupIndex].ConflictedSessions[conflictedSessionIndex].RequiredSession })
+                                                            </span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <label class="session__add-label">
+                                                                @Html.CheckBoxFor(model => Model.ConflictGroups[conflictGroupIndex].ConflictedSessions[conflictedSessionIndex].Selected, new {@class = "session__add-checkbox", id = $"{Model.ConflictGroups[conflictGroupIndex].ConflictedSessions[conflictedSessionIndex].Key}_sessionCheckBox", data_price = Model.ConflictGroups[conflictGroupIndex].ConflictedSessions[conflictedSessionIndex].Fee.Price, data_start_time = Model.ConflictGroups[conflictGroupIndex].ConflictedSessions[conflictedSessionIndex].StartDateTimeValue, data_end_time = Model.ConflictGroups[conflictGroupIndex].ConflictedSessions[conflictedSessionIndex].EndDateTimeValue, data_title = Model.ConflictGroups[conflictGroupIndex].ConflictedSessions[conflictedSessionIndex].Title, data_code = Model.ConflictGroups[conflictGroupIndex].ConflictedSessions[conflictedSessionIndex].Code, data_key = Model.ConflictGroups[conflictGroupIndex].ConflictedSessions[conflictedSessionIndex].Key, data_reqsession = Model.ConflictGroups[conflictGroupIndex].ConflictedSessions[conflictedSessionIndex].RequiredSession})
+                                                                <span>Add</span>
+                                                            </label>
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        <label class="session__add-label">
+                                                            @Html.CheckBoxFor(model => Model.ConflictGroups[conflictGroupIndex].ConflictedSessions[conflictedSessionIndex].Selected, new {@class = "session__add-checkbox", id = $"{Model.ConflictGroups[conflictGroupIndex].ConflictedSessions[conflictedSessionIndex].Key}_sessionCheckBox", data_price = Model.ConflictGroups[conflictGroupIndex].ConflictedSessions[conflictedSessionIndex].Fee.Price, data_start_time = Model.ConflictGroups[conflictGroupIndex].ConflictedSessions[conflictedSessionIndex].StartDateTimeValue, data_end_time = Model.ConflictGroups[conflictGroupIndex].ConflictedSessions[conflictedSessionIndex].EndDateTimeValue, data_title = Model.ConflictGroups[conflictGroupIndex].ConflictedSessions[conflictedSessionIndex].Title, data_code = Model.ConflictGroups[conflictGroupIndex].ConflictedSessions[conflictedSessionIndex].Code, data_key = Model.ConflictGroups[conflictGroupIndex].ConflictedSessions[conflictedSessionIndex].Key, data_reqsession = Model.ConflictGroups[conflictGroupIndex].ConflictedSessions[conflictedSessionIndex].RequiredSession})
+                                                            <span>Add</span>
+                                                        </label>
+                                                    }
+                                                }
+                                            </td>
+                                            <td class="session__table-content-learn-more-click">
+                                                LEARN MORE
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </section>
+    <div class="clearfix"></div>
+
+    @Html.Partial("_PaymentBar")
+}
+
+<div id="paidModal" title="Want to Cancel?" style="display:none;">
+    <p>To make any cancellations please call the AAFP Member Resource Center at 800-274-2237.</p>
+    <a href="http://www.aafp.org/cme/cme-topic/cancelations.html?cmpid=_van_333" target="_blank" class="button button-tertiary">Cancellation Policy</a>
+</div>
+
+@Scripts.Render("~/bundles/conflicts-js")
+
+@*Site Catalyst Code Only*@
+<script type="text/javascript">
+    var stepDescription = "Review Conflicts";
+    var eventName = "@Model.Event.Title";
+
+    s.pageName = "events:registration:" + eventName.substring(0, 40) + ":" + stepDescription.toLowerCase();
+    s.referrer = document.referrer;
+
+    s.prop1 = stepDescription;
+    s.prop3 = "main";
+    s.prop17 = "member";
+    s.prop18 = "web";
+    s.prop40 = "meetings";
+    s.prop41 = "sell meetings";
+    s.prop42 = "nf";
+
+    s.eVar1 = eventName;
+    s.events = "";
+    s.products = "";
+
+    $("input[id$='_sessionCheckBox']").change(function () {
+        var sessionCheckBox = $(this);
+        var isChecked = sessionCheckBox.is(":checked");
+
+        s.events = isChecked ? "scAdd" : "scRemove";
+        s.products = ";" + sessionCheckBox.data("product-key");
+        s.linkTrackVars = "events,products,prop1,prop36";
+        s.linkTrackEvents = s.events;
+        s.tl(this, 'o', s.events);
+    });
+
+    $("select[id$='_sessionQuantityDropDown']").change(function () {
+        var sessionQuantityDropDown = $(this);
+        var quantity = Number(sessionQuantityDropDown.val());
+
+        s.events = quantity > 0 ? "scAdd" : "scRemove";
+        s.products = ";" + sessionQuantityDropDown.data("product-key");
+        s.linkTrackVars = "events,products,prop1,prop36";
+        s.linkTrackEvents = s.events;
+        s.tl(this, 'o', s.events);
+    });
+
+    /************* DO NOT ALTER ANYTHING BELOW THIS LINE ! **************/
+    var s_code = s.t(); if (s_code) document.write(s_code);  //
+</script>

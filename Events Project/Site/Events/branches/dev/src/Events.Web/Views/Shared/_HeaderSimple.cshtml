@@ -1,0 +1,9 @@
+﻿@using Aafp.Events.Web.ApplicationConfig
+@using Aafp.Events.Web.Helpers
+
+@Html.Raw(SyndicationHelper.GetSyndicatedSimpleHeader())
+
+<script type="text/javascript">
+    var needHelp = '<div class="support"><p class="support__title">Need Help?</p><p class="support__desc"><a class="support__tel" href="tel:800-274-2237">800-274-2237</a><span class="support__hours"></span><a class="support__desc__link" href="mailto:aafp@aafp.org">aafp@aafp.org</a></p></div>'
+    $('header.-simple-header .logo').after(needHelp);
+</script>

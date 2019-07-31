@@ -1,0 +1,17 @@
+﻿@model ApiClientHelper.Components.AafpServiceFileResult
+
+@{
+    Layout = "../Shared/_Layout.cshtml";
+    ViewBag.Title = $"Error";
+    ViewBag.PageID = "page-event-error";
+    ViewBag.Header = @Html.Partial("_HeaderAdvanced");
+    ViewBag.Footer = @Html.Partial("_FooterAdvanced");
+}
+<section class="extra-width white-background full no-gutter">
+    <hgroup class="horizontal-gradient"><h1 class="horizontal-gradient">An Error Has Occured in Getting your Invoice</h1></hgroup>
+    <div class="gridcolparsys">
+        <div class="block twelve-column">
+                    <p>@Model.ErrorMessage</p>
+        </div>
+    </div>
+</section>

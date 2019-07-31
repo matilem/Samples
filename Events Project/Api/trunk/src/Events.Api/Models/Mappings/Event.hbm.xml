@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+  <class name="Aafp.Events.Api.Models.Event, Aafp.Events.Api" table="vw_client_aafp_e34_event" mutable="false">
+    <id name="Key" column="evt_key" type="Guid">
+      <generator class="guid" />
+    </id>
+
+    <!-- NetForum Fields -->
+    <property name="AddUser" type="String" column="evt_add_user" />
+    <property name="AddDate" type="DateTime" column="evt_add_date" />
+    <property name="ChangeUser" type="String" column="evt_change_user" />
+    <property name="ChangeDate" type="DateTime" column="evt_change_date" />
+    <property name="DeleteFlag" type="Boolean" column="evt_delete_flag" />
+
+    <!-- Domain Fields -->
+    <property name="Title" type="string" column="evt_title" />
+    <property name="Code" type="string" column="evt_code" />
+    <property name="StartDate" type="DateTime" column="evt_start_date" />
+    <property name="EndDate" type="DateTime" column="evt_end_date" />
+    <property name="PreRegistrationDate" type="DateTime" column="evt_pre_registration_date" />
+    <property name="CutOffDate" type="DateTime" column="evt_cutoff_date" />
+    <property name="PostToWebDate" type="DateTime" column="evt_post_to_web_date" />
+    <property name="RemoveFromWebDate" type="DateTime" column="evt_remove_from_web_date" />
+    <property name="Capacity" type="Int32" column="evt_capacity" />
+    <property name="DescriptionHtml" type="string" column="evt_description_html" />
+    <property name="AllowWaitList" type="Boolean" column="evt_wait_list_flag" />
+    <property name="DisplayEducationQuestion" type="Boolean" column="evt_display_education_question_flag_ext" />
+    <property name="AlternativeCompanyBadgeLabel" type="string" column="evt_alternative_badge_company_label_ext" />
+    <property name="DisplayBadgeCompany" type="Boolean" column="evt_display_badge_company_flag_ext" />
+    <property name="AlternativePositionBadgeLabel" type="string" column="evt_alternative_badge_position_label_ext" />
+    <property name="DisplayBadgePosition" type="Boolean" column="evt_display_badge_position_flag_ext" />
+    <property name="ConfirmationInstructions" type="string" column="evt_confirmation_instructions_html_ext" />
+    <property name="DenialMessage" type="string" column="evt_denial_message_ext" />
+    <property name="CancellationPolicy" type="string" column ="evt_cancellation_policy_html_ext"></property>
+    <property name="IsOrganizationalApplicationFlag" type="Boolean" column="evt_org_app_flag_ext" />
+    <property name="OtherInformation" type="string" column="evt_other_info_html_ext" />
+    <property name="HousingUrl" type="string" column="evt_housing_url_ext" />
+    <property name="HousingDescription" type="string" column="evt_housing_description_ext" />
+    <property name="HousingDiscountCode" type="string" column="evt_housing_discount_code_ext" />
+    <property name="MarketingMessage" type="string" column="evt_marketing_text_ext" />
+    <property name="TinyRegFlag" type="Boolean" column="evt_tiny_reg_flag_ext" />
+    <property name="TinyRegMessage" type="string" column="evt_tiny_reg_message_ext" />
+
+    <many-to-one name="Location" class="Aafp.Events.Api.Models.Location, Aafp.Events.Api" column="loc_cxa_key" cascade="none" fetch="join" />
+
+    <bag name="Steps" lazy="false" fetch="select" table="client_aafp_e27_registration_step" cascade="none" where="e27_delete_flag = 0" order-by="e27_sequence asc">
+      <key column="e27_evt_key" />
+      <one-to-many class="Aafp.Events.Api.Models.Step, Aafp.Events.Api" />
+    </bag>
+
+    <bag name="RelatedEvents" lazy="false" fetch="join" table="client_aafp_e43_related_event" cascade="none" where="e43_delete_flag = 0">
+      <key column="e43_evt_key" />
+      <many-to-many column="e43_related_evt_key" class="Aafp.Events.Api.Models.Event, Aafp.Events.Api" />
+    </bag>
+
+    <bag name="Sessions" lazy="false" fetch="select" table="vw_client_aafp_event_sessions" cascade="none">
+      <key column="ses_evt_key" />
+      <one-to-many class="Aafp.Events.Api.Models.Session, Aafp.Events.Api" />
+    </bag>
+
+    <bag name="RegistrantsOnWait" fetch="select" table="client_aafp_e29_event_registrant_wait_list" where="e29_delete_flag=0">
+      <key column="e29_evt_key" />
+      <one-to-many class="Aafp.Events.Api.Models.RegistrantOnWait, Aafp.Events.Api" />
+    </bag>
+  </class>
+</hibernate-mapping>

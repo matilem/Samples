@@ -1,0 +1,69 @@
+﻿@using Aafp.Events.Admin.ApplicationConfig
+@model Aafp.Events.Admin.ViewModels.Registration.UserSearchViewModel
+
+@{
+    ViewBag.Title = "Home | Quick Reg Wizard";
+}
+
+<header class="qr-header">
+    <div class="layout">
+        <h2 class="qr-header__title">
+            <a href="~/registration">Quick Registration</a>
+        </h2>
+    </div>
+</header>
+
+<div class="layout">
+     <section style="clear: both;" class="qr-box qr-home-search">
+        <h1 class="qr-home-search__header">Search Customer</h1>
+        <br />
+         <div class="qr-home-search__area clearfix">
+             @Html.Partial("_UserSearchBar", Model)
+         </div>
+    </section>
+        <section class="qr-box qr-add-cust">
+            <h3>Add New Customer</h3>
+            <p>If you cannot find a customer try adding them as a new customer in netForum.</p>
+            <a href="@($"{ApplicationConfigManager.Settings.BaseUrl}iweb")" target="_blank" class="btn -color-light -size-sm -position-right"><i class="fa fa-plus"></i> Add New Customer Record</a>
+        </section>
+        <section class="qr-box qr-add-batch">
+            <h3>Batch Upload</h3>
+            <p><strong>For advanced users only!</strong> Add staff and speakers together at one time quickly with our batch addition tool.</p>
+            <a href="@($"{ApplicationConfigManager.Settings.ApplicationUrl}registration/batch")" class="btn -color-light -size-sm -position-right"><i class="fa fa-th-list"></i> Batch Add / Upload</a>
+        </section>
+        <section style="clear: both;" class="qr-box qr-shortcuts">
+            <h3>Keyboard Shortcuts</h3>
+            <br />
+            <table class="qr-table">
+                <thead>
+                    <tr class="qr-table__head">
+                        <th class="qr-table__head-cell">Shortcut</th>
+                        <th class="qr-table__head-cell">Title</th>
+                        <th class="qr-table__head-cell">Function</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="qr-table__row">
+                        <td class="qr-table__body-cell">F2</td>
+                        <td class="qr-table__body-cell">Badge Notes</td>
+                        <td class="qr-table__body-cell">Places cursor at the end of the text in the badge notes</td>
+                    </tr>
+                    <tr class="qr-table__row">
+                        <td class="qr-table__body-cell">F4</td>
+                        <td class="qr-table__body-cell">Search</td>
+                        <td class="qr-table__body-cell">Places cursor in the search box</td>
+                    </tr>
+                    <tr class="qr-table__row">
+                        <td class="qr-table__body-cell">F5</td>
+                        <td class="qr-table__body-cell">Refresh</td>
+                        <td class="qr-table__body-cell">Refreshes the current page</td>
+                    </tr>
+                    <tr class="qr-table__row">
+                        <td class="qr-table__body-cell">F12</td>
+                        <td class="qr-table__body-cell">Save and Pay</td>
+                        <td class="qr-table__body-cell">Saves the progress and moves to the payment screen.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+</div>

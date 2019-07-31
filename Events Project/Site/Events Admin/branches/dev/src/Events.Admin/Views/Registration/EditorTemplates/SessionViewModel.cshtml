@@ -1,0 +1,78 @@
+﻿@using Aafp.Events.Admin.Helpers
+@model Aafp.Events.Admin.ViewModels.Registration.SessionViewModel
+
+
+@Html.HiddenFor(model => model.Key)
+@Html.HiddenFor(model => model.Title)
+@Html.HiddenFor(model => model.SessionTypeCode)
+@if (Model.SessionTypeCode == "Guest Badge")
+{
+    <table id="guestsTable" class="qr-table qr-guest-badges__table">
+        <tbody id="guestBadgeTableBody">
+        @Html.EditorFor(model => model.GuestBadges)
+        </tbody>
+    </table>
+    <a href="#" id="addGuest" class="qr-guest-badges__add"><i class="fa fa-plus-circle"></i> Add Guest</a>
+}
+else
+{
+    <tr id="@($"{Model.Key}_sessionTableRow")" class="qr-table__row">
+        <td class="qr-table__body-cell qr-table__num">@Model.Code</td>
+        <td class="qr-table__body-cell qr-table__title">
+            @Model.Title
+            @if (!string.IsNullOrWhiteSpace(Model.LearningObjectives))
+            {
+                <a href="#" class="qr-table__desc-btn">
+                    <img class="qr-table__help" src="@SyndicationHelper.GetImageSyndicationLink("icons/questionmark.png")" title="Click to show learning objectives" />
+                </a>
+                <div class="qr-table__desc" style="display:none;">
+                    @Html.Raw(Model.LearningObjectives)
+                </div>
+            }
+            @foreach (var conflict in Model.Conflicts)
+            {
+                <div id="@($"{Model.Key}_{conflict.ConflictSessionKey}_conflictDiv")" class="error" hidden>
+                    @($"Error: Conflict with No. {conflict.ConflictSessionCode}")
+                </div>
+            }
+        </td>
+        <td class="qr-table__body-cell qr-table__date-time">
+            @Html.Raw(Model.DateDisplay)
+        </td>
+        <td class="qr-table__body-cell @(Model.Fee.Price > 0 ? "qr-table__fee" : "qr-table--no-fee")">
+            @Model.Fee.PriceDisplay
+        </td>
+        <td id="@($"{Model.Key}_SessionCapacityTabelCell")" class="qr-table__body-cell qr-table__capacity">
+            @Html.Partial("_SessionCapacity", Model.SessionCapacity)
+        </td>
+
+        <td class="qr-table__body-cell qr-table__enroll qr-input">
+            <label>
+                @if (Model.Ticketed)
+                {
+                    @Html.DropDownListFor(model => model.SelectedQuantity, new SelectList(Model.TicketQuantities, "Value", "Text", "0"), "0", new {id = $"{Model.Key}_sessionQuantityDropDown", data_price = Model.Fee.Price, data_original_quantity = Model.SelectedQuantity })
+                }
+                else
+                {
+                    if (Model.SessionCapacity.ShowCapacityWarning)
+                    {
+                        @Html.CheckBoxFor(model => Model.Selected, new {@class = "qr-input__checkbox", id = $"{Model.Key}_sessionCheckBox", data_conflicts = Model.SessionConflictKeys, data_key = Model.Key, data_price_key = Model.Fee.PriceKey, data_price = Model.Fee.Price, data_original_quantity = Model.SelectedQuantity, disabled = "disabled"})
+                        <i class="fa fa-square-o fa-2x"></i><i class="fa fa-check-square-o fa-2x"></i>
+                    }
+                    else if (!Model.SessionCapacity.AllowAdd)
+                    {
+                        @Html.CheckBoxFor(model => Model.Selected, new {@class = "qr-input__checkbox", id = $"{Model.Key}_sessionCheckBox", data_conflicts = Model.SessionConflictKeys, data_key = Model.Key, data_price_key = Model.Fee.PriceKey, data_price = Model.Fee.Price, data_original_quantity = Model.SelectedQuantity, disabled = "disabled"})
+                        <i class="fa fa-square-o fa-2x"></i><i class="fa fa-check-square-o fa-2x"></i>
+                    }
+                    else
+                    {
+                        @Html.CheckBoxFor(model => Model.Selected, new {@class = "qr-input__checkbox", id = $"{Model.Key}_sessionCheckBox", data_conflicts = Model.SessionConflictKeys, data_key = Model.Key, data_price_key = Model.Fee.PriceKey, data_price = Model.Fee.Price, data_original_quantity = Model.SelectedQuantity })
+                        <i class="fa fa-square-o fa-2x"></i><i class="fa fa-check-square-o fa-2x"></i>
+                    }
+                }
+
+            </label>
+        </td>
+    </tr>
+}
+

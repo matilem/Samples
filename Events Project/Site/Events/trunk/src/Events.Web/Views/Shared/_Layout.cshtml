@@ -1,0 +1,88 @@
+﻿@using Aafp.Events.Web.ApplicationConfig
+@using Aafp.Events.Web.Helpers
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<!--[if lt IE 7]><html class="no-js lt-ie11 lt-ie10 lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]><html class="no-js lt-ie11 lt-ie10 lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]><html class="no-js lt-ie11 lt-ie10 lt-ie9" lang="en"> <![endif]-->
+<!--[if IE 9]><html class="no-js lt-ie11 lt-ie10" lang="en"> <![endif]-->
+<!--[if IE 10]><html class="no-js lt-ie11" lang="en"> <!--<![endif]-->
+<!--[if gt IE 10]><html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+    <meta content="text/html; charset=UTF-8" name="content-type" />
+    <meta content="width=device-width, initial-scale=1.0, minimum-scale=1.0" name="viewport" id="view" />
+    <meta content="IE=edge" http-equiv="X-UA-Compatible" />
+    <meta charset="utf-8" />
+    <meta name="category" content="Events" />
+    <meta name="access-restricted" content="True" />
+    <meta name="robots" content="noindex, noarchive, nofollow" />
+    <link type="text/css" href="@SyndicationHelper.GetCssSyndicationLink("event-registration/style.css")" rel="stylesheet" />
+    <link href="//img.aafp.net/icons/favicons/favicon.ico" type="image/x-icon" rel="shortcut icon" />
+    <link href="//img.aafp.net/icons/favicons/apple-touch-icon-114by114.png" sizes="114×114" rel="apple-touch-icon" />
+    <link href="//img.aafp.net/icons/favicons/apple-touch-icon-72by72.png" sizes="72×72" rel="apple-touch-icon" />
+    <link href="//img.aafp.net/icons/favicons/touch-icon-iphone.png" rel="apple-touch-icon" />
+    <title>@ViewBag.Title | Event Registration</title>
+    <script type="text/javascript" src="@SyndicationHelper.GetJsSyndicationLink("JavaScriptFinal.js")"></script>
+    <script type="text/javascript" src="@SyndicationHelper.GetJsSyndicationLink("global/libs/jquery-toast-plugin/src/jquery.toast.js")"></script>
+    <script language="JavaScript" type="text/javascript" src="@ApplicationConfigManager.Settings.OmnitureUrl"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/site-catalyst.js")"></script>
+</head>
+<body id="@Html.Raw(ViewBag.PageID)" class="site-aafp section-event-registration is-signed-in template-standard layout-full @Html.Raw(ViewBag.BodyClass)">
+    @Html.Raw(ViewBag.Header)
+    <div id="main" class="main-content" role="main">
+        <div class="block-drop-shadow twelve-column extra-width float-left no-gutter">
+            @RenderBody()
+        </div>
+    </div>
+    @Html.Raw(ViewBag.Footer)
+    <div id="spinner" class="spinner spinner__overlay" style="display: none;">
+        <div class="spinner__wrapper">
+            <h1 class="spinner__title">Loading</h1>
+            <span class="spinner__loader"> </span>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            BindSpinner();
+        });
+
+        var spinnerTimeout;
+
+        function showSpinner() { $("#spinner").show() };
+
+        function BindSpinner() {
+            $("#spinner").bind("ajaxSend", function () {
+                spinnerTimeout = window.setTimeout(showSpinner, 500);
+            }).bind("ajaxStop", function () {
+                window.clearTimeout(spinnerTimeout);
+                $(this).hide();
+            }).bind("ajaxError", function () {
+                window.clearTimeout(spinnerTimeout);
+                $(this).hide();
+            });
+        };
+    </script>
+    <script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script>
+
+    @if (ApplicationConfigManager.Settings.BaseUrl == "http://dev.ams.aafp.org/")
+    {
+    <script type="text/javascript">
+        function getQueryVariable(variable) {
+            var query = window.location.search.substring(1);
+            var vars = query.split("&");
+            for (var i = 0; i < vars.length; i++) {
+                var pair = vars[i].split("=");
+                if (pair[0] == variable) { return pair[1]; }
+            }
+            return (false);
+        }
+
+        if (getQueryVariable("test") == "loading") {
+            showSpinner();
+            console.log("test: showing spinner");
+        }
+    </script>
+    }
+</body>
+
+</html>

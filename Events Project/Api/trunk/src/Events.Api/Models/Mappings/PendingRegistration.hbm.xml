@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+  <class name="Aafp.Events.Api.Models.PendingRegistration, Aafp.Events.Api" table="client_aafp_e40_pending_registration" where="e40_delete_flag = 0 and e40_processed_flag = 0" >
+    <id name="Key" column="e40_key" type="Guid">
+      <generator class="guid" />
+    </id>
+
+    <!-- NetForum Fields -->
+    <property name="AddUser" type="String" column="e40_add_user" />
+    <property name="AddDate" type="DateTime" column="e40_add_date" />
+    <property name="ChangeUser" type="String" column="e40_change_user" />
+    <property name="ChangeDate" type="DateTime" column="e40_change_date" />
+    <property name="DeleteFlag" type="Boolean" column="e40_delete_flag" />
+
+    <!-- Domain Fields -->
+    <property name="ParentRegistrationKey" type="Guid" column="e40_parent_registration_key" />
+    <property name="EmergencyContactName" type="string" column="e40_emergency_contact_name" />
+    <property name="EmergencyContactPhone" type="string" column="e40_emergency_contact_phone" />
+    <property name="RegistrationDate" type="DateTime" column="e40_registration_date" />
+    <property name="PriceKey" type="Guid" column="e40_prc_key" />
+    <property name="CustomerAddressKey" type="Guid" column="e40_customer_address_key" />
+    <property name="CustomerPhoneKey" type="Guid" column="e40_customer_phone_key" />
+    <property name="CustomerKey" type="Guid" column="e40_cst_key" />
+    <property name="EventKey" type="Guid" column="e40_evt_key" />
+    <property name="RegistrantKey" type="Guid" column="e40_reg_key" />
+    <property name="IsProcessed" type="Boolean" column="e40_processed_flag" />
+
+    <bag name="Badges" lazy="false" fetch="join" cascade="all-delete-orphan" >
+      <key column="e41_e40_key" />
+      <one-to-many class="Aafp.Events.Api.Models.PendingRegistrationBadge, Aafp.Events.Api" />
+    </bag>
+
+    <bag name="Sessions" lazy="false" fetch="select" cascade="all-delete-orphan" >
+      <key column="e42_e40_key" />
+      <one-to-many class="Aafp.Events.Api.Models.PendingRegistrationSession, Aafp.Events.Api" />
+    </bag>
+  </class>
+</hibernate-mapping>

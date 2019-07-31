@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" auto-import="true">
+  <class name="Aafp.Events.Api.Models.EventScheduleItem, Aafp.Events.Api" mutable="false">
+    <id name="Key" column="ses_key" type="Guid">
+    </id>
+    <property name="Code" type="string" column="ses_code"/>
+    <property name="Title" type="string" column="ses_title"/>
+    <property name="Description" type="string" column="description"/>
+    <property name="TotalCme" type="decimal" column="cme_hours" />
+    <property name="Fee" type="decimal" column="fee" />
+    <property name="StartDate" type="DateTime" column="ses_start_date" />
+    <property name="StartTime" type="string" column="ses_start_time" />
+    <property name="EndTime" type="string" column="ses_end_time" />
+    <property name="Room" type="string" column="room" />
+    <property name="TrackCode" type="string" column="set_code" />
+    <property name="Faculty" type="string" column="faculty" />
+    <property name="Topics" type="string" column="topics" />
+    <property name="Speakers" type="string" column="speakers" />
+    <property name="Track" type="string" column="track" />
+  </class>
+  <sql-query name ="GetEventScheduleItems">
+    <return class="Aafp.Events.Api.Models.EventScheduleItem, Aafp.Events.Api">
+    </return>
+    EXEC client_aafp_e_get_event_schedule_data :EventCode
+  </sql-query>
+</hibernate-mapping>

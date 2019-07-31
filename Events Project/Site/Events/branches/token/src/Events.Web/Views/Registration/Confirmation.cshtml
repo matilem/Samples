@@ -1,0 +1,302 @@
+﻿@using System.Web.Optimization
+@using Aafp.Events.Web.ApplicationConfig
+@model Aafp.Events.Web.ViewModels.RegistrationConfirmationViewModel
+
+@{
+    ViewBag.Title = "Confirmation";
+    ViewBag.BodyClass = $"event-{Model.Event.Code}";
+    ViewBag.PageID = "page-event-confirmation";
+    ViewBag.Header = @Html.Partial("_HeaderAdvanced");
+    ViewBag.Footer = @Html.Partial("_FooterAdvanced");
+}
+
+@Html.HiddenFor(model => model.RegistrationKey)
+<section class="extra-width no-gutter white-background twelve-column">
+    <hgroup class="horizontal-gradient">
+        <h1 class="horizontal-gradient">@Model.Event.Title - @Model.Event.Code</h1>
+        <h3 class="title-deck">Registration Complete</h3>
+    </hgroup>
+    <div class="gridcolparsys">
+        <div class="@(!string.IsNullOrWhiteSpace(Model.Event.HousingDiscountCode) || !string.IsNullOrWhiteSpace(Model.Event.HousingUrl) ? "sample-confirmation six-column" : "full")  block alpha">
+            <h2 class="underlined">Good News!</h2>
+            <p class="sample-confirmation__text">Your registration is complete! An email confirmation has already been sent to:</p>
+            <h4 class="sample-confirmation__name">@Model.Customer.FullName</h4>
+            <p class="sample-confirmation__email">@Model.Customer.Email</p>
+            <p class="sample-confirmation__number">Confirmation numbers: #@Model.InvoiceCode</p>
+            @if (!string.IsNullOrWhiteSpace(Model.Customer.Email))
+            {
+            <div class="sample-confirmation__resend-button">
+                <button class="button button-tertiary" href="#" id="emailConfirmation" data-wa-click="resend email confirmation">Resend Email Confirmation</button>
+                <button class="button -state-disabled" href="#" id="sendingEmailButton" style="display: none"><i class="fa fa-spin fa-spinner"></i> Sending</button>
+            </div>
+            }
+            <div class="sample-confirmation__view-print-button">
+                <button class="button button-tertiary" id="receiptButton" data-url="@Model.InvoiceUrl" data-wa-click="view print receipt">View/Print Reciept</button>
+            </div>
+            <div id="emailWarning" class="alert-box" style="display: none;">
+                <div class="alert-box__icon"><span id="emailWarningIcon" class="fa fa-exclamation-circle fa-2x -white"></span></div>
+                <div class="alert-box__close">
+                    <script>$(".alert-box__close").click(function () { $(".alert-box").hide(); });</script>
+                </div>
+                <div class="alert-box__content">
+                    <p id="emailWarningContent"><!-- content of message --></p>
+                </div>
+            </div>
+        </div>
+        <!-- Housing -->
+        @if (!string.IsNullOrWhiteSpace(Model.Event.HousingDiscountCode) || !string.IsNullOrWhiteSpace(Model.Event.HousingUrl))
+        {
+        <div class="book-hotel block six-column omega">
+            <div class="book-hotel__calloutbox calloutbox">
+                <div class="book-hotel__calloutbox-center calloutbox-center highlights">
+                    <div class="book-hotel__container container tertiary">
+                        <!-- see color variable -->
+                        <img class="book-hotel__calloutbox-image" src="@Url.Content("~/Content/Images/hotel.png")" alt="">
+                        <h4 class="book-hotel__cob-title cob-title">Book Your Hotel</h4>
+                        <div class="book-hotel__content content">
+                            <div class="par parsys">
+                                <div class="text parbase section">
+                                    <p class="book-hotel__content">@Model.Event.HousingDescription</p>
+                                    @if (!string.IsNullOrWhiteSpace(Model.Event.HousingDiscountCode))
+                                        {
+                                        <p class="book-hotel__discount">Discount Code: @Model.Event.HousingDiscountCode</p>
+                                        }
+                                    @if (!string.IsNullOrWhiteSpace(Model.Event.HousingUrl))
+                                        {
+                                        <div class="book-hotel__book-button">
+                                            <button id="housingButton" data-url="@Model.Event.HousingUrl" class="button button-tertiary" data-wa-click="book hotel now">Book Hotel Now</button>
+                                        </div>
+                                        }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        }
+        <!-- Marketing Text -->
+        @if (!string.IsNullOrWhiteSpace(@Model.Event.MarketingMessage))
+        {
+        <div class="marketing-text block six-column alpha">
+            <h2 class="underlined">Before You Go!</h2>
+            <div class="marketing-text__block">
+                <div class="marketing-text__text shim -mobile-padding">@Html.Raw(Model.Event.MarketingMessage)</div>
+            </div>
+        </div>
+        }
+        <!-- Attendee Comments -->
+        <div class="@(!string.IsNullOrWhiteSpace(@Model.Event.MarketingMessage) ? "six-column" : "full") attendee-comments block omega">
+            <h2 class="underlined">Your Feedback Is Helpful</h2>
+            @if (string.IsNullOrWhiteSpace(Model.Comment))
+            {
+            <p>Do you have any comments or questions about our registration process?</p>
+            <label>Comments / Questions</label>
+            @Html.TextAreaFor(model => model.Comment, new { @class = "attendee-comments__text-area full" })
+            <div class="attendee-comments__button">
+                <button id="saveCommentsButton" class="button button-tertiary" data-wa-click="send comments">Send Comments</button>
+                <button class="button -state-disabled" href="#" id="savingCommentsButton" style="display: none"><i class="fa fa-spin fa-spinner"></i> Sending</button>
+                <p id="commentsWarning" class="attendee-comments__text-bold" style="display: none;"></p>
+            </div>
+            }
+            else
+            {
+            <p>Thank you for your feedback.</p>
+            <label>Comments / Questions</label>
+            <textarea class="attendee-comments__text-area full" disabled="disabled">@Html.DisplayFor(model => model.Comment)</textarea>
+            <p class="clear-left">
+                To provide additional comments or questions please contact us at <a href="mailto:aafp@aafp.org">aafp@aafp.org</a> or <a href="tel:800-274-2237">800-274-2237</a>.
+            </p>
+            }
+        </div>
+        <!-- My Information -->
+        <div class="my-information-block block full">
+            <h2 class="underlined">My Information</h2>
+            <div class="confirmation-badge block six-column alpha">
+                <div class="confirmation-badge__view">
+                    <h3 class="confirmation-badge__nickname">@Model.Badge.NickName</h3>
+                    <h4 class="confirmation-badgee__name">@Model.Customer.FullName</h4>
+                    <p class="confirmation-badge__address">@($"{Model.Badge.City}, {Model.Badge.State}")</p>
+                    @if (Model.Event.DisplayBadgeCompany)
+                    {
+                    <p class="confirmation-badge__company">@Model.Badge.Company</p>
+                    }
+                    @if (Model.Event.DisplayBadgePosition)
+                    {
+                    <p class="confirmation-badge__position">@Model.Badge.Position</p>
+                    }
+                </div>
+            </div>
+            <div class="confirmation-info block six-column omega">
+                <h3 class="confirmation-info__title">Attendee</h3>
+                <h4 class="confirmation-info__name">@Model.Customer.FullName</h4>
+                <p class="confirmation-info__email">@Model.Customer.Email</p>
+                <p class="confirmation-info__phone">@Model.SelectedPhoneDisplay</p>
+                <p class="confirmation-info__address">@Html.Raw(@Model.SelectedAddressDisplay)</p>
+                @if (!string.IsNullOrEmpty(Model.EmergencyContactPhone))
+                {
+                <h3 class="confirmation-info__title">Emergency Contact</h3>
+                    if (string.IsNullOrEmpty(Model.EmergencyContactName))
+                    {
+                <p class="confirmation-info__name">(No Contact Name Provided)</p>
+                    }
+                    else
+                    {
+                <h4 class="confirmation-info__name">@Model.EmergencyContactName</h4>
+                    }
+                <p class="confirmation-info__phone">@Model.EmergencyContactPhone</p>
+                }
+            </div>
+        </div>
+        <!-- Payment Summary -->
+        <div class="payment block full">
+            <h2 class="payment__title underlined">Summary</h2>
+            <table class="table payment__table tables parbase">
+                <thead>
+                    <tr class="payment__table-head">
+                        <th class="payment__table-head-cell">-</th>
+                        <th class="payment__table-head-cell">TITLE</th>
+                        <th class="payment__table-head-cell">Time</th>
+                        <th class="payment__table-head-cell">QTY</th>
+                        <th class="payment__table-head-cell">COST</th>
+                        <th class="payment__table-head-cell">TOTAL</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="payment__table-row-event payment__table-mobile-card">
+                        <td class="payment__table-body-cell payment__table-num"></td>
+                        <td class="payment__table-body-cell payment__table-title">@Model.Fee.ProductName</td>
+                        <td class="payment__table-body-cell payment__table-time">@Html.Raw(Model.Event.DateDisplay)</td>
+                        <td class="payment__table-body-cell payment__table-qty"><span class="table-head-mobile th-4">QTY: </span>1</td>
+                        <td class="payment__table-body-cell payment__table-cost">@Model.Fee.Price.ToString("C")</td>
+                        <td class="payment__table-body-cell payment__table-total">@Model.Fee.Price.ToString("C")</td>
+                    </tr>
+                    @foreach (var session in Model.Sessions.OrderByDescending(x => x.Code).Reverse())
+                    {
+                    <tr class="payment__table-row-event payment__table-mobile-card">
+                        <td class="payment__table-body-cell payment__table-num">@session.Code</td>
+                        <td class="payment__table-body-cell payment__table-title">@session.Title</td>
+                        <td class="payment__table-body-cell payment__table-time">@Html.Raw(session.DateTimeDisplay)</td>
+                        <td class="payment__table-body-cell payment__table-qty"><span class="table-head-mobile th-4">QTY: </span>@session.SelectedQuantity</td>
+                        <td class="payment__table-body-cell payment__table-cost">@session.Fee.PriceDisplay</td>
+                        <td class="payment__table-body-cell payment__table-total">@((session.SelectedQuantity * session.Fee.Price).ToString("C"))</td>
+                    </tr>
+                    }
+                </tbody>
+                <tfoot class="payment__table-footer">
+                    @if (Model.DiscountAmount > 0)
+                    {
+                    <tr class="payment__table-footer-row-summary-first">
+                        <td colspan="2" class="payment__table-empty payment__table-foot-cell"></td>
+                        <td colspan="2" class="payment__table-empty payment__table-foot-cell"></td>
+                        <td class="payment__table-foot-cell -footer-label">
+                            Subtotal
+                        </td>
+                        <td id="subtotalTableCell" class="payment__table-foot-cell -numbers  -font-l">
+                            @Model.SubTotal.ToString("C")
+                        </td>
+                    </tr>
+                    <tr class="payment__table-footer-row">
+                        <td colspan="2" class="payment__table-empty payment__table-foot-cell"></td>
+                        <td colspan="2" class="payment__table-empty payment__table-foot-cell"></td>
+                        <td class="payment__table-foot-cell -footer-label">
+                            Discount
+                        </td>
+                        <td class="payment__table-discount payment__table-foot-cell -numbers  -font-l -color-red">
+                            <span id="discountAmount">@Model.DiscountAmount.ToString("C")</span>
+                        </td>
+                    </tr>
+                    }
+                    <tr class="payment__table-footer-row">
+                        <td colspan="2" class="payment__table-empty payment__table-foot-cell"></td>
+                        <td colspan="2" class="payment__table-empty payment__table-foot-cell"></td>
+                        <td class="payment__table-foot-cell -footer-label -font-xl">
+                            Total
+                        </td>
+                        <td id="totalTableCell" class="payment__table-foot-cell -numbers  -font-xl js-paymentTotal">
+                            @Model.Total.ToString("C")
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+        @if (Model.RelatedRegistrations.Count > 0)
+        {
+            <!-- Related Registrations -->
+        <div class="payment block full">
+            <h2 class="payment__title underlined">Related Registration@(Model.RelatedRegistrations.Count > 1 ? "s" : "")</h2>
+            <p>
+                You also registred for the following related events
+            </p>
+            <table class="table payment__table tables parbase">
+                <thead>
+                    <tr class="payment__table-head">
+                        <th class="payment__table-head-cell">TITLE</th>
+                        <th class="payment__table-head-cell">EVENT DATES</th>
+                        <th class="payment__table-head-cell">DETAILS</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var relatedRegistration in Model.RelatedRegistrations)
+                        {
+                        <tr class="payment__table-row-event payment__table-mobile-card">
+                            <td class="payment__table-body-cell payment__table-title"><a href="@($"{ApplicationConfigManager.Settings.ApplicationUrl}registration/confirmation/{relatedRegistration.Key}")">@relatedRegistration.Event.Title</a></td>
+                            <td class="payment__table-body-cell payment__table-qty">@relatedRegistration.Event.DateDisplay</td>
+                            <td class="payment__table-body-cell payment__table-add shim margin-bottom-half margin-top-half"><a class="button button-tertiary " href="@($"{ApplicationConfigManager.Settings.ApplicationUrl}registration/confirmation/{relatedRegistration.Key}")">Details</a></td>
+                        </tr>
+                        }
+                </tbody>
+            </table>
+        </div>
+        }
+        <div class="clearfix"></div>
+        <p class="shim margin-bottom-half margin-top-half">
+            To make any <a href="http://www.aafp.org/cmecancellations/" target="_blank" title="Cancellation Policy">cancellations</a> please call us at 800-274-2237.
+        </p>
+    </div>
+
+</section>
+
+@Scripts.Render("~/bundles/confirmation-js")
+
+<script type="text/javascript">
+    /* <![CDATA[ */
+    var google_conversion_id = 984326491;
+    var google_conversion_language = "en";
+    var google_conversion_format = "2";
+    var google_conversion_color = "ffffff";
+    var google_conversion_label = "XmBACPWYkwcQ28Ku1QM";
+    var google_conversion_value = @Model.Total.ToString("N");
+    /* ]]> */
+</script>
+<script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js">
+</script>
+
+<noscript>
+    <div style="display: inline">
+        <img height="1" width="1" style="border-style:none;" alt="" src="https://www.googleadservices.com/pagead/conversion/984326491/?label=XmBACPWYkwcQ28Ku1QM&amp;guid=ON&amp;script=0" />
+    </div>
+</noscript>
+
+@*Site Catalyst Code Only*@
+<script language="JavaScript" type="text/javascript" src="@ApplicationConfigManager.Settings.OmnitureUrl"></script>
+<script type="text/javascript">
+    var pageTitle = $(".title-deck").text();
+    var eventTitle = "@Model.Event.Title";
+
+    s.pageName = "events:registration:" + eventTitle.substring(0, 40) + ":" + pageTitle.toLowerCase();
+    s.referrer = document.referrer;
+
+    s.prop1 = pageTitle;
+    s.prop3 = "main";
+    s.prop17 = "member";
+    s.prop18 = "web";
+    s.prop40 = "meetings";
+    s.prop41 = "sell meetings";
+    s.prop42 = "nf";
+
+    s.eVar1 = eventTitle;
+
+    /************* DO NOT ALTER ANYTHING BELOW THIS LINE ! **************/
+    var s_code = s.t(); if (s_code) document.write(s_code);  //
+</script>

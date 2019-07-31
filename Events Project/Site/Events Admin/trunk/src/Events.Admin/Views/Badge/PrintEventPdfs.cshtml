@@ -1,0 +1,56 @@
+﻿@model Aafp.Events.Admin.ViewModels.Registration.PrintEventBadgeViewModel
+
+@{
+    ViewBag.Title = "Batch Badge Print | Quick Reg Wizard";
+}
+
+<header class="qr-header">
+    <div class="layout">
+        <h2 class="qr-header__title">
+            <a>Batch Badge Print</a>
+        </h2>
+    </div>
+</header>
+
+@if (Model.HasError)
+{
+    @Html.Partial("_Error", Model.ErrorMessage)
+}
+else
+{
+    <header class="qr-record-header">
+        <div class="layout">
+            <div class="qr-etitle">
+                <h1 class="qr-etitle__code">@Model.EventTitle</h1>
+                <span class="qr-etitle__location">@Model.EventLocation</span>
+            </div>
+        </div>
+    </header>
+
+    <div class="layout">
+        <div class="qr-batch-badge-print">
+            <h1 class="qr-batch-badge-print__title">Print Badges by Date Range</h1>
+            @using (Html.BeginForm("GetEventPdfs", "Badge", FormMethod.Post))
+            {
+                @Html.HiddenFor(model => model.EventKey)
+                <div class="qr-input">
+                    <label class="qr-input__label">Start Date</label>
+                    @Html.TextBoxFor(model => model.StartDate, new {@class = "qr-input__input qr-input__start-date", placeholder = "MM/DD/YYYY"})
+                </div>
+                <div class="qr-input">
+                    <label class="qr-input__label">End Date</label>
+                    @Html.TextBoxFor(model => model.EndDate, new {@class = "qr-input__input", placeholder = "MM/DD/YYYY"})
+                </div>
+                <input type="submit" class="qr-batch-badge-print__btn btn" value="Print Badges"/>
+            }
+        </div>
+    </div>
+
+    <script type="text/javascript">
+    $(document).ready(function () {
+        cursorInput($('.qr-input__start-date'));
+    });
+    </script>
+}
+
+

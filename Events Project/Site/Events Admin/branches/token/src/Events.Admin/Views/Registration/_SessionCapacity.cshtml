@@ -1,0 +1,12 @@
+﻿@model Aafp.Events.Admin.ViewModels.Registration.SessionCapacityViewModel
+
+@if (Model.ShowCapacityWarning && !Model.SessionTicketed)
+{
+    <a id="@($"{Model.SessionKey}_atCapacityLink")" class="qr-table--state-full" href="#" data-title="@Model.SessionTitle" data-code="@Model.SessionCode" data-key="@Model.SessionKey">
+        @Model.SessionRegistrantCount&nbsp;/&nbsp;@Model.SessionCapacity
+    </a>
+}
+else
+{
+    @Model.SessionRegistrantCount<text>&nbsp;/ &nbsp;</text>@Model.SessionCapacity
+}

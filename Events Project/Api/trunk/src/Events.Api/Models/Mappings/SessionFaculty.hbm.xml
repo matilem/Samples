@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+  <class name="Aafp.Events.Api.Models.SessionFaculty, Aafp.Events.Api" table="ev_event_faculty" mutable="false">
+    <id name="Key" column="fac_key" type="Guid">
+      <generator class="guid" />
+    </id>
+    
+    <property name="CustomerKey" type="Guid" column="fac_cst_key" />
+    
+    <!--<many-to-one name="Customer" column="fac_cst_key" class="Aafp.Common.Model.Customer, Aafp.Common.Core" />-->
+    
+  </class>
+</hibernate-mapping>

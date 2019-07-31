@@ -1,0 +1,26 @@
+﻿@model Aafp.Events.Admin.ViewModels.Registration.RegistrantEmailViewModel
+
+@if (Model.HasError)
+{
+    @Html.Partial("_Error", Model.ErrorMessage)
+}
+else
+{
+    @Html.HiddenFor(model => model.RegistrantKey)
+    <div id="emailDialog" class="qr-send-email">
+        <ul class="qr-send-email__details fa-ul">
+            <li><i class="fa-li fa fa-male"></i> <span id="sendEmailName" class="qr-send-email__name">@Model.FullName</span></li>
+            <li><i class="fa-li fa fa-calendar"></i> <span id="sendEmailTitle" class="qr-send-email__title">@Model.EventTitle</span></li>
+        </ul>
+        <div class="qr-input">
+            <label class="qr-input__label">Email Address</label>
+            <input class="qr-input__input" type="text" id="emailAddress" value="@Model.EmailAddress" />
+        </div>
+        <input type="hidden" id="emailRegistrantKey" />
+        <a class="qr-send-email__btn" href="#" id="sendEmailButton"><i class="fa fa-envelope"></i> Send Email</a>
+        <a class="qr-send-email__btn" href="#" id="sendingEmailButton" style="display: none"><i class="fa fa-spin fa-spinner"></i> Sending</a>
+        <div id="emailWarning" class="qr-send-email__response" style="display: none;"></div>
+    </div>
+}
+
+<script type="text/javascript" src="@Url.Content("~/Scripts/email.js")"></script>

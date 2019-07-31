@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+  <class name="Aafp.Events.Api.Models.SessionCoRequisite, Aafp.Events.Api" table="client_aafp_e09_session_co_requisite" mutable="false">
+    <id name="Key" column="e09_key" type="Guid">
+      <generator class="guid" />
+    </id>
+
+    <!-- NetForum Fields -->
+    <property name="SessionKey" type="Guid" column="e09_e08_key" />
+
+    <many-to-one name="Sessions" column="e09_ses_key" class="Aafp.Events.Api.Models.Session, Aafp.Events.Api" />
+    
+  </class>
+</hibernate-mapping>

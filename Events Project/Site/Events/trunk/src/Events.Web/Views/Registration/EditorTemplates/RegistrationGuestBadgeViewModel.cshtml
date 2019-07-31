@@ -1,0 +1,22 @@
+﻿@model Aafp.Events.Web.ViewModels.RegistrationGuestBadgeViewModel
+
+@Html.HiddenFor(model => model.Key)
+
+<div class="guest-badge">
+    <div class="guest-badge__name">
+        <div class="input">
+            <label class="input__label">Guest's Full Name</label>
+            @Html.TextBoxFor(model => model.Name)
+        </div>
+    </div>
+    <div class="guest-badge__city">
+        <div class="input">
+            <label class="input__label">City, State</label>
+            @Html.TextBoxFor(model => model.Location)
+        </div>
+    </div>
+    <div class="guest-badge__remove-cell">
+        <a class="guest-badge__remove button" id="deleteGuestButton" href="#"><i class="fa fa-minus-circle"></i> Remove Guest</a>
+    </div>
+    <div class="clearfix"></div>
+</div>

@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" auto-import="false">
+  <class name="Aafp.Events.Api.Models.Session, Aafp.Events.Api" table="vw_client_aafp_event_sessions" mutable="false">
+    <id name="Key" column="ses_key" type="Guid">
+      <generator class="guid" />
+    </id>
+
+    <!-- Domain Fields -->
+    <property name="Code" type="string" column="ses_code" />
+    <property name="Title" type="string" column="ses_title" />
+    <property name="Date" type="datetime" column="ses_start_date" />
+    <property name="StartTime" type="string" column="ses_start_time" />
+    <property name="EndTime" type="string" column="ses_end_time" />
+    <property name="LearningObjectives" type="string" column="ses_description_html" />
+    <property name="Capacity" type="Int32" column="ses_capacity" />
+    <property name="Ticketed" type="Boolean" column="ses_ticketed" />
+    <property name="MaxTicketQuantity" type="int" column="ses_max_ticket_quantity_ext"/>
+    <property name="PrintTicket" type="Boolean" column="ses_print_ticket_flag_ext" />
+    <property name="HeadingKey" type="Guid" column="ses_e28_key_ext" />
+    <property name="Sequence" type="int" column="ses_sequence_ext" />
+    <property name="SessionTypeCode" type="string" column="set_code" />
+    <property name="RegisteredTicketsTotal" type="int" column="total" />
+    <property name="RequiredSession" type="Guid" column="ses_req_session_key_ext" />
+    <property name="ElectiveCredits" type="decimal" column="m09_number_of_elective_credits" />
+    <property name="PrescribedCredits" type="decimal" column="m09_number_of_prescribed_credits" />
+
+    <many-to-one name="Event" column="ses_evt_key" class="Aafp.Events.Api.Models.Event, Aafp.Events.Api" />
+
+    <bag name="SessionFaculties" table="ev_event_faculty" cascade="none">
+      <key column="fac_ses_key"/>
+      <one-to-many class="Aafp.Events.Api.Models.SessionFaculty, Aafp.Events.Api"/>
+    </bag>
+
+    <bag name="Conflicts" table="client_aafp_e26_session_conflict" cascade="none" order-by="e26_ses_conflict_key">
+      <key column="e26_ses_key"/>
+      <one-to-many class="Aafp.Events.Api.Models.SessionConflict, Aafp.Events.Api"/>
+    </bag>
+
+    <bag name="Locations" table="ev_event_location_room" cascade="none" order-by="lrm_name">
+      <key column="lrm_ses_key"/>
+      <one-to-many class="Aafp.Events.Api.Models.SessionLocation, Aafp.Events.Api"/>
+    </bag>
+
+    <bag name="Registrants" table="ev_registrant_session" fetch="join">
+      <key column="rgs_ses_key"/>
+      <many-to-many column="rgs_reg_key" class="Aafp.Events.Api.Models.Registrant, Aafp.Events.Api"/>
+    </bag>
+  </class>
+
+  <sql-query name="GetSessionRoom">
+    <return-scalar column="loc_name" type="String" />
+    <return-scalar column="lrm_name" type="String" />
+    select lrm_name, loc_name from ev_event_session_room left join ev_event_location_room on esr_lrm_key=lrm_key left join ev_event_location on lrm_evl_key=evl_key left join ev_location on evl_loc_key=loc_key where esr_delete_flag=0 and esr_ses_key = :sesKey
+  </sql-query>
+</hibernate-mapping>

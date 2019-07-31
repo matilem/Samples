@@ -1,0 +1,87 @@
+﻿@using System.Web.Optimization
+@using Aafp.Events.Web.ApplicationConfig
+@model Aafp.Events.Web.ViewModels.ViewModelBase
+
+<footer class="running-total twelve-column float-left no-gutter extra-width">
+    <div class="six-column tablet-shorten alpha" style="padding: 0 20px 20px; box-sizing: border-box;">
+        <div class="prog" aria-hidden="true">
+
+            @if (Model.Navigation.CurrentProgress == 1)
+            {
+                <span title="Begin Registration" class="prog__step prog__step--current"><span class="prog__number">1</span></span>
+            }
+            else
+            {
+                <span title="Begin Registration" class="prog__step"><span class="prog__number">1</span></span>
+            }
+
+            @if (Model.Navigation.CurrentProgress == 2)
+            {
+                <span title="My Information" class="prog__step prog__step--current"><span class="prog__number">2</span></span>
+            }
+            else
+            {
+                <span title="My Information" class="prog__step"><span class="prog__number">2</span></span>
+            }
+
+            @for (var index = 0; index < Model.Navigation.NavigationSteps.Count; index++)
+            {
+                @Html.HiddenFor(model => model.Navigation.NavigationSteps[index].StepKey)
+                if (Model.Navigation.CurrentProgress == 3 + index)
+                {
+                    <span class="progress__step -current">
+                        <span title=@Model.Navigation.NavigationSteps[index].StepDescription class="prog__step prog__step--current"><span class="prog__number">@(3 + index)</span></span>
+                    </span>
+                }
+                else
+                {
+                    <span class="progress__step">
+                        <span title=@Model.Navigation.NavigationSteps[index].StepDescription class="prog__step"><span class="prog__number">@(3 + index)</span></span>
+                    </span>
+                }
+            }
+            <span title="Conflicts" class="prog__step"><span class="prog__number"></span></span>
+            <span class="progress__step">
+                <span class="progress__step -done">
+                    <span title="Payment" class="prog__step prog__step--last"><span class="prog__number">@(Model.Navigation.NavigationSteps.Count + 4)</span></span>
+                    @*<span class="step-name">Payment</span>*@
+                </span>
+            </span>
+        </div>
+        <div class="prog__bar" aria-hidden="true"></div>
+        <p class="prog__backup">Step @Model.Navigation.CurrentProgress/@Model.Navigation.StepCount</p>
+    </div>
+    <div class="six-column tablet-widen omega float-right">
+        <div class="running-total__container">
+            <div class="running-total__btn">
+                <input id="paymentButton" type="button" class="button button-large" value="Save &amp; Continue" />
+                <button class="button button-large white" href="#" id="processingButton" style="display: none"><i class="fa fa-spin fa-spinner"></i> Processing</button>
+            </div>
+            @if (Model.Navigation.CurrentProgress >= 2)
+            {
+                if (Model.Navigation.NavigationSteps[0].Event.TinyRegFlag)
+                {
+                    if (Model.Navigation.RegistrationStatus != "Edit")
+                    {
+
+                        <div class="running-total__btn">
+                            <input id="payNowButton" type="button" class="button button-large button-secondary" value="Pay Now" data-wa-click="tiny reg"/>
+                        </div>
+
+                    @*Site Catalyst Code Only*@
+                        <script type="text/javascript" src="@ApplicationConfigManager.Settings.OmnitureUrl"></script>
+                        <script type="text/javascript">
+                            var s_code = s.t();
+                            if (s_code) document.write(s_code); //
+                        </script>
+                    }
+                }
+            }
+            <div class="running-total__price">
+                Total: <span id="paymentTotal">@Model.CurrentTotal.ToString("C")</span>
+            </div>
+        </div>
+    </div>
+</footer>
+
+@Scripts.Render("~/bundles/payment-bar-js")

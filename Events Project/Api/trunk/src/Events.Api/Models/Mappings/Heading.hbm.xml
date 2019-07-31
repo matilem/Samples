@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+  <class name="Aafp.Events.Api.Models.Heading, Aafp.Events.Api" table="client_aafp_e28_registration_heading" where="e28_delete_flag = 0" mutable="false">
+    <id name="Key" column="e28_key" type="Guid">
+      <generator class="guid" />
+    </id>
+
+    <!-- NetForum Fields -->
+    <property name="AddUser" type="String" column="e28_add_user" />
+    <property name="AddDate" type="DateTime" column="e28_add_date" />
+    <property name="ChangeUser" type="String" column="e28_change_user" />
+    <property name="ChangeDate" type="DateTime" column="e28_change_date" />
+    <property name="DeleteFlag" type="Boolean" column="e28_delete_flag" />
+
+    <!-- Domain Fields -->
+    <property name="HeadingSequence" type="Int32" column="e28_sequence" />
+    <property name="HeadingHeading" type="String" column="e28_heading_html" />
+    <property name="HeadingDescription" type="String" column="e28_description" />
+    <property name="RequiredFlag" type="Boolean" column="e28_required_flag" />
+
+  </class>
+</hibernate-mapping>

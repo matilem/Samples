@@ -1,0 +1,107 @@
+<Project DefaultTargets="Help" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <Import Project="..\lib\MSBuildCommunityTasks\MSBuild.Community.Tasks.Targets"/>
+
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Release</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Projects Include="**\*.*proj" />
+  </ItemGroup>
+
+  <Target Name="Help">
+    <Message Text="AMS Build Help" />
+    <Message Text="-----------------------------------------------------------" />
+    <Message Text="Build             => Builds all projects.                  " />
+    <Message Text="CleanAllProjects  => Cleans all projects.                  " />
+    <Message Text="UnitTests         => Runs all unit tests.                  " />
+    <Message Text="AllTests          => Runs all tests.                       " />
+    <Message Text="Deploy            => Deploy (/t:Deploy /p:To=Testing)      " />
+    <Message Text="SwitchEnvironment => /t:SwitchEnvironment /p:To=Staging    " />
+    <Message Text="-----------------------------------------------------------" />
+  </Target>
+
+  <Target Name="CleanAllProjects">
+    <MSBuild Projects="@(Projects)" Targets="Clean"
+        StopOnFirstFailure="false" ContinueOnError="true">
+    </MSBuild>
+  </Target>
+
+  <Target Name="Build" DependsOnTargets="CleanAllProjects;SwitchEnvironment">
+    <MSBuild Projects="Events.Api.sln" Properties="Configuration=$(Configuration)">
+      <Output TaskParameter="TargetOutputs" ItemName="BuildTargetOutputs"/>
+    </MSBuild>
+  </Target>
+
+  <!-- Needed for SwitchEnvironment and Deploy Targets. -->
+  <Choose>
+    <When Condition="'$(To)' == 'Development'">
+      <PropertyGroup>
+        <NewDatabase>netForum</NewDatabase>
+        <NewIp>nf2011-db.webad.aafp.org</NewIp>
+        <NewEnvironment>value="Development"</NewEnvironment>
+        <NewLocation>\\nf2011.webad.aafp.org\sites\Development</NewLocation>
+      </PropertyGroup>
+    </When>
+
+    <When Condition="'$(To)' == 'Testing'">
+      <PropertyGroup>
+        <NewIp>testingdb.webad.aafp.org</NewIp>
+        <NewEnvironment>value="Testing"</NewEnvironment>
+        <NewLocation>\\nfdev-testing.webad.aafp.org\sites\Aafp</NewLocation>
+      </PropertyGroup>
+    </When>
+
+    <When Condition="'$(To)' == 'Production'">
+      <PropertyGroup>
+        <NewIp>db1.webad.aafp.org</NewIp>
+        <NewEnvironment>value="Production"</NewEnvironment>
+        <NewLocation>\\nfstaging64.webad.aafp.org\sites\Aafp</NewLocation>
+      </PropertyGroup>
+    </When>
+  </Choose>
+
+  <Target Name="SwitchEnvironment">
+    <PropertyGroup>
+      <CurrentIp>nf2011-db.webad.aafp.org|testingdb.webad.aafp.org|db1.webad.aafp.org</CurrentIp>
+      <CurrentEnvironment>value="Development"|value="Testing"|value="Production"</CurrentEnvironment>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ConfigFiles
+          Include="**\*.config;**\Dao.xml;**\*.cfg;**\Database.xml;**\hibernate.cfg.xml"
+          Exclude="**\*.dll.config*;**\*.exe.config*" />
+    </ItemGroup>
+
+    <FileUpdate Files="@(ConfigFiles)" Regex="$(CurrentIp)" ReplacementText="$(NewIp)" />
+    <FileUpdate Files="@(ConfigFiles)" Regex="$(CurrentEnvironment)" ReplacementText="$(NewEnvironment)" />
+  </Target>
+
+  <Target Name="Deploy" DependsOnTargets="SwitchEnvironment">
+	
+    <ItemGroup>
+      <EventsApiSourceFiles
+          Include="Events.Api\**"
+          Exclude="**\.svn\**\*.*;**\*.cs;**\*.csproj" />
+    </ItemGroup>
+
+    <Prompt Condition="$(Interactive) == 'true'" Text="
+Using the following Settings:
+------------------------------------------------
+Database:         $(NewDatabase)
+Ip:               $(NewIp)
+Aafp.Environment: $(NewEnvironment)
+Location:         $(NewLocation)
+Verisign Url:     $(NewVerisign)
+------------------------------------------------
+Press &lt;Enter&gt; to continue or &lt;Ctrl-C&gt; to exit.
+"
+/>
+    <!-- Events.Api -->
+    <Delete Files="$(NewLocation)\EventsApi" />
+    <Copy SourceFiles="@(EventsApiSourceFiles)"
+          DestinationFiles="@(EventsApiSourceFiles->'$(NewLocation)\Events Api\%(RecursiveDir)%(Filename)%(Extension)')" />
+  </Target>
+  
+</Project>

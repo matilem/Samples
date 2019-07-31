@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+  <class name="Aafp.Events.Api.Models.SessionIcon, Aafp.Events.Api" table="client_aafp_e12_session_icon" mutable="false">
+    <id name="Key" column="e12_key" type="Guid">
+      <generator class="guid" />
+    </id>
+    
+    <property name="Description" type="string" column="e12_icon_desc" />
+    <property name="URL" type="string" column="e12_icon_url" />
+    
+  </class>
+</hibernate-mapping>

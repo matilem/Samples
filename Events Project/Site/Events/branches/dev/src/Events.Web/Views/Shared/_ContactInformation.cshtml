@@ -1,0 +1,76 @@
+﻿@model Aafp.Events.Web.ViewModels.RegistrationConfirmationViewModel
+
+<div class="my-information-block block full" id="contactInformationDiv">
+    <h2 class="underlined">
+        My Information
+    </h2>
+    @if (Model.UpdateSuccessful)
+    {
+        <script>
+            $('html, body').animate({
+                scrollTop: $('#contactInformationDiv').offset().top
+            }, 250
+            );
+            $.toast({
+                icon: 'success',
+                heading: "Success",
+                text: 'Your personal information was updated successfully!',
+                position: 'bottom-right',
+                hideAfter: 6000
+            });
+        </script>
+    }
+    <div class="confirmation-info block six-column alpha">
+        <h3 class="confirmation-info__title">Attendee</h3>
+        <h4 class="confirmation-info__name">@Model.Customer.FullName</h4>
+        <p class="confirmation-info__email">@Model.Customer.Email</p>
+        <p class="confirmation-info__phone">@Model.SelectedPhoneDisplay</p>
+        <p class="confirmation-info__address">@Html.Raw(@Model.SelectedAddressDisplay)</p>
+        <h3 class="confirmation-info__title">Emergency Contact</h3>
+        @if (!string.IsNullOrEmpty(Model.EmergencyContactPhone))
+        {
+            if (string.IsNullOrEmpty(Model.EmergencyContactName))
+            {
+                <p class="confirmation-info__name">(No Contact Name Provided)</p>
+            }
+            else
+            {
+                <h4 class="confirmation-info__name">@Model.EmergencyContactName</h4>
+            }
+            <p class="confirmation-info__phone">@Model.EmergencyContactPhone</p>
+        }
+        else
+        {
+            <p class="confirmation-info__name">(No emergency contact information provided)</p>
+        }
+        @if (Model.Event.RemoveFromWebDate < Model.Date)
+        {
+            <p><button id="editSessionsButton" class="button button-tertiary" style="margin-top: 10px;" disabled="">
+                Edit Personal Info
+            </button></p>
+        }
+        else
+        {
+            <p  data-wa-click="edit my event info">
+                @Ajax.RouteLink("Edit Personal Info", "EditContactInformation", new { registrationKey = Model.Key }, new AjaxOptions { UpdateTargetId = "contactInformationDiv", InsertionMode = InsertionMode.Replace, OnComplete = "$('form').removeData('validator'); $('form').removeData('unobtrusiveValidation'); $.validator.unobtrusive.parse('form');" }, new { @class = "button button-tertiary", style = "margin-top:10px" })
+            </p>
+        }
+
+
+    </div>
+    <div class="confirmation-badge block six-column float-right omega">
+        <div class="confirmation-badge__view">
+            <h3 class="confirmation-badge__nickname">@Model.Badge.NickName</h3>
+            <h4 class="confirmation-badgee__name">@Model.Customer.FullName</h4>
+            <p class="confirmation-badge__address">@($"{Model.Badge.City}, {Model.Badge.State}")</p>
+            @if (Model.Event.DisplayBadgeCompany)
+            {
+                <p class="confirmation-badge__company">@Model.Badge.Company</p>
+            }
+            @if (Model.Event.DisplayBadgePosition)
+            {
+                <p class="confirmation-badge__position">@Model.Badge.Position</p>
+            }
+        </div>
+    </div>
+</div>

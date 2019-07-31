@@ -1,0 +1,183 @@
+﻿@using System.Linq
+@using Aafp.Events.Admin.ApplicationConfig
+@model Aafp.Events.Admin.ViewModels.Payment.PaymentConfirmationViewModel
+
+@if (Model.HasError)
+{
+    {
+        ViewBag.Title = $"Pending | Quick Reg Wizard";
+    }
+
+    @Html.Partial("_RegistrationHeader")
+
+    @Html.Partial("_Error", Model.ErrorMessage)
+}
+else
+{
+    {
+        ViewBag.Title = $"Confirmation | {Model.Customer.FirstName.Substring(0, 1)} {Model.Customer.LastName} - {Model.Event.Code} | Quick Reg Wizard";
+    }
+
+        @Html.HiddenFor(model => model.RegistrationKey)
+        @Html.Partial("_UserSearchBarHeader", Model.UserSearch)
+        <header class="qr-record-header">
+            <div class="layout">
+                <div class="qr-etitle">
+                    <h1 class="qr-etitle__title">@Model.Event.Title</h1>
+                    <span class="qr-etitle__code">@Model.Event.Code</span> | <span class="qr-etitle__location">@Model.Event.LocationDisplay</span>
+                </div>
+                <div class="qr-ptitle">
+                    <h1 class="qr-ptitle__name">@Model.Customer.FullName</h1>
+                    <span class="qr-ptitle__id">@Model.Customer.CustomerId</span>
+                    @if (!string.IsNullOrWhiteSpace(Model.Customer.Membership?.MemberStatusCode))
+                    {
+                        <span class="qr-ptitle__status">| @Model.Customer.Membership.MemberStatusCode </span>
+                    }
+                    @if (!string.IsNullOrWhiteSpace(Model.Customer.Membership?.MemberTypeCode))
+                    {
+                        <span class="qr-ptitle__type">| @Model.Customer.Membership.MemberTypeCode Member</span>
+                    }
+                </div>
+            </div>
+        </header>
+        <div class="layout">
+            <section class="qr-payment-success">
+                <div class="qr-confirmation">
+                    @if (Model.InvoiceFlagStatus == true)
+                    {
+                        <h1>Payment Successful</h1>
+                    }
+                    else
+                    {
+                        <h1>Invoice Created</h1>
+                    }
+                    <div class="qr-confirmation__invoice">
+                        <label>Invoice Number:</label>
+                        <span><a href="@($"{ApplicationConfigManager.Settings.BaseUrl}/iWeb/Forms/DynamicProfile.aspx?FormKey=314fd9c1-b8c3-443d-b76d-f6380300554d&Key={Model.InvoiceKeyDisplay}")" target="_blank">@Model.InvoiceCodeDisplay</a></span>
+                    </div>
+
+                    @if (Model.InvoiceFlagStatus == true)
+                {
+                        <div class="qr-confirmation__paid">
+                            <label>Amount Paid:</label>
+                            <span>$@Model.TotalDueDisplay</span>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="qr-confirmation__due">
+                            <label>Amount Due:</label>
+                            <span>$@Model.TotalDueDisplay</span>
+                        </div>
+                    }
+                </div>
+                <div class="qr-send-email">
+                    <h2>Confirmation Email</h2>
+                    <div class="qr-input">
+                        <label class="qr-input__label" for="to">To</label>
+                        <input class="qr-input__input" id="emailAddress" type="text" value="@Model.Customer.Email" />
+                    </div>
+
+                    <a class="qr-send-email__btn" id="resendEmailConfirmationButton"><i class="fa fa-envelope"></i> Send Confirmation</a>
+                    <a class="qr-send-email__btn" href="#" id="sendingEmailButton" style="display: none"><i class="fa fa-spin fa-spinner"></i> Sending</a>
+                    <div id="emailWarning" class="qr-send-email__response" style="display: none;"></div>
+                </div>
+                <h2>Invoice Details</h2>
+                <table class="qr-payment__table">
+                    <thead>
+                        <tr class="qr-table__head">
+                            <th class="qr-table__head-cell">No.</th>
+                            <th class="qr-table__head-cell">Title</th>
+                            <th class="qr-table__head-cell">Date &amp; Time</th>
+                            <th class="qr-table__head-cell">Fee</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.InvoiceDetails.Where(item => item.InvoiceType != "Discount").OrderByDescending(x => x.ProductCode))
+                {
+                            <tr class="qr-table__row">
+                                <td class="qr-table__body-cell qr-table__num">@item.ProductCode</td>
+                                <td class="qr-table__body-cell qr-table__title">@item.ProductName</td>
+                                @if (item.PriceDateDisplay == "n/a")
+                                {
+                                    <td class="qr-table__body-cell qr-table__date-time">@Html.Raw(Model.SessionDateDisplay)</td>
+                                }
+                                else
+                                {
+                                    <td class="qr-table__body-cell qr-table__date-time">@Html.Raw(item.PriceDateDisplay)</td>
+                                }
+
+                                <td class="qr-table__body-cell qr-table__fee">@item.PriceDisplay</td>
+                            </tr>
+                        }
+                    </tbody>
+                    <tfoot>
+                        <tr class="qr-table__footer">
+                            <td colspan="2" class="qr-table__add-discount qr-table__foot-cell">
+                                @foreach (var item in Model.InvoiceDetails)
+                                {
+
+                                    if (item.DiscountDisplay != string.Empty)
+                                    {
+
+                                        <label for="SelectedDiscountPriceKey">Discount Code:</label>
+                                        <span>@item.DiscountDisplay</span>
+                                    }
+
+                                }
+                            </td>
+                            <td class="qr-table__label qr-table__foot-cell">
+                                Subtotal
+                            </td>
+                            <td id="subtotalTableCell" class="qr-table__sub-total qr-table__foot-cell">
+                                @Model.SubtotalDisplay 
+                            </td>
+                        </tr>
+                        <tr class="qr-table__footer">
+                            <td colspan="2" class="qr-table__empty qr-table__foot-cell"></td>
+                            <td class="qr-table__label qr-table__foot-cell">
+                                Discount
+                            </td>
+                            <td class="qr-table__discount qr-table__foot-cell"><span id="discountAmount">@Model.DiscountPriceDisplay</span></td>
+                        </tr>
+                        @if (Model.InvoiceFlagStatus == true)
+                {
+                            <tr class="qr-table__footer">
+                                <td colspan="2" class="qr-table__empty qr-table__foot-cell"></td>
+                                <td class="qr-table__label qr-table__foot-cell">
+                                    Total Paid
+                                </td>
+                                <td id="totalTableCell" class="qr-table__total qr-table__foot-cell js-paymentTotal">@Model.TotalDueDisplay</td>
+                            </tr>
+                        }
+                        else
+                        {
+                            <tr class="qr-table__footer">
+                                <td colspan="2" class="qr-table__empty qr-table__foot-cell"></td>
+                                <td class="qr-table__label qr-table__foot-cell">
+                                    Balance Due
+                                </td>
+                                <td id="totalTableCell" class="qr-table__total qr-table__foot-cell js-paymentTotal">@Model.TotalDueDisplay</td>
+                            </tr>
+                        }
+                    </tfoot>
+                </table>
+            </section>
+        </div>
+        <div class="qr-pre-footer-spacing"></div>
+        <footer class="qr-pay-bar">
+            <div class="layout">
+                @if (Model.InvoiceFlagStatus == false)
+                {
+                    <a class="qr-pay-bar__save" id="printInvoice" href="@($"{ApplicationConfigManager.Settings.BaseUrl}/iWeb/Forms/DynamicProfile.aspx?FormKey=314fd9c1-b8c3-443d-b76d-f6380300554d&Key={Model.InvoiceKeyDisplay}")" target="_blank"><i class="fa fa-file-text"></i> Pay Invoice</a>
+                }
+                else {
+                    <a class="qr-pay-bar__print" id="printInvoice" href="@($"{ApplicationConfigManager.Settings.BaseUrl}/iWeb/Forms/DynamicProfile.aspx?FormKey=314fd9c1-b8c3-443d-b76d-f6380300554d&Key={Model.InvoiceKeyDisplay}")" target="_blank"><i class="fa fa-file-text"></i> View Invoice</a>
+                }
+                <a class="qr-pay-bar__print" id="printAll" href="@($"{ApplicationConfigManager.Settings.ApplicationUrl}badge/registrant/{Model.RegistrationKey}/pdf/all")" target="_blank"><i class="fa fa-print"></i> Print Badges &amp; Sessions</a>
+            </div>
+        </footer>
+        }
+
+
+<script type="text/javascript" src="@Url.Content("~/Scripts/confirmation.js")"></script>

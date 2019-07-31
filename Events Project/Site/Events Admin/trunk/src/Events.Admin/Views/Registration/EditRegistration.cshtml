@@ -1,0 +1,36 @@
+﻿@model Aafp.Events.Admin.ViewModels.Registration.RegistrationViewModel
+
+@if (Model.HasError)
+{
+    {
+        ViewBag.Title = "Edit | Quick Reg Wizard";
+    }
+
+    @Html.Partial("_RegistrationHeader")
+
+    <div class="alert-box -warning">
+        <div class="alert-box__icon">
+            <span class="fa fa-support fa-2x -white"></span></div>
+        <div class="alert-box__content">
+            <h3>Oops!</h3>
+            <p>@Model.ErrorMessage</p>
+        </div>
+    </div>
+}
+else
+{
+    {
+        ViewBag.Title = $"Edit | {Model.Customer.FirstName.Substring(0, 1)} {Model.Customer.LastName} - {Model.Event.Code} | Quick Reg Wizard";
+    }
+
+    @Html.Partial("_UserSearchBarHeader", Model.UserSearch)
+
+    @Html.Partial("_RegistrationDetails", Model)
+
+    <div id="printDialog"></div>
+
+    <div id="emailDialog"></div>
+}
+
+@Scripts.Render("~/bundles/edit-registration-js")
+@Scripts.Render("~/bundles/jqueryval")

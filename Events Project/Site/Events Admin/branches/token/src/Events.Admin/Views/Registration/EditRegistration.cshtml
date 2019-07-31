@@ -1,0 +1,172 @@
+﻿@using Aafp.Events.Admin.ApplicationConfig
+@model Aafp.Events.Admin.ViewModels.Registration.EditRegistrationViewModel
+
+@if (Model.HasError)
+{
+    {
+        ViewBag.Title = $"Edit | Quick Reg Wizard";
+    }
+
+    @Html.Partial("_RegistrationHeader")
+
+    <div class="alert-box -warning">
+        <div class="alert-box__icon"><span class="fa fa-support fa-2x -white"></span></div>
+        <div class="alert-box__content">
+            <h3>Oops!</h3>
+            <p>@Model.ErrorMessage</p>
+        </div>
+    </div>
+}
+else
+{
+    {
+        ViewBag.Title = $"Edit | {Model.Customer.FirstName.Substring(0, 1)} {Model.Customer.LastName} - {Model.Event.Code} | Quick Reg Wizard";
+    }
+
+    @Html.Partial("_UserSearchBarHeader", Model.UserSearch)
+
+    <form id="editRegistrationForm">
+        @Html.HiddenFor(model => model.Key)
+        @Html.HiddenFor(model => model.CurrentUser)
+        @Html.HiddenFor(model => model.Event.Key)
+        @Html.HiddenFor(model => model.Customer.Key)
+        @Html.HiddenFor(model => model.GuestCount)
+        <header class="qr-record-header">
+            <div class="layout">
+                <div class="qr-etitle">
+                    <h1 class="qr-etitle__title">@Model.Event.Title</h1>
+                    <span class="qr-etitle__code">@Model.Event.Code</span> | <span class="qr-etitle__location">@Model.Event.LocationDisplay</span>
+                </div>
+                <div class="qr-ptitle">
+                    <h1 class="qr-ptitle__name">@Model.Customer.FullName</h1>
+                    <span class="qr-ptitle__id">@Model.Customer.CustomerId</span>
+                    @if (!string.IsNullOrWhiteSpace(Model.Customer.Membership?.MemberStatusCode))
+                    {
+                        <span class="qr-ptitle__status">| @Model.Customer.Membership.MemberStatusCode </span>
+                    }
+                    @if (!string.IsNullOrWhiteSpace(Model.Customer.Membership?.MemberTypeCode))
+                    {
+                        <span class="qr-ptitle__type">| @Model.Customer.Membership.MemberTypeCode Member</span>
+                    }
+                </div>
+            </div>
+        </header>
+        <div class="layout">
+            <section class="qr-badge">
+                @Html.HiddenFor(model => model.Badge.FirstName)
+                @Html.HiddenFor(model => model.Badge.LastName)
+                @Html.HiddenFor(model => model.Badge.Country)
+                <div class="qr-badge__column column-1">
+                    <div class="qr-badge__input qr-input">
+                        <label class="qr-input__label" for="nickname">Nickname</label>
+                        @Html.TextBoxFor(model => model.Badge.NickName, new {@class = "qr-input__input"})
+                    </div>
+                    <div class="qr-badge__city qr-badge__input qr-input">
+                        <label class="qr-input__label" for="city">City</label>
+                        @Html.TextBoxFor(model => model.Badge.City, new {@class = "qr-input__input"})
+                    </div>
+                    <div class="qr-badge__state qr-badge__input qr-input">
+                        <label class="qr-input__label" for="state">State</label>
+                        @Html.DropDownListFor(model => model.Badge.State, new SelectList(Model.Badge.States, "Code", "Code"), "", new {@class = "qr-input__input"})
+                    </div>
+                    @if (Model.Event.DisplayBadgeCompany)
+                    {
+                        <div class="qr-badge__input qr-input">
+                            <label class="qr-input__label" for="custom1">@Model.Event.AlternativeCompanyBadgeLabel</label>
+                            @Html.TextBoxFor(model => model.Badge.Company, new {@class = "qr-input__input"})
+                        </div>
+                    }
+                    @if (Model.Event.DisplayBadgePosition)
+                    {
+                        <div class="qr-badge__input qr-input">
+
+                            <label class="qr-input__label" for="custom2">@Model.Event.AlternativePositionBadgeLabel</label>
+                            @Html.TextBoxFor(model => model.Badge.Position, new {@class = "qr-input__input"})
+
+                        </div>
+                    }
+                </div>
+                <div class="qr-badge__column">
+                    <div class="qr-badge__input qr-badge__notes qr-input">
+                        <label class="qr-input__label" for="badgeNotes">Badge Notes</label>
+                        @Html.TextAreaFor(model => model.Badge.Notes, new {@class = "qr-input__input"})
+                        <div class="qr-badge__shortcut-overlay">F2</div>
+                    </div>
+                </div>
+            </section>
+            <div class="qr-right-column">
+                <section class="qr-personal-info">
+                    <div class="qr-personal-info__column">
+                        <div class="qr-input">
+                            <label class="qr-input__label" for="address">Address</label>
+                            @Html.DropDownListFor(model => model.CustomerAddressKey, new SelectList(Model.Customer.Addresses, "Key", "Address1"), "", new {@class = "qr-input__input"})
+                        </div>
+                        <div class="qr-input">
+                            <label class="qr-input__label" for="phone">Phone</label>
+                            @Html.DropDownListFor(model => model.CustomerPhoneKey, new SelectList(Model.Customer.Phones, "Key", "Number"), "", new {@class = "qr-input__input"})
+                        </div>
+                    </div>
+                    <div class="qr-personal-info__column">
+                        <div class="qr-input">
+                            <label class="qr-input__label" for="emergName">Emergency contact name</label>
+                            @Html.TextBoxFor(model => model.EmergencyContactName, new {@class = "qr-input__input", placeholder = "Click to enter data"})
+                        </div>
+                        <div class="qr-input">
+                            <label class="qr-input__label" for="emergPhone">Emergency contact Phone</label>
+                            @Html.TextBoxFor(model => model.EmergencyContactPhone, new {@class = "qr-input__input js-mask-phone", placeholder = "(000) 000-0000 x0000", type = "tel"})
+                        </div>
+                    </div>
+                    <a class="qr-personal-info__edit-btn" target="_blank" href="@($"{ApplicationConfigManager.Settings.BaseUrl}/iWeb/forms/DynamicProfile.aspx?ItemKey=649d1a9d-ca93-4dd8-b5b5-aa00e10946b0&LinkKey=1913b691-4760-4e5e-97bb-0f0f97d2a8b7&FormKey=b772881d-d704-40f3-92b6-09b13a50fcc9&tab=CRM&tabitem=Individuals&key={Model.Customer.Key}")"><i class="fa fa-pencil"></i> Edit Customer Record</a>
+                </section>
+            </div>
+            <div>
+            </div>
+        </div>
+        @if (Model.GuestBadges.Any())
+        {
+            <div class="layout clearfix edit-guest-badges">
+                <h3 class="edit-guest-badges__title">Guest Badges</h3>
+                <p class="edit-guest-badges__desc">
+                    The AAFP considers your family or significant other to be your guest (limited to four).
+                    Additional guests may be added onsite for a $25 administrative fee. Office personnel/staff must register as Allied Health Professional attendees.
+                    Guest attendees cannot attend, purchase or report CME hours. Out of consideration of others, please do not bring children to CME events.&nbsp;&nbsp; <br>
+                </p>
+                <table id="guestsTable" class="qr-table qr-guest-badges__table">
+                    <tbody id="guestBadgeTableBody">
+                        @Html.EditorFor(model => model.GuestBadges)
+                    </tbody>
+                </table>
+                @if (Model.GuestCount < Model.SessionMaxTicketQuantity)
+                {
+                    <a href="#" id="addGuest" class="qr-guest-badges__add"><i class="fa fa-plus-circle"></i> Add Guest</a>
+                }
+            </div>
+        }
+        <div class="qr-pre-footer-spacing"></div>
+        <footer class="qr-pay-bar">
+            <div class="layout">
+                <a class="qr-pay-bar__cancel btn" id="cancelButton" href="@($"{ApplicationConfigManager.Settings.ApplicationUrl}registration")"><i class="fa fa-ban"></i> Cancel</a>
+                <a class="qr-pay-bar__save btn" id="saveButton" href="@($"{ApplicationConfigManager.Settings.ApplicationUrl}registration/edit/save/")"><i class="fa fa-save"></i> Save <span class="btn__meta">(F12)</span></a>
+                <a class="qr-pay-bar__saved btn" id="savedButton" href="@($"{ApplicationConfigManager.Settings.ApplicationUrl}registration/edit/save/")" style="display: none"><i class="fa fa-saved"></i> Saved <span class="btn__meta">(F12)</span></a>
+                <a class="qr-pay-bar__processing" href="#" id="savingButton" style="display: none"><i class="fa fa-spin fa-spinner"></i> Saving</a>
+                @*<a class="qr-pay-bar__saved" href="#" id="" style="display: none"> Saved</a>*@
+
+                <a class="qr-pay-bar__email btn" id="emailButton" data-registrantkey="@Model.Key"><i class="fa fa-envelope"></i> Email</a>
+                <a class="qr-pay-bar__print btn" id="printLink" data-registrantKey="@Model.Key" href="#"><i class="fa fa-print"></i> Print</a>
+                <div id="saveWarning" class="qr-save-edit__response" style="display: none;"></div>
+            </div>
+        </footer>
+        <div>
+        </div>
+
+    </form>
+
+    <div id="printDialog">
+    </div>
+
+    <div id="emailDialog">
+    </div>
+}
+
+@Scripts.Render("~/bundles/edit-registration-js")
+@Scripts.Render("~/bundles/jqueryval")

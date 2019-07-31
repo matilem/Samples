@@ -1,0 +1,11 @@
+﻿@model Aafp.Events.Admin.ViewModels.Registration.UserSearchViewModel
+
+@using (Html.BeginForm("Search", "Registration", FormMethod.Post, new { id = "userSearchForm" }))
+{
+    <div class="qr-search clearfix">
+        <label for="search" class="qr-search__icon" rel="tooltip" title="email"><i class="fa fa-search"></i></label>
+        @Html.TextBoxFor(model => model.SearchTerm, new { @value = Model.SearchTerm, @class = "form-control js-search-bar", placeholder = "ID, first or last name" })
+        <div class="qr-search__shortcut-overlay">F4</div>
+        <button type="submit" class="btn btn-search">Search</button>
+    </div>
+}

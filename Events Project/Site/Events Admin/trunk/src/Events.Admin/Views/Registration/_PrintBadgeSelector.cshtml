@@ -1,0 +1,29 @@
+﻿@using Aafp.Events.Admin.ApplicationConfig
+@model Aafp.Events.Admin.ViewModels.Registration.PrintRegistrantViewModel
+<div class="qr-print-modal">
+    <div class="qr-print-modal__header">
+    <div class="qr-print-modal__details">
+        <span class="qr-print-modal__name">@Model.FullName</span>
+        <span class="qr-print-modal__id">@Model.CstId</span>
+        <span class="qr-print-modal__title">@Model.EventTitle @Model.LocationDisplay</span>
+    </div>
+    @if (Model.Sessions.Count > 1)
+        {
+            <a class="qr-print-modal__btn  btn" href="@($"{ApplicationConfigManager.Settings.ApplicationUrl}badge/registrant/{Model.RegistrantKey}/sessions/pdf")" target="_blank"><i class="fa fa-print"></i> All Session Badges</a>
+        }
+        <a class="qr-print-modal__btn btn" href="@($"{ApplicationConfigManager.Settings.ApplicationUrl}badge/registrant/{Model.RegistrantKey}/pdf/all")" target="_blank"><i class="fa fa-print"></i> All Badges and Sessions</a>
+        <a class="qr-print-modal__btn  btn" href="@($"{ApplicationConfigManager.Settings.ApplicationUrl}badge/registrant/{Model.RegistrantKey}/pdf")" target="_blank"><i class="fa fa-print"></i> Attendee Badge</a>
+    </div>
+    @if (Model.Sessions.Count > 0)
+    {
+        <div class="qr-print-modal__sessions">
+            @foreach (var session in Model.Sessions)
+                {
+                <div class="qr-print-modal__session">
+                    <span class="qr-print-modal__session-name">@session.SessionTitle</span>
+                    <a class="qr-print-modal__session-print" href="@($"{ApplicationConfigManager.Settings.ApplicationUrl}badge/session/{session.Key}/pdf")" target="_blank" data-sessionKey="@session.Key"><i class="fa fa-print"></i> Print</a>
+                </div>
+            }
+        </div>
+    }
+</div>

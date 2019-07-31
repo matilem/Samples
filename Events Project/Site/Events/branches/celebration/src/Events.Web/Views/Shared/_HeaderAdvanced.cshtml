@@ -1,0 +1,8 @@
+﻿@using Aafp.Events.Web.Helpers
+
+@Html.Raw(SyndicationHelper.GetSyndicationHeader())
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".primary-nav__link--events a").addClass("active");
+    });
+</script>

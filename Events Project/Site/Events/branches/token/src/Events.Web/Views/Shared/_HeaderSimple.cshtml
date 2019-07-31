@@ -1,0 +1,84 @@
+﻿@using Aafp.Events.Web.ApplicationConfig
+
+<header role="banner" class="site-header -simple-header">
+    <div class="site-row row--b">
+        <div class="site-row__container">
+            <div class="logo">
+                <div id="logo">
+                    <a href="http://www.aafp.org/home.html">
+                        <div class="image-container"><img alt="Home" title="Home" data-retina="//medialib.aafp.org/content/dam/AAFP/images/logos_internal/AAFP-capital-RGB@2.png" data-desktop="//medialib.aafp.org/content/dam/AAFP/images/logos_internal/AAFP-capital-RGB@2.png" data-mobile-retina="//medialib.aafp.org/content/dam/AAFP/images/logos_internal/AAFP-capital-RGB.png" data-mobile="//medialib.aafp.org/content/dam/AAFP/images/logos_internal/AAFP-capital-RGB.png" src="//medialib.aafp.org/content/dam/AAFP/images/logos_internal/AAFP-capital-RGB@2.png" class="desktop"></div>
+                    </a>
+                    <img src="//medialib.aafp.org/content/dam/AAFP/images/logos_internal/AAFP-capital-bw.gif" class="print-only">
+                </div>
+            </div>
+            <div class="support">
+                <p class="support__title">Need Help?</p>
+                <p class="support__desc">
+                    <a class="support__tel" href="tel:800-274-2237">800-274-2237</a>
+                    <span class="support__hours"></span>
+                    <a class="support__desc__link" href="mailto:aafp@aafp.org">aafp@aafp.org</a>
+                </p>
+            </div>
+            <div class="signin login">
+                <div class="account-portal">
+                    <div class="account-portal__logged-in-utilities">
+                        <span class="account-portal__greeting -js-mobile-account-menu-btn">
+                            <span class="-js-welcome account-portal__welcome">Hi,</span>
+                            <span class="full-name">@ViewBag.Name</span>
+                        </span>
+                        <nav class="account-portal__links -js-account-links">
+                            <a class="account-portal__view-account" href="@($"{ApplicationConfigManager.Settings.BaseUrl}myacademy/home")" title="My Account">My Account</a>
+                            <a class="account-portal__sign-out -js-sign-out" href="http://www.aafp.org/cgi-bin/logout.pl" title="Sign Out">Sign Out</a>
+                        </nav>
+                        <script type="text/javascript">
+                            var close = 'close';
+                            var welcome = 'Hi';
+                            var btnContent = jQuery('.-js-mobile-account-menu-btn').html();
+                            var signinUrl = 'http://www.aafp.org/cgi-bin/lg.pl?redirect=' + document.location.href;
+                            var signoutUrl = "http://www.aafp.org/cgi-bin/logout.pl";
+
+                            if (signinUrl != '') {
+                                jQuery(".-js-sign-in").attr("href", signinUrl);
+                            }
+                            if (signoutUrl != '') {
+                                jQuery(".-js-sign-out").attr("href", signoutUrl);
+                            }
+                            //Mobile Account Menu Toggle
+                            function loginMenuDetector() {
+                                var v = jQuery(".js-window-width").css('text-indent');
+                                if (v != "979px") {
+                                    jQuery(".account-portal__sign-in").removeClass("button").removeClass("button-primary");
+
+                                    jQuery('.-js-mobile-account-menu-btn').unbind("click").click(function () {
+                                        //if navigation is activated, change button to 'close'
+                                        if (!jQuery('.-js-mobile-account-menu-btn').hasClass('-nav-active')) {
+                                            jQuery(".-js-mobile-account-menu-btn").addClass('-nav-active');
+                                            jQuery('.-js-account-links').addClass('-is-active');
+                                            jQuery('.-js-welcome').text(close);
+                                        } else {
+                                            jQuery(".-js-mobile-account-menu-btn").removeClass('-nav-active');
+                                            jQuery('.-js-account-links').removeClass('-is-active');
+                                            jQuery('.-js-welcome').text(welcome);
+                                        }
+                                    });
+                                }
+                                else {
+                                    jQuery('.-js-mobile-account-menu-btn').unbind("click");
+                                    jQuery(".-js-mobile-account-menu-btn").removeClass('-nav-active');
+                                    jQuery('.-js-account-links').removeClass('-is-active');
+                                    jQuery('.-js-welcome').text(welcome);
+                                    jQuery(".account-portal__sign-in").addClass("button").addClass("button-primary");
+                                }
+                            }
+
+                            loginMenuDetector();
+                            jQuery(window).resize(function () {
+                                loginMenuDetector();
+                            });
+                        </script>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>

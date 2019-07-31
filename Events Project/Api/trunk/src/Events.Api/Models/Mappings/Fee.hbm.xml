@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" auto-import="true">
+  <class name="Aafp.Events.Api.Models.Fee, Aafp.Events.Api" mutable="false">
+    <id name="PriceKey" column="prc_key" type="Guid">
+    </id>
+    <property name="Price" type="Decimal" column="prc_price"/>
+    <property name="ProductName" type="string" column="prc_display_name"/>
+    <property name="ProductKey" type="Guid" column="prd_key"/>
+    <property name="SessionKey" type="Guid" column="ses_key" />
+    <property name="SellOnline" type="Boolean" column="prc_sell_online" />
+  </class>
+  <sql-query name ="GetEventFeesForCustomer">
+    <return class="Aafp.Events.Api.Models.Fee, Aafp.Events.Api">
+    </return>
+    EXEC client_aafp_event_get_fees_by_customer :CustomerKey, :EventKey, :RegistrationDate
+  </sql-query>
+  <sql-query name ="GetEventFees">
+    <return class="Aafp.Events.Api.Models.Fee, Aafp.Events.Api">
+    </return>
+    EXEC client_aafp_event_get_event_fees :EventKey
+  </sql-query>
+  <sql-query name ="GetEventSessionFeesForCustomer">
+    <return class="Aafp.Events.Api.Models.Fee, Aafp.Events.Api">
+    </return>
+    EXEC client_aafp_event_get_session_fees_by_customer :CustomerKey, :EventKey, :RegistrationDate
+  </sql-query>
+</hibernate-mapping>

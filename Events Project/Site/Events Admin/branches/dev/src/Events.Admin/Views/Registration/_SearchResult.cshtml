@@ -1,0 +1,82 @@
+@using Aafp.Events.Admin.ApplicationConfig
+@model Aafp.Events.Admin.ViewModels.Registration.CustomerEventViewModel
+
+<div class="qr-result-event @(Model.IsPending ? "qr-result-event-pending" : string.Empty)">
+    @if (!Model.IsPending)
+    {
+        <span class="qr-result-event__name">@Model.Title</span>
+        <span class="qr-result-event__code">@Model.Code</span>
+        <span class="qr-result-event__dates">@Model.StartDateDisplay</span>
+        <div class="qr-result-event__actions">
+            <div class="qr-btn-group btn-dropdown -menu-align-right -position-right">
+                <a class="btn -size-sm -color-light js-btn-dropdown-toggle" type="button" tabindex="1" aria-haspopup="true" aria-expanded="false">
+                    <span>Actions </span>
+                    <i class="fa fa-caret-down"></i>
+                </a>
+                <ul class="btn-dropdown__menu" role="menu">
+                    <li role="menuitem">
+                        <a href="@Model.EditLink"><i class="fa fa-edit"></i> Edit</a>
+                    </li>
+                    <li role="menuitem">
+                        <a href="#" id="@($"{Model.EventKey}_{Model.CustomerKey}_printLink")" data-registrantKey="@Model.RegistrationKey"><i class="fa fa-print"></i> Print</a>
+                    </li>
+                    <li role="menuitem">
+                        <a href="#" id="@($"{Model.RegistrationKey}_sendEmailButton")" data-registrantkey="@Model.RegistrationKey" data-email="ViewData['customerEmail'']"><i class="fa fa-envelope"></i> Email</a>
+                    </li>
+                    <hr role="separator">
+                    <li role="menuitem">
+                        <a target="_blank" href="@($"{ApplicationConfigManager.Settings.BaseUrl}iWeb/Forms/DynamicProfile.aspx?FormKey=16f5283a-a6d1-4690-aede-67aa626e403d&Key={Model.RegistrationKey}")"><i class="fa fa-external-link"></i> iWeb</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
+    }
+    else
+    {
+        <span class="qr-result-event__name pink">@Model.Title <span class='qr-result-event-pending__pending-note'>(pending)</span></span>
+        <span class="qr-result-event__code pink">@Model.Code</span>
+        <span class="qr-result-event__dates pink">@Model.StartDateDisplay</span>
+        <div class="qr-result-event__actions pink">
+            <div class="qr-btn-group btn-dropdown -menu-align-right -position-right">
+                <a class="btn -size-sm -color-light js-btn-dropdown-toggle" type="button" tabindex="1" aria-haspopup="true" aria-expanded="false">
+                    <span>Actions </span>
+                    <i class="fa fa-caret-down"></i>
+                </a>
+                <ul class="btn-dropdown__menu" role="menu">
+                    <li role="menuitem">
+                        <a href="@Model.EditLink"><i class="fa fa-edit"></i> Continue</a>
+                    </li>
+                    <hr role="separator">
+                    <li role="menuitem">
+                        <a href="@Model.RemoveLink"><i class="fa fa-trash"></i> Remove</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
+    }
+    @foreach (var relatedItem in Model.RelatedRegistrations)
+    {
+    <div class="qr-result-event__related-event">
+        <span class="qr-result-event__name">@relatedItem.Title <span class='qr-result-event-pending__pending-note'>(pending)</span></span>
+        <span class="qr-result-event__code">@relatedItem.Code</span>
+        <span class="qr-result-event__dates">@relatedItem.StartDateDisplay</span>
+        <div class="qr-btn-group btn-dropdown -menu-align-right -position-right">
+            <a class="btn -size-sm -color-light js-btn-dropdown-toggle" type="button" tabindex="1" aria-haspopup="true" aria-expanded="false">
+                <span>Actions </span>
+                <i class="fa fa-caret-down"></i>
+            </a>
+            <ul class="btn-dropdown__menu" role="menu">
+                <li role="menuitem">
+                    <a href="@relatedItem.EditLink"><i class="fa fa-edit"></i> Continue</a>
+                </li>
+                <hr role="separator">
+                <li role="menuitem">
+                    <a href="@Model.RemoveLink"><i class="fa fa-trash"></i> Remove</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    }
+</div>

@@ -1,0 +1,31 @@
+﻿@model Aafp.Events.Admin.ViewModels.Registration.EditHeadingViewModel
+
+
+<section class="qr-step" id="@Model.Key">
+    @if (Model.HeadingRequiredFlag)
+    {
+        <span class="requried">* Required</span>
+    }
+    <h3 class="qr-step__title">@Model.HeadingDescription</h3>
+    <p class="qr-step__desc">@Html.Raw(Model.HeadingHeading)</p>
+
+    @if (Model.Sessions.Count > 0)
+    {
+        <table id="step1Table" class="qr-table">
+            <thead>
+            <tr class="qr-table__head">
+                <th class="qr-table__head-cell">No.</th>
+                <th class="qr-table__head-cell">Title</th>
+                <th class="qr-table__head-cell">Date &amp; Time</th>
+                <th class="qr-table__head-cell">Fee</th>
+                <th class="qr-table__head-cell">Cap.</th>
+                <th class="qr-table__head-cell qr-table__enroll"><label><i class="fa fa-check-square-o fa-2x"></i></label></th>
+            </tr>
+            </thead>
+            <tbody>
+            @Html.EditorFor(model => model.Sessions)
+            </tbody>
+        </table>
+    }
+</section>
+

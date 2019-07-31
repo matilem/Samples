@@ -1,0 +1,30 @@
+﻿@model Aafp.Events.Admin.ViewModels.Registration.RegistrationTypeViewModel
+
+@if (Model.HasError)
+{
+    <div class="alert-box -warning">
+        <div class="alert-box__icon"><span class="fa fa-support fa-2x -white"></span></div>
+        <div class="alert-box__content">
+            <h3>Oops!</h3>
+            <p>@Model.ErrorMessage</p>
+        </div>
+    </div>
+}
+else
+{
+    <div class="qr-input">
+        <label class="qr-input__label">Registration Date</label>
+        <input class="qr-input__input" type="text" id="registrationDate" value="@DateTime.Today.ToShortDateString()" />
+    </div>
+    <div class="qr-input">
+        <label class="qr-input__label">Registration Type</label>
+        <div class="radio-group -layout-vertical" data-toggle="buttons">
+            @foreach (var fee in Model.Fees)
+            {
+                <label class="radio">
+                    <input type="radio" name='feeRadioButton' value="@fee.PriceKey"><i class="fa fa-circle-o fa-2x"></i><i class="fa fa-check-circle-o fa-2x"></i><span> @fee.FeeText</span>
+                </label>
+            }
+        </div>
+    </div>
+}

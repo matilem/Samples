@@ -1,0 +1,66 @@
+﻿@using Aafp.Events.Admin.ApplicationConfig
+@model Aafp.Events.Admin.ViewModels.Registration.BatchViewModel
+
+@{
+    ViewBag.Title = $"Batch | Quick Reg Wizard";
+}
+
+@Html.Partial("_UserSearchBarHeader", Model.UserSearch)
+
+<!-- End Header -->
+<div class="layout batch-upload">
+    <h3 class="batch-upload__header">Batch Upload</h3>
+
+    <!-- Batch Upload box -->
+    <div class="batch-upload__area">
+        <div id="addEventDialog">
+            <input type="hidden" id="addEventCustomerKey" />
+            <div class="qr-input">
+                <label class="qr-input__label">Select Event</label>
+                @Html.DropDownListFor(model => model.EventToAddKey, new SelectList(Model.Events, "Key", "TitleDisplay", Guid.Empty), "--Select Event--", new { @class = "qr-input__label" })
+            </div>
+            <div id="newBatchEventDetail">
+            </div>
+            <div class="qr-input">
+                <label class="qr-input__label">Upload File</label>
+                @using (Html.BeginForm("BatchEventRegistrationUpload", "Registration", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+                    <input type="file" name="uploadfile" id="uploadfile" accept=".csv" />
+                }
+            </div>
+        </div>
+        <div class="batch-upload__area-btn">
+            <div id="addNewEventError"></div>
+
+            <a class="btn -color-light -position-right" id="registerparticipants" href="#">
+                <i class="fa fa-floppy-o"></i>
+                Register Participants
+            </a>
+            <a class="qr-pay-bar__processing" href="#" id="savingButton" style="display: none">
+                <i class="fa fa-spin fa-spinner"></i>
+                Processing
+            </a>
+        </div>
+    </div>
+
+    <!-- Instructions Box -->
+    <div class="qr-box batch-upload__instructions">
+        <h3 class="batch-upload__header -instructions">Instructions</h3>
+        <p>1. Select event, date, and type.</p>
+        <p>2. Download <a href="~/Content/sample_csv.csv">sample csv file.</a></p>
+        <p>3. Create csv file in excel.</p>
+        <p>4. Upload file.</p>
+        <p>5. Wait...</p>
+        <p>6. Review results.</p>
+        <p>7. Upload corrections, as necessary.</p>
+    </div>
+</div>
+<!-- Results Table -->
+<div class="layout clearfix batch-results">
+    <div class="clearfix"></div>
+    <div class="batch-results__table tables parbase">
+        <div class="clearfix"></div>
+        <div id="batchDetails"></div>
+    </div>
+</div>
+@Scripts.Render("~/bundles/batch-registration-js")

@@ -1,0 +1,25 @@
+﻿@using Aafp.Events.Web.Helpers
+@using Aafp.Events.Web.ViewModels
+@using ApiClientHelper.Components;
+
+<div id="breadcrumbs-container" class="container">
+    <div class="breadcrumbs">
+        <!-- breadcrumbs -->
+        <div id="breadcrumbs">
+            <p>
+                <a href="http://www.aafp.org">Home</a>
+                <span>/</span>
+                <a href="http://www.aafp.org/events.html">Events</a>
+                <span>/</span>
+                @if (!(Model is RegistrationHomeViewModel || Model is AafpServiceFileResult) && Model.Event != null)
+                {
+                    @Model.Event.Code
+                    <span>/</span>
+                }
+                Registration
+            </p>
+        </div>
+    </div>
+</div>
+@Html.Raw(SyndicationHelper.GetSyndicationNav("mobilesubnav.html"))
+@Html.Raw(SyndicationHelper.GetSyndicationFooter())

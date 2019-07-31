@@ -1,0 +1,58 @@
+﻿@model Aafp.Events.Admin.ViewModels.Registration.RegistrationTypeViewModel
+
+@if (Model.HasError)
+{
+    <div class="alert-box -warning">
+        <div class="alert-box__icon"><span class="fa fa-support fa-2x -white"></span></div>
+        <div class="alert-box__content">
+            <h3>Oops!</h3>
+            <p>@Model.ErrorMessage</p>
+        </div>
+    </div>
+}
+else
+{
+    <div class="qr-input">
+        @Html.HiddenFor(model => model.CutOffDateDisplay)
+
+        @if (Model.CutOffDate.HasValue && Model.CutOffDate > DateTime.Today)
+        {
+            if (Model.CutOffDateDisplay == null)
+            {
+                <span class="qr-input__earlybird-text" display></span>
+            }
+            else
+            {
+                <span class="qr-input__earlybird-text">Early Bird Cutoff: @Model.CutOffDateDisplay</span>
+            }
+        }
+        else
+        {
+            if (Model.CutOffDateDisplay == null)
+            {
+                <span class="qr-input__earlybird-text" display></span>
+            }
+
+            else
+            {
+                <a class="qr-input__earlybird" href="#" id="earlyRegistrationLink">Early Bird Cutoff: @Model.CutOffDateDisplay</a>
+            }
+        }
+        <label class="qr-input__label">Registration Date</label>
+        <input class="qr-input__input" type="text" id="registrationDate" value="@DateTime.Today.ToShortDateString()" />
+    </div>
+    <div class="qr-input">
+        <button id="refreshRegTypeButton" class="qr-input__refresh"><i class="fa fa-refresh"></i></button>
+        <label class="qr-input__label">Registration Type</label>
+        <div class="radio-group -layout-vertical" data-toggle="buttons">
+            @foreach (var fee in Model.Fees)
+            {
+                <label class="radio">
+                    <input type="radio" name='feeRadioButton' value="@fee.PriceKey"><i class="fa fa-circle-o fa-2x"></i><i class="fa fa-check-circle-o fa-2x"></i><span> @fee.FeeText</span>
+                </label>
+            }
+        </div>
+    </div>
+}
+
+<script src="~/Scripts/event-details.js" type="text/javascript"></script>

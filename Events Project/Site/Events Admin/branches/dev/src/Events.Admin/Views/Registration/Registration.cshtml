@@ -1,0 +1,26 @@
+﻿@model Aafp.Events.Admin.ViewModels.Registration.RegistrationViewModel
+
+@if (Model.HasError)
+{
+    {
+        ViewBag.Title = "Pending | Quick Reg Wizard";
+    }
+
+    @Html.Partial("_RegistrationHeader")
+
+    @Html.Partial("_Error", Model.ErrorMessage)
+}
+else
+{
+    {
+        ViewBag.Title = $"Pending | {Model.Customer.FirstName.Substring(0, 1)} {Model.Customer.LastName} - {Model.Event.Code} | Quick Reg Wizard";
+    }
+
+    @Html.Partial("_UserSearchBarHeader", Model.UserSearch)
+
+    @Html.Partial("_RegistrationDetails", Model)
+}
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-scrollTo/2.1.2/jquery.scrollTo.min.js"></script>
+@Scripts.Render("~/bundles/pending-registration-js")
+@Scripts.Render("~/bundles/jqueryval")

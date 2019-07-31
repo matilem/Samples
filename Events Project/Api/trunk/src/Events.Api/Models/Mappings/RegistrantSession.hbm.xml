@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+  <class name="Aafp.Events.Api.Models.RegistrantSession, Aafp.Events.Api" table="ev_registrant_session" where="rgs_delete_flag = 0 AND rgs_cancel_date IS NULL" mutable="false">
+    <id name="Key" column="rgs_key" type="Guid">
+      <generator class="guid" />
+    </id>
+
+    <!-- NetForum Fields -->
+    <property name="AddUser" type="String" column="rgs_add_user" />
+    <property name="AddDate" type="DateTime" column="rgs_add_date" />
+    <property name="ChangeUser" type="String" column="rgs_change_user" />
+    <property name="ChangeDate" type="DateTime" column="rgs_change_date" />
+    <property name="DeleteFlag" type="Boolean" column="rgs_delete_flag" />
+
+    <!-- Domain Fields -->
+    <property name="CancelDate" column="rgs_cancel_date" type="DateTime" />
+    <property name="Quantity" column="rgs_qty" type="int" />
+    
+    <many-to-one name="InvoiceDetail" column="rgs_ivd_key" class="Aafp.Events.Api.Models.RegistrationInvoiceDetail, Aafp.Events.Api" />
+    
+    <many-to-one name="Session" column="rgs_ses_key" class="Aafp.Events.Api.Models.Session, Aafp.Events.Api" />
+    
+    <many-to-one name="Registrant" column="rgs_reg_key" class="Aafp.Events.Api.Models.Registrant, Aafp.Events.Api" />
+  </class>
+</hibernate-mapping>

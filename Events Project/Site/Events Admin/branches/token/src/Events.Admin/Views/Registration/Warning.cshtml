@@ -1,0 +1,99 @@
+﻿@model Aafp.Events.Admin.ViewModels.Registration.RegistrationViewModel
+
+@if (Model.IsRegistered)
+{
+    {
+        ViewBag.Title = $"Registered | {Model.Customer.FirstName.Substring(0, 1)} {Model.Customer.LastName} - {Model.Event.Code} | Quick Reg Wizard";
+    }
+}
+else if (Model.IsSoldOut)
+{
+    {
+        ViewBag.Title = $"Sold Out | {Model.Customer.FirstName.Substring(0, 1)} {Model.Customer.LastName} - {Model.Event.Code} | Quick Reg Wizard";
+    }
+}
+
+@Html.Partial("_UserSearchBarHeader", Model.UserSearch)
+
+<header class="qr-record-header">
+    <div class="layout">
+        <div class="qr-etitle">
+            <h1 class="qr-etitle__title">@Model.Event.Title</h1>
+            <span class="qr-etitle__code">@Model.Event.Code</span> | <span class="qr-etitle__location">@Model.Event.LocationDisplay</span>
+        </div>
+        <div class="qr-ptitle">
+            <h1 class="qr-ptitle__name">@Model.Customer.FullName</h1>
+            <span class="qr-ptitle__id">@Model.Customer.CustomerId</span>
+            @if (!string.IsNullOrWhiteSpace(Model.Customer.Membership?.MemberStatusCode))
+            {
+                <span class="qr-ptitle__status">| @Model.Customer.Membership.MemberStatusCode </span>
+            }
+            @if (!string.IsNullOrWhiteSpace(Model.Customer.Membership?.MemberTypeCode))
+            {
+                <span class="qr-ptitle__type">| @Model.Customer.Membership.MemberTypeCode Member</span>
+            }
+        </div>
+    </div>
+</header>
+<div class="layout">
+
+    @if (Model.IsRegistered)
+            {
+        <div class="alert-box -info">
+            <div class="alert-box__icon"><span class="fa fa-life-bouy fa-2x -white"></span></div>
+            <div class="alert-box__content">
+                <h2>Already Registered</h2>
+                <p>
+                    @Html.Raw($"{Model.Customer.FullName} is currently registered for <strong>{Model.Event.TitleDisplay}</strong>.")
+                </p>
+                </div>
+            </div>
+    }
+    else if (Model.IsSoldOut)
+    {
+        <div class="qr-sold-out">
+            <h1 class="qr-sold-out__title">Sold Out</h1>
+            <p class="qr-sold-out__desc">
+                @Html.Raw($"{Model.Event.TitleDisplay} is sold out.")
+            </p>
+
+            @if (Model.AllowWaitList && !Model.UserIsOnWaitList)
+            {
+                @Html.HiddenFor(model => model.Customer.Key)
+                @Html.HiddenFor(model => model.Event.Key)
+                <p class="qr-sold-out__question" id="waitListQuestion">
+                    @Html.Raw($"Would you like to add {Model.Customer.FullName} to the wait list for this event?")
+                </p>
+                    <a id="addToWaitListButton" href="#" class="qr-sold-out__btn"><i class="fa fa-thumbs-up"></i> Add To Wait List</a>
+                    <a class="qr-sold-out__processing" href="#" id="addingToWaitListButton" style="display: none"><i class="fa fa-spin fa-spinner"></i> Adding</a>
+                    <div id="waitListWarning" class="qr-sold-out__response">
+                        <div class="alert-box -success" style="display: none;">
+                            <div class="alert-box__icon"><span class="fa fa-smile-o fa-2x -white"></span></div>
+                            <div class="alert-box__content">
+                                <h3>Success!</h3>
+                                <p>@Html.Raw($"{Model.Customer.FullName} was successfully added to wait list.")</p>
+                            </div>
+                        </div>
+                        <div class="alert-box -error" style="display: none;">
+                            <div class="alert-box__icon"><span class="fa fa-frown-o fa-2x -white"></span></div>
+                            <div class="alert-box__content">
+                                <h3>Sorry</h3>
+                                <p>@Html.Raw($"There was an error adding {Model.Customer.FullName} to the wait list.")</p>
+                            </div>
+                        </div>
+                    </div>
+            }
+            else if (Model.AllowWaitList && Model.UserIsOnWaitList)
+            {
+                <div class="alert-box -info">
+                    <div class="alert-box__icon"><span class="fa fa-thumbs-up fa-2x -white"></span></div>
+                    <div class="alert-box__content">
+                        <h3>Already Waiting</h3>
+                        @Html.Raw($"{Model.Customer.FullName} is on the wait list for this event.")
+                        </div>
+                    </div>
+            }
+        </div>
+    }
+</div>
+<script type="text/javascript" src="@Url.Content("~/Scripts/warning.js")"></script>

@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+  <class name="Aafp.Events.Api.Models.Registrant, Aafp.Events.Api" table="ev_registrant" mutable="true">
+    <id name="Key" column="reg_key" type="Guid">
+      <generator class="guid" />
+    </id>
+
+    <!-- NetForum Fields -->
+    <property name="EventKey" type="Guid" column="reg_evt_key" />
+    <property name="CustomerKey" type="Guid" column="reg_cst_key" />
+    <property name="CancelationDate" type="Date" column="reg_cancel_date" />
+    <property name="BadgeName" type="String" column="reg_badge_name" />
+    <property name="Title" type="String" column="reg_ixo_title_dn" />
+    <property name="Country" type="String" column="reg_adr_country" />
+    <property name="State" type="String" column="reg_adr_state" />
+    <property name="City" type="String" column="reg_adr_city" />
+    <property name="Organization" type="String" column="reg_org_name_dn" />
+    <property name="RegistrationDate" type="Date" column="reg_registration_date" />
+    <property name="AddressKey" type="Guid" column="reg_cxa_key" />
+    <property name="PhoneKey" type="Guid" column="reg_cph_key" />
+    <property name="InvoiceCode" type="String" column="reg_inv_code" />
+    <property name="ChangeUser" type="String" column="reg_change_user" />
+    <property name="ChangeDate" type="Date" column="reg_change_date" />
+    
+    
+    <many-to-one name="InvoiceDetail" column="reg_ivd_key" class="Aafp.Events.Api.Models.RegistrationInvoiceDetail, Aafp.Events.Core"/>
+
+    <bag name="Sessions" lazy="false" fetch="select" table="ev_registrant_session" cascade="none">
+      <key column="rgs_reg_key"/>
+      <one-to-many class="Aafp.Events.Api.Models.RegistrantSession, Aafp.Events.Api"/>
+    </bag>
+
+    <bag name="Guests" lazy="false" fetch="select" inverse="true" cascade="all-delete-orphan">
+      <key column="e20_reg_key"/>
+      <one-to-many class="Aafp.Events.Api.Models.Guest, Aafp.Events.Api"/>
+    </bag>
+
+    <join table="ev_registrant_ext">
+      <key column="reg_key_ext"/>
+      <property name ="Comment" type="String" column="reg_comment_ext" />
+      <property name="EmergencyContactName" type="String" column="reg_emergency_name_ext" />
+      <property name="EmergencyContactPhone" type="String" column="reg_emergency_phone_ext" />
+    </join>
+  </class>
+</hibernate-mapping>

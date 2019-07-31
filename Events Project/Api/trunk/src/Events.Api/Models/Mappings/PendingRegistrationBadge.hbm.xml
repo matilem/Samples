@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+  <class name="Aafp.Events.Api.Models.PendingRegistrationBadge, Aafp.Events.Api" table="client_aafp_e41_pending_registration_badge" where="e41_delete_flag = 0" >
+    <id name="Key" column="e41_key" type="Guid">
+      <generator class="guid" />
+    </id>
+
+    <!-- NetForum Fields -->
+    <property name="AddUser" type="String" column="e41_add_user" />
+    <property name="AddDate" type="DateTime" column="e41_add_date" />
+    <property name="ChangeUser" type="String" column="e41_change_user" />
+    <property name="ChangeDate" type="DateTime" column="e41_change_date" />
+    <property name="DeleteFlag" type="Boolean" column="e41_delete_flag" />
+
+    <!-- Domain Fields -->
+    <property name="NickName" type="string" column="e41_nick_name" />
+    <property name="FirstName" type="string" column="e41_first_name" />
+    <property name="LastName" type="string" column="e41_last_name" />
+    <property name="State" type="string" column="e41_state" />
+    <property name="City" type="string" column="e41_city" />
+    <property name="Country" type="string" column="e41_country" />
+    <property name="Company" type="string" column="e41_company" />
+    <property name="Position" type="string" column="e41_position" />
+    <property name="Notes" type="string" column="e41_notes" />
+    <property name="IsGuest" type="bool" column="e41_guest_flag" />
+    <property name="GuestName" type="string" column="e41_guest_name" />
+    <property name="GuestLocation" type="string" column="e41_guest_location" />
+  </class>
+</hibernate-mapping>

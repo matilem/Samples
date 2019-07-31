@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+  <class name="Aafp.Events.Api.Models.Location, Aafp.Events.Api" table="vw_client_aafp_n01_individual_x_address" mutable="false">
+    <id name="Key" column="n01_cxa_key" type="Guid">
+      <generator class="guid" />
+    </id>
+
+    <property name="Address1" type="string" column="n01_adr_line1" />
+    <property name="Address2" type="string" column="n01_adr_line2" />
+    <property name="Address3" type="string" column="n01_adr_line3" />
+    <property name="City" type="string" column="n01_adr_city" />
+    <property name="County" type="string" column="n01_adr_county" />
+    <property name="State" type="string" column="n01_adr_state" />
+    <property name="PostalCode" type="string" column="n01_adr_post_code" />
+    <property name="Country" type="string" column="n01_adr_country" />
+    <property name="InternationalProvince" type="string" column="n01_adr_intl_province" />
+    <property name="MetroStatArea" type="string" column="n01_adr_metro_stat_area" />
+    <property name="TimeZone" type="string" column="n01_adr_time_zone" />
+    <property name="AverageLongitude" type="Double" column="n01_adr_longitude" />
+    <property name="AverageLatitude" type="Double" column="n01_adr_latitude" />
+    <property name="MailingLabelHtml" type="string" column="n01_adr_mailing_label_html" />
+    <property name="AddressType" type="string" column="n01_adt_code" />
+    <property name="IsPrimary" type="Boolean" column="n01_primary_address_flag" />
+    <property name="IsBilling" type="Boolean" column="n01_billing_address_flag" />
+    <property name="AddressKey" type="Guid" column="n01_adr_key" />
+    
+  </class>
+</hibernate-mapping>
