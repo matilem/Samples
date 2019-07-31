@@ -1,0 +1,112 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{92285659-3EAE-4C06-B645-861C218E1F05}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Salesforce.GetDemographicInfo.Web</RootNamespace>
+    <AssemblyName>Salesforce.GetDemographicInfo.Web</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="QuestDiagnostics.ExamCentral.Core.Interfaces, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Applicint\QuestDiagnostics.ExamCentral.Core\QuestDiagnostics.ExamCentral.Core.Interfaces\bin\Release\QuestDiagnostics.ExamCentral.Core.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="QuestDiagnostics.ExamCentral.Core.Logging">
+      <HintPath>..\..\..\..\Applicint\QuestDiagnostics.ExamCentral.Core\QuestDiagnostics.ExamCentral.Core.Logging\bin\Release\QuestDiagnostics.ExamCentral.Core.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="QuestDiagnostics.ExamCentral.Core.MessageRepository">
+      <HintPath>..\..\..\..\Applicint\QuestDiagnostics.ExamCentral.Core\QuestDiagnostics.ExamCentral.Core.Logging\bin\Release\QuestDiagnostics.ExamCentral.Core.MessageRepository.dll</HintPath>
+    </Reference>
+    <Reference Include="QuestDiagnostics.Paramed.Applicint.Core.Interfaces, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Applicint\QuestDiagnostics.ExamCentral.Core\QuestDiagnostics.ExamCentral.Core.Logging\bin\Release\QuestDiagnostics.Paramed.Applicint.Core.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.XML" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="GetDemographicInfo.asmx" />
+    <Content Include="Web.config" />
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="GetDemographicInfo.asmx.cs">
+      <DependentUpon>GetDemographicInfo.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Salesforce.GetDemographicInfo.Library\Salesforce.GetDemographicInfo.Library.csproj">
+      <Project>{096A2F2C-6E41-4AC0-B2B7-BEA991C196FF}</Project>
+      <Name>Salesforce.GetDemographicInfo.Library</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Salesforce.GetDemographicInfo.Repo\Salesforce.GetDemographicInfo.Repo.csproj">
+      <Project>{FDF5389F-B947-4A60-BB22-2A1CA7DBA776}</Project>
+      <Name>Salesforce.GetDemographicInfo.Repo</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>False</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>4395</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>
+          </IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

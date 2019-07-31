@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://Salesforce/GetDemographicInfo" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://Salesforce/GetDemographicInfo" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://Salesforce/GetDemographicInfo">
+      <s:element name="GetDemoInfoResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetDemoInfoResponseResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetDemoInfoResponseResult" type="tns:Applicant" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="Applicant">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="First_Name" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Last_Name" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Pol_Amt" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="Global_App_SEQ_ID" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="App_Create_Dt" type="s:dateTime" />
+          <s:element minOccurs="0" maxOccurs="1" name="Lab_Code" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Tracer" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="Birthdate" type="s:dateTime" />
+          <s:element minOccurs="0" maxOccurs="1" name="Global_App_OFC_Code" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Services" type="tns:Services" />
+          <s:element minOccurs="0" maxOccurs="1" name="Insurance" type="tns:Insurance" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Services">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Service" type="tns:Service" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Service">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Completed_Date" type="s:dateTime" />
+          <s:element minOccurs="0" maxOccurs="1" name="SVD_Code" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Examiner" type="tns:Examiner" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Examiner">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="OFC_EXA_ID" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Last_Name" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="First_Name" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Office" type="tns:Office" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Office">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="EXA_Code" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="State" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Insurance">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="INS_Code" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="PHYS_Name" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Agent" type="tns:Agent" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Agent">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="AGT_Code" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="First_Name" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Last_Name" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Email_Address" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="Global_AGT_ID" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="AGT_ID" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="AuthHeader" type="tns:AuthHeader" />
+      <s:complexType name="AuthHeader">
+        <s:anyAttribute />
+      </s:complexType>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="GetDemoInfoResponseSoapIn">
+    <wsdl:part name="parameters" element="tns:GetDemoInfoResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetDemoInfoResponseSoapOut">
+    <wsdl:part name="parameters" element="tns:GetDemoInfoResponseResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetDemoInfoResponseAuthHeader">
+    <wsdl:part name="AuthHeader" element="tns:AuthHeader" />
+  </wsdl:message>
+  <wsdl:portType name="SalesforceSoap">
+    <wsdl:operation name="GetDemoInfoResponse">
+      <wsdl:input message="tns:GetDemoInfoResponseSoapIn" />
+      <wsdl:output message="tns:GetDemoInfoResponseSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="SalesforceSoap" type="tns:SalesforceSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetDemoInfoResponse">
+      <soap:operation soapAction="http://Salesforce/GetDemographicInfo/GetDemoInfoResponse" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetDemoInfoResponseAuthHeader" part="AuthHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="SalesforceSoap12" type="tns:SalesforceSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetDemoInfoResponse">
+      <soap12:operation soapAction="http://Salesforce/GetDemographicInfo/GetDemoInfoResponse" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetDemoInfoResponseAuthHeader" part="AuthHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="Salesforce">
+    <wsdl:port name="SalesforceSoap" binding="tns:SalesforceSoap">
+      <soap:address location="http://localhost:4395/GetDemographicInfo.asmx" />
+    </wsdl:port>
+    <wsdl:port name="SalesforceSoap12" binding="tns:SalesforceSoap12">
+      <soap12:address location="http://localhost:4395/GetDemographicInfo.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

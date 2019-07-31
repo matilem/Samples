@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<publishData>
+  <publishProfile publishUrl="C:\Deployments\Salesforce" deleteExistingFiles="True" ftpAnonymousLogin="False" ftpPassiveMode="True" msdeploySite="" msdeploySiteID="" msdeployRemoteSitePhysicalPath="" msdeployAllowUntrustedCertificate="False" msdeploySkipExtraFilesOnServer="True" msdeployMarkAsApp="False" profileName="Salesforce" publishMethod="FileSystem" replaceMatchingFiles="False" userName="" savePWD="False" userPWD="" SelectedForPublish="True">
+    <file relUrl="Web.config" publishTime="04/02/2014 07:06:56" />
+    <file relUrl="bin/Salesforce.GetDemographicInfo.Repo.dll" publishTime="04/01/2014 16:37:54" />
+    <file relUrl="bin/QuestDiagnostics.ExamCentral.Core.MessageRepository.dll" publishTime="04/01/2014 13:19:48" />
+    <file relUrl="bin/QuestDiagnostics.ExamCentral.Core.Logging.dll" publishTime="04/01/2014 13:19:48" />
+    <file relUrl="bin/QuestDiagnostics.Paramed.Applicint.Core.Common.dll" publishTime="04/01/2014 13:20:18" />
+    <file relUrl="bin/Salesforce.GetDemographicInfo.Web.dll" publishTime="04/01/2014 16:37:55" />
+    <file relUrl="bin/Salesforce.GetDemographicInfo.Library.pdb" publishTime="04/01/2014 16:37:54" />
+    <file relUrl="bin/QuestDiagnostics.ExamCentral.Core.Logging.pdb" publishTime="04/01/2014 13:19:49" />
+    <file relUrl="bin/QuestDiagnostics.ExamCentral.Core.Interfaces.dll" publishTime="04/01/2014 13:19:45" />
+    <file relUrl="bin/QuestDiagnostics.Paramed.Applicint.Core.Common.pdb" publishTime="04/01/2014 13:20:18" />
+    <file relUrl="bin/QuestDiagnostics.Paramed.Applicint.Core.Interfaces.dll" publishTime="04/01/2014 13:19:49" />
+    <file relUrl="bin/Salesforce.GetDemographicInfo.Library.dll" publishTime="04/01/2014 16:37:54" />
+    <file relUrl="bin/QuestDiagnostics.ExamCentral.Core.Interfaces.pdb" publishTime="04/01/2014 13:19:45" />
+    <file relUrl="GetDemographicInfo.asmx" publishTime="03/14/2014 11:09:16" />
+    <file relUrl="bin/Salesforce.GetDemographicInfo.Web.pdb" publishTime="04/01/2014 16:37:55" />
+    <file relUrl="bin/QuestDiagnostics.ExamCentral.Core.MessageRepository.pdb" publishTime="04/01/2014 13:19:49" />
+    <file relUrl="bin/Salesforce.GetDemographicInfo.Repo.pdb" publishTime="04/01/2014 16:37:53" />
+  </publishProfile>
+</publishData>

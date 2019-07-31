@@ -1,0 +1,12 @@
+C:\Projects\Legacy\Quest\Web Services\Salesforce.GetDemographicInfo\Salesforce.GetDemographicInfo.Library\bin\Release\Salesforce.GetDemographicInfo.Library.dll
+C:\Projects\Legacy\Quest\Web Services\Salesforce.GetDemographicInfo\Salesforce.GetDemographicInfo.Library\bin\Release\Salesforce.GetDemographicInfo.Library.pdb
+C:\Projects\Legacy\Quest\Web Services\Salesforce.GetDemographicInfo\Salesforce.GetDemographicInfo.Library\bin\Release\QuestDiagnostics.ExamCentral.Core.Interfaces.dll
+C:\Projects\Legacy\Quest\Web Services\Salesforce.GetDemographicInfo\Salesforce.GetDemographicInfo.Library\bin\Release\QuestDiagnostics.Paramed.Applicint.Core.Common.dll
+C:\Projects\Legacy\Quest\Web Services\Salesforce.GetDemographicInfo\Salesforce.GetDemographicInfo.Library\bin\Release\QuestDiagnostics.Paramed.Applicint.Core.Interfaces.dll
+C:\Projects\Legacy\Quest\Web Services\Salesforce.GetDemographicInfo\Salesforce.GetDemographicInfo.Library\bin\Release\Salesforce.GetDemographicInfo.Repo.dll
+C:\Projects\Legacy\Quest\Web Services\Salesforce.GetDemographicInfo\Salesforce.GetDemographicInfo.Library\bin\Release\Salesforce.GetDemographicInfo.Repo.pdb
+C:\Projects\Legacy\Quest\Web Services\Salesforce.GetDemographicInfo\Salesforce.GetDemographicInfo.Library\bin\Release\QuestDiagnostics.Paramed.Applicint.Core.Common.pdb
+C:\Projects\Legacy\Quest\Web Services\Salesforce.GetDemographicInfo\Salesforce.GetDemographicInfo.Library\bin\Release\QuestDiagnostics.Paramed.Applicint.Core.Interfaces.pdb
+C:\Projects\Legacy\Quest\Web Services\Salesforce.GetDemographicInfo\Salesforce.GetDemographicInfo.Library\obj\Release\Salesforce.GetDemographicInfo.Library.csprojResolveAssemblyReference.cache
+C:\Projects\Legacy\Quest\Web Services\Salesforce.GetDemographicInfo\Salesforce.GetDemographicInfo.Library\obj\Release\Salesforce.GetDemographicInfo.Library.dll
+C:\Projects\Legacy\Quest\Web Services\Salesforce.GetDemographicInfo\Salesforce.GetDemographicInfo.Library\obj\Release\Salesforce.GetDemographicInfo.Library.pdb
