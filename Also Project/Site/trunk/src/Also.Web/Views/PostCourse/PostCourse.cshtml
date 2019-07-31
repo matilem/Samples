@@ -1,0 +1,368 @@
+﻿@model Aafp.Also.Web.ViewModels.PostCourseViewModel
+@{
+    ViewBag.Title = Model.Activity.ActivityTitle + " -- Course Admin -- CME";
+}
+
+@Html.HiddenFor(model => model.Activity.ActivityKey)
+@Html.HiddenFor(model => model.Activity.ActivityNumber)
+@Html.HiddenFor(model => model.Activity.ActivityCourseType)
+@Html.HiddenFor(model => model.AlsoCourse.AlsoCourseKey)
+@Html.HiddenFor(model => model.Customer.WebLogin)
+@Html.HiddenFor(model => model.Activity.ActivityDirectorEmail)
+@Html.HiddenFor(model => model.Activity.ActivityCoordinatorEmail)
+@Html.HiddenFor(model => model.Activity.ActivityEndDate)
+
+<header class="container mt-3">
+    <div class="row">
+        <div class="col-12 pl-5">
+            <a href="@Model.AlsoHome" class="button button-tertiary"><i class="fa fa-home"></i> ALSO/BLSO Course List</a>
+        </div>
+    </div>
+    <p id="errorAlertBox" class="alert alert-danger" style="display: none;">
+        <strong class="text" id="errorMessageParagraph"></strong>
+    </p>
+    <p id="successAlertBox" class="alert alert-info" style="display: none;">
+        <strong class="text " id="successMessageParagraph"></strong>
+    </p>
+    <div id="courseAdministration" class="row">
+        <div class="col-12">
+            <hgroup class="horizontal-gradient">
+                <h2 class="title-kicker">Course Administration </h2>
+                <h1 class="horizontal-gradient">@Model.Activity.ActivityTitle<small> @Model.Activity.ActivityNumber</small></h1>
+                <h3 class="title-deck">
+                    @Model.Activity.ActivityDateDisplay | @Model.Activity.ActivityLocation | @Model.Activity.ActivitySponsorName
+                </h3>
+            </hgroup>
+        </div>
+        <div class="col-12 horizontal-gradient">
+            <div class="col-12">
+                @if (Model.Customer.IsAafpStaff)
+                {
+                    <p>
+                        <span class="status-label">CME Application Status:</span>
+                        <span class="status">@Model.Activity.CMEApplicationStatus</span>
+                    </p>
+                }
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+</header>
+
+<div id="PostCourseDiv" class="container main-content">
+
+    <div id="couseBlock" class="row">
+
+        <div class="calloutbox col-md-4 col-sm-12 pt-3">
+            <div class="calloutbox-center highlights">
+                <div class="container tertiary">
+                    <div class="content">
+                        <div class="par parsys">
+                            <div class="text parbase section">
+                                <table class="no-mobile-table margin-left">
+                                    <tr>
+                                        <td><strong>Director</strong></td>
+                                        <td>@Model.Activity.ActivityDirectorName</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Coordinator</strong></td>
+                                        <td>@Model.Activity.ActivityCoordinatorName</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                @if (Model.Customer.IsAafpStaff)
+                {
+                    <a class="button button-tertiary mb-0" href="@Model.PreCourseUrl">View PreCourse Page</a>
+                }
+            </div>
+        </div>
+        <div class="col-md-2 col-sm-12"></div>
+        <div class="col-md-6 col-sm-12 pt-3">
+            <div class="images image-wrapper float-right">
+                <img class="img-fluid" src="~/Content/imgs/ALSO.BLSO.jpg" />
+            </div>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+
+    <div id="LearnersBlock">
+        <div class="row">
+            <div class="col-sm-3">
+                <h3>Learners</h3>
+            </div>
+            <div class="col-sm-9">
+                <p class="float-right" style="color:red;">
+                    Please Note: If learner names are not listed below, this indicates that learners have not used your discount code to access the online content.
+                </p>
+            </div>
+        </div>
+        <div class="table-responsive learners text-center">
+            <table id="learnersTable" class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>AAFP ID</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Occupation </th>
+                        <th>Course Pre-Work</th>
+                        <th class="grades__header">Pass</th>
+                        <th class="grades__header">Fail</th>
+                        <th class="grades__header">No-Show</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var learner in Model.Learners.OrderBy(x => x.LastName))
+                    {
+                        <tr class="grades">
+                            @Html.HiddenFor(model => learner.CustomerKey)
+                            @Html.HiddenFor(model => learner.LearnerKey)
+                            @Html.HiddenFor(model => learner.OccupationKey)
+                            @Html.HiddenFor(model => learner.Eligible)
+                            <td id="customerId">@learner.CustomerId</td>
+                            <td id="customerFirstName">@learner.FirstName</td>
+                            <td id="customerLastName">@learner.LastName</td>
+                            <td class="text-nowrap">
+                                <span id="occupationError" class="field-validation-error" color="red" style="display: none;">
+                                    An occupation is required to continue.
+                                </span>
+
+                                @if (learner.OccupationKey != Guid.Empty)
+                                {
+                                    @Html.DropDownListFor(x => learner.OccupationKey, new SelectList(Model.LearnerOccupations.OrderBy(x => x.OccupationRole), "OccupationKey", "OccupationRole", learner.OccupationKey), new { @class = "mdb-select", @id = "learnerOccupation" });
+                                }
+                                else
+                                {
+                                    @Html.DropDownListFor(model => model.LearnerOccupations, new SelectList(Model.LearnerOccupations.OrderBy(x => x.OccupationRole), "OccupationKey", "OccupationRole", Guid.Empty), "Select Occupation", new { @class = "mdb-select", @id = "learnerOccupation" });
+                                }
+                                <span class="form__ast-req">*</span>
+                            </td>
+
+                            @if (learner.Eligible)
+                            {
+                                <td>Completed</td>
+                            }
+                            else
+                            {
+                                <td>
+                                    <strong style="color: red;">Incomplete</strong>
+                                </td>
+                            }
+
+                            <td class="p-0 grades__pass">
+                                <span id="gradeError" class="field-validation-error" color="red" style="display: none;">A grade is required to continue.</span>
+                                <label class="grades__label">
+                                    @Html.RadioButton(learner.CustomerKey + "_Grades", "Pass", learner.PassedFlag ? true : false, learner.Eligible ? null : new { disabled = "disabled" })
+                                </label>
+                            </td>
+                            <td class="p-0 grades__fail">
+                                <label class="grades__label">
+                                    @Html.RadioButton(learner.CustomerKey + "_Grades", "Fail", learner.FailedFlag ? true : false, learner.Eligible ? null : new { disabled = "disabled" })
+                                </label>
+                            </td>
+                            <td class="p-0 grades__noshow">
+                                <label class="grades__label">
+                                    @Html.RadioButton(learner.CustomerKey + "_Grades", "No-Show", learner.NoShowFlag ? true : false, learner.Eligible ? null : new { disabled = "disabled" })
+                                </label>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <div id="postCourseErrorSpan" style="display: none;" class="alert alert-warning">
+                <p class="mb-0">We were unable to save your post-course information. Please try again later.</p>
+            </div>
+            <div id="occupationErrorSpan" style="display: none;" class="alert alert-danger">
+                <p class="mb-0">All learner occupations must be provided to submit the course.</p>
+            </div>
+            <div id="gradeErrorSpan" style="display: none;" class="alert alert-danger">
+                <p class="mb-0">All learner grades must be completed to submit the course.</p>
+            </div>
+        </div>
+
+    </div>
+    <div class="clearfix"></div>
+
+    <div id="instructors" class="row">
+        <div class="col-12">
+            <h3>Instructors</h3>
+        </div>
+        <div class="col-12">
+            <div class="col-sm-12 col-md-6 alert alert-primary">
+                Please enter AAFP ID to add the instructor(s) to your course
+            </div>
+            <div class="col-12">
+                <div class="form-row form-group">
+                    <span class="">
+                        <input id="instructorId" class="form-control form-control" type="text">
+                    </span>
+                    <span class="ml-3 mr-3">
+                        <a href="#" id="addInstructor" class="button large button-tertiary mb-0"> Add Instructor</a>
+                    </span>
+                    <div id="instructorErrorAlertBox" class="alert alert-danger col-6" style="display: none;" role="alert">
+                        <strong>Sorry!</strong> <span id="instructorErrorMessageParagraph"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12">
+            <div id="viewPlaceHolder"></div>
+            <table id="instructorTable" class="table table-striped instructor-table">
+                <thead>
+                    <tr>
+                        <th>AAFP ID</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Status</th>
+                        <th>Recommend<br />Advisory<br />Faculty</th>
+                        <th>Recommend<br />Approved<br />Instructor</th>
+                        <th>Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        @if (Model.Instructors.Count != 0)
+                        {
+                            <!-- output the instructors -->
+                            foreach (var instructor in Model.Instructors.OrderBy(x => x.LastName))
+                            {
+                                @Html.Partial("_Instructor", instructor)
+                            }
+                        }
+                        else
+                        {
+                            <td id="instructorsMissing" colspan="7" class="text-center">No Instructors have been added</td>
+                        }
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+
+
+    <div class="row mb-4">
+
+        <div class="col-12">
+            <h3>Upload Course Roster/Signature Sheet</h3>
+        </div>
+        <div id="fileUploadWrapper" class="col-12 row" style="@(Model.AlsoCourse != null ? "" : "display: none;")">
+
+            <div class="col-8">
+                <script type="text/javascript">
+                        $(document).ready(function () {
+                            $("#input-24").fileinput({
+                                theme: "fa",
+                                deleteUrl: "/site/file-delete",
+                                overwriteInitial: false,
+                                showUpload: true,
+                                showRemove: false,
+                                showCancel: false,
+                                uploadUrl: "@Model.UploadUrl",
+                                maxFileSize: 100000,
+                                maxFilePreviewSize: 10240,
+                                uploadExtraData: {
+                                    also_courseKey: "@(Model.AlsoCourse != null ? Model.AlsoCourse.AlsoCourseKey : new Guid())"
+                                }
+                            });
+
+                        });
+                </script>
+
+                <div class="file-loading">
+                    <input id="input-24" name="input24[]" type="file" multiple>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 pt-5">
+            @if (Model.Customer.IsAafpStaff)
+            {
+                <div class="mb-3">
+                    <a class="button button-tertiary" id="requestCourseRoster" href="#">Request Course Roster </a>
+                </div>
+            }
+            <div>
+                <a class="button large button-tertiary mb-0" id="savePostCourseButton" href="#">Save Updates</a>
+            </div>
+            <div>
+                <a class="add-modal__btn" id="savingPostCourseButton" href="#" style="display: none">
+                    <i class="fa fa-spin fa-spinner"></i> Saving
+                </a>
+            </div>
+        </div>
+
+
+        @if (Model.Customer.IsAafpStaff)
+        {
+            <hr />
+
+            <div class="row no-gutters">
+                <div class="col-12">
+                    <h3 class="mb-1">Course Activity Notes</h3>
+                </div>
+                <div class="col-5">
+                    <div class="form-group">
+                        <textarea id="courseNote" class="form-control-sm" rows="10" cols="45" placeholder="Enter notes on actions taken with this course (ie. Emails sent, Missing data, etc). Notes will only be visible to AAFP Staff"></textarea>
+                    </div>
+                    <a class="btn button-tertiary" id="saveNote" href="#">Save Notes</a>
+                </div>
+                <div class="col-7 pl-0">
+                    <div class="notes-scroll-block">
+                        <table id="notesHistoryTable" class="table table-hover table-striped table-bordered table-sm  pr-0 pl-0  notesHistoryTable">
+                            <thead>
+                                <tr>
+                                    <th class="payment__table-head-cell center-text">Description</th>
+                                    <th class="payment__table-head-cell center-text">Who</th>
+                                    <th class="payment__table-head-cell center-text">Date</th>
+                                    <th class="payment__table-head-cell center-text">Time</th>
+                                </tr>
+                            </thead>
+                            @if (Model.Notes != null)
+                            {
+                                foreach (var note in Model.Notes.OrderBy(x => x.AddDate))
+                                {
+                                    <tbody>
+                                        <tr>
+                                            <td>@note.Note</td>
+                                            <td>@note.AddUser</td>
+                                            <td>@note.DateDisplay</td>
+                                            <td>@note.TimeDisplay</td>
+                                        </tr>
+                                    </tbody>
+                                }
+                            }
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+        }
+
+        <div class="col-12 pt-5">
+            @if (Model.Customer.IsAafpStaff)
+            {
+                if (Model.Activity.CMEApplicationStatus == "Approved")
+                {
+                    <div>
+                        <a class="button large button-primary mb-0" id="completeCourseButton" href="#">Complete Course</a>
+                    </div>
+                }
+            }
+            else
+            {
+                <div>
+                    <a class="button large button-primary mb-0" id="submitPostCourseButton" href="#">Submit to AAFP</a>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<div class="clearfix"></div>
+</div>
+
+<script src="~/Scripts/AppScripts/postcourse.js"></script>

@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+  <class name="Aafp.Also.Api.Models.Activity, Aafp.Also.Api" table="client_aafp_m31_cme_activity" where="m31_delete_flag = 0">
+    <id name="Key" column="m31_key" type="Guid" unsaved-value="00000000-0000-0000-0000-000000000000">
+      <generator class="guid" />
+    </id>
+
+    <!-- NetForum Fields -->
+    <property name="AddUser" type="String" column="m31_add_user" />
+    <property name="AddDate" type="DateTime" column="m31_add_date" />
+    <property name="ChangeUser" type="String" column="m31_change_user" />
+    <property name="ChangeDate" type="DateTime" column="m31_change_date" />
+    <property name="IsDeleted" type="Boolean" column="m31_delete_flag" />
+    <property name="EntityKey" type="Guid" column="m31_entity_key" />
+
+    <!-- Domain Fields -->
+    <property name="DirectorKey" type="Guid" column="m31_course_director_cst_key" />
+    <property name="DirectorId" type="String" column="m31_director_id" />
+    <property name="DirectorName" type="String" column="m31_director_name" />
+    <property name="DirectorEmail" type="String" column="m31_director_email" />
+    <property name="DirectorPhone" type="String" column="m31_director_phone" />
+    <property name="CoordinatorKey" type="Guid" column="m31_course_coordinator_cst_key" />
+    <property name="CoordinatorId" type="String" column="m31_coordinator_id" />
+    <property name="CoordinatorName" type="String" column="m31_course_coordinator_name" />
+    <property name="CoordinatorEmail" type="String" column="m31_course_coordinator_email" />
+    <property name="CoordinatorPhone" type="String" column="m31_course_coordinator_phone" />
+    <property name="BeginDate" type="DateTime" column="m31_begin_date" />
+    <property name="EndDate" type="DateTime" column="m31_end_date" />
+    
+  </class>
+</hibernate-mapping>

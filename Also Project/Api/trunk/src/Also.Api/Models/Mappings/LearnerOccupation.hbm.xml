@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+  <class name="Aafp.Also.Api.Models.LearnerOccupation, Aafp.Also.Api" table="client_aafp_b30_also_learner_occupation" where="b30_delete_flag = 0">
+    <id name="Key" column="b30_key" type="Guid" unsaved-value="00000000-0000-0000-0000-000000000000">
+      <generator class="guid" />
+    </id>
+
+    <!-- NetForum Fields -->
+    <property name="AddUser" type="String" column="b30_add_user" />
+    <property name="AddDate" type="DateTime" column="b30_add_date" />
+    <property name="ChangeUser" type="String" column="b30_change_user" />
+    <property name="ChangeDate" type="DateTime" column="b30_change_date" />
+    <property name="IsDeleted" type="Boolean" column="b30_delete_flag" />
+    <property name="EntityKey" type="Guid" column="b30_entity_key" />
+    <property name="Type" type="String" column="b30_role" />
+  </class>
+</hibernate-mapping>

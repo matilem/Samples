@@ -1,0 +1,38 @@
+﻿@model Aafp.Also.Web.ViewModels.InstructorViewModel
+
+<tr id="@Model.CustomerId">
+    @Html.HiddenFor(model => model.InstructorKey)
+    @Html.HiddenFor(model => model.CustomerKey)
+    <td>
+		<span class="table-head-mobile th-1">AAFP ID: </span>
+		<span class="customerId">@Model.CustomerId</span>
+	</td>
+    <td>
+		<span class="table-head-mobile th-2">FIRST NAME: </span>
+		@Model.FirstName
+	</td>
+    <td>
+		<span class="table-head-mobile th-3">LAST NAME: </span>
+		@Model.LastName
+	</td>
+    <td>
+		<span class="table-head-mobile th-4">STATUS: </span>
+        <div id="currentStatus">@Model.CurrentAlsoStatus</div>
+	</td>
+	<td>
+		<span class="table-head-mobile th-5">RECOMMEND ADVISORY FACULTY: </span>
+		<label>
+			@Html.CheckBoxFor(model => model.AdvisoryFacultyRecommended, new { id = "RecommendAdvisoryFaculty" })
+		</label>
+	</td>
+	<td>
+		<span class="table-head-mobile th-6">RECOMMEND INSTRUCTOR: </span>
+		<label>
+			@Html.CheckBoxFor(model => model.InstructorRecommended, new { id = "RecommendInstructor" })
+		</label>
+	</td>
+	<td>
+		<span class="table-head-mobile th-7">DELETE: </span>
+		<a class="removeInstructor" href="#"><i class="fa fa-trash "></i></a>
+	</td>
+</tr>

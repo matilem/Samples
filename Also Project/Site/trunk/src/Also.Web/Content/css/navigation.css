@@ -1,0 +1,39 @@
+a {
+    color: #000000;
+}
+
+.nav {
+    margin-left: 55px;
+    padding-right: 20px;
+}
+
+.nav-link {
+    color: #000000;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding-left:20px;
+    font-size: 18px;
+    font-family:'Times New Roman';
+}
+
+   
+.nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus {
+    color: #000000;
+    background-color: #DB9F40 !important;
+}
+
+.nav-pills > li > a:hover, .nav > li > a:focus {
+    color: #000000;
+    background-color: #DB9F40 !important;
+}
+
+.applycolor:hover {
+    background-color: #CF7F00;
+    color: #000000;
+}
+
+@media (max-width: 767px) {
+    .nav-pills > li {
+        float: none;
+    }
+}

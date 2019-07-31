@@ -1,0 +1,307 @@
+﻿/*Site wide*/
+html {
+    height: 100% !important;
+}
+body {
+    font-family: Arial, sans-serif;
+}
+h3.title-deck {
+    font-size: 1rem;
+}
+.section-also a {
+    text-decoration: underline;
+}
+.section-also small {
+    font-size: 50%;
+}
+header.container {
+    /*max-width: 1039px;*/
+    padding: 0;
+}
+
+.container {
+    max-width: 979px;
+}
+@media (min-width: 768px) and (max-width: 979px) {
+    .container {
+        min-width: 776px;
+    }
+}
+.main-content {
+    background-color: white;
+}
+
+.center{
+    margin: 0 auto;
+}
+
+.center-text {
+    text-align:center;
+}
+
+.clear{
+    clear:both;
+}
+
+.page-item.active .page-link {
+    background-color: #4f758b !important;
+    border-color: #4f758b !important;
+    color: #ffffff !important;
+}
+
+.page-link {
+    color: #4f758b !important;
+}
+
+h3 {
+    font-family: 'Times New Roman';
+}
+
+.sidebar {
+    margin: auto 0px;
+    background-color: #ffffff !important;
+}
+.paginate_button a {
+    text-decoration: none;
+}
+a.btn {
+    text-decoration: none;
+}
+
+/*Index Page*/
+.table tr td {
+    color: #000000 !important;
+    border-color: white;
+}
+
+tr:hover {
+    background-color: #dce3e8 !important;
+}
+
+th {
+    background-color: #4f758b !important;
+    color: #ffffff !important;
+}
+
+
+.calloutbox .container {
+    width: auto !important;
+    min-width: auto;
+    max-width: auto;
+}
+
+/*Pre-Course Page*/
+
+.agenda a:focus {
+    color: #ffffff !important;
+    border-color: #6c757d !important;
+}
+
+.below{
+    margin-top: 20px;
+}
+
+.btn-secondary {
+    background-color: #4f758b !important;
+    border: 0;
+}
+
+    .btn-secondary i.fa {
+        color: white;
+    }
+
+.btn-primary {
+    background-color: #cf7f00 !important;
+    border: 0;
+    color: #ffffff !important;
+}
+
+.btn-outline-medium {
+    border-color: #ddd;
+    background-color: white;
+    color: #4f758b;
+}
+.btn-outline-medium:hover {
+    background-color: #e9ecef
+}
+.btn-outline-medium:active,
+.btn-outline-medium:focus {
+    background-color: #4f758b;
+    border-color: #4f758b;
+    color: white;
+}
+
+button.btn {
+    box-shadow: none;
+    -webkit-box-shadow: none;
+}
+
+.btn-danger {
+    background-color: #9e2a2f;
+    border-color: #9e2a2f;
+}
+
+.btn-danger:hover {
+    background-color: #b65f63;
+    border-color: #b65f63;
+}
+
+.jumbotron {
+    background-color: #fff !important;
+    padding: 0rem 0rem;
+    width: 100% !important;
+    margin: 0px !important;
+}
+
+.left-btn {
+    margin-right: 20px !important;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group button {
+    margin-bottom: 0px !important;
+}
+
+.button-primary {
+    color: #fff !important;
+    font-weight: bold;
+}
+
+.button-primary:hover {
+    background-color: #db9f40 !important;
+}
+
+/* Modal Design*/
+.modal-title {
+    font-size: 1.17em;
+}
+
+.field-validation-error {
+    color: #ff0000;
+    line-height: 2em;
+}
+
+/* File Upload */
+.file-input .btn-primary {
+    background-color: #e3e3e3 !important;
+    color: #4f758b !important;
+    cursor: pointer;
+}
+.file-preview button.fileinput-remove {
+    border: 0px;
+    box-shadow: none;
+    line-height: 1em;
+    right: 3px;
+}
+
+/* hide/show View menu */
+.toolbar-desktop {
+    display: block;
+    overflow: hidden;
+}
+.toolbar-mobile {
+    display: none;
+    overflow: hidden;
+}
+
+
+/* Learners Table */
+.learners th {
+    text-align: center;
+}
+.learners th.grades__header {
+    background-color: #444 !important;
+}
+.learners select {
+    max-width: 100%;
+}
+
+/* Instructors Table */
+.instructor-table th, 
+.instructor-table td {
+    text-align: center
+}
+
+/* Pre-course Notes Table */
+.notesHistoryTable th,
+.notesHistoryTable td {
+    font-size: 12px;
+}
+.notes-scroll-block {
+    overflow-x: hidden;
+    overflow-y: scroll;
+    height: 215px;
+    border: 1px solid #ccc
+}
+.notesHistoryTable td.nowrap{
+    white-space:nowrap;
+}
+.grades__pass {
+    background-color: #e4ebdb;
+}
+.grades__fail {
+    background-color: #cfacae;
+}
+.grades__noshow {
+    background-color: #ddd;
+}
+.grades__label {
+    display:block; 
+    padding: 0.75rem;
+}
+a.removeInstructor{
+    display: inline;
+    overflow: hidden;
+}
+
+.horizontal-gradient {
+    color: #444444;
+    background: #ffffff;
+    background: -moz-linear-gradient(left, #ffffff 0%, #ececed 100%);
+    background: -webkit-gradient(linear, left top, right top, color-stop(0%, #ffffff), color-stop(100%, #ececed));
+    background: -webkit-linear-gradient(left, #ffffff 0%, #ececed 100%);
+    background: -o-linear-gradient(left, #ffffff 0%, #ececed 100%);
+    background: -ms-linear-gradient(left, #ffffff 0%, #ececed 100%);
+    background: linear-gradient(to right, #ffffff 0%, #ececed 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#ececed', GradientType=1);
+    -pie-background: linear-gradient(#ffffff, #ececed);
+}
+
+/* overrides form some table elements */
+@media screen and (max-width: 767px) {
+    .toolbar-desktop {
+        display: none;
+
+    }
+    .toolbar-mobile {
+        display: block;
+    }
+
+    .grades__pass, .grades__fail, .grades__noshow {
+        padding: .75em !important;
+    }
+
+    table tr td .table-head-mobile {
+        padding-right: .8em;
+        font-weight: bold;
+    }
+
+    .table-responsive.learners select {
+        max-width: 100%;
+        display: block;
+    }
+    .table-responsive.learners .form__ast-req{
+        display: inline;
+    }
+    .table-responsive.learners label.grades__label {
+        display: inline;
+    }
+
+    table.instructor-table tr td {
+        text-align: left;
+    }
+
+}

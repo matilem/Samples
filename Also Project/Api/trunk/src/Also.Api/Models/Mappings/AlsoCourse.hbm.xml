@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+  <class name="Aafp.Also.Api.Models.AlsoCourse, Aafp.Also.Api" table="client_aafp_b28_also_course" where="b28_delete_flag = 0">
+    <id name="Key" column="b28_key" type="Guid" unsaved-value="00000000-0000-0000-0000-000000000000">
+      <generator class="guid" />
+    </id>
+
+    <!-- NetForum Fields -->
+    <property name="AddUser" type="String" column="b28_add_user" />
+    <property name="AddDate" type="DateTime" column="b28_add_date" />
+    <property name="ChangeUser" type="String" column="b28_change_user" />
+    <property name="ChangeDate" type="DateTime" column="b28_change_date" />
+    <property name="IsDeleted" type="Boolean" column="b28_delete_flag" />
+    <property name="EntityKey" type="Guid" column="b28_entity_key" />
+
+    <!-- Domain Fields -->
+    <property name="ActivityKey" type="Guid" column="b28_m31_key" />
+    <property name="PriceKey" type="Guid" column="b28_prc_key" />
+    <property name="MilitaryKey" type="Guid" column="b28_b33_key" />
+    <property name="PreCourseSubmittedFlag" type="Boolean" column="b28_pre_course_submitted_flag" />
+    <property name="PreCourseApprovedFlag" type="Boolean" column="b28_pre_course_approved_flag" />
+    <property name="PostCourseSubmittedFlag" type="Boolean" column="b28_post_course_submitted_flag" />
+    <property name="PostCourseCompletedFlag" type="Boolean" column="b28_post_course_completed_flag" />
+  </class>
+</hibernate-mapping>

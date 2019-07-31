@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+  <class name="Aafp.Also.Api.Models.Price, Aafp.Also.Api" table="oe_price" where="prc_delete_flag = 0">
+    <id name="Key" column="prc_key" type="Guid" unsaved-value="00000000-0000-0000-0000-000000000000">
+      <generator class="guid" />
+    </id>
+
+    <!-- NetForum Fields -->
+    <property name="AddUser" type="String" column="prc_add_user" />
+    <property name="AddDate" type="DateTime" column="prc_add_date" />
+    <property name="ChangeUser" type="String" column="prc_change_user" insert="false" />
+    <property name="ChangeDate" type="DateTime" column="prc_change_date" insert="false" />
+    <property name="DeleteFlag" type="Boolean" column="prc_delete_flag" />
+    <property name="EntityKey" type="Guid" column="prc_entity_key" />
+
+    <!-- Domain Fields -->
+    <property name="ProductKey" type="Guid" column="prc_prd_key" />
+    <property name="ProductTypeKey" type="Guid" column="prc_prd_ptp_key" />
+    <property name="ProductCompanyKey" type="Guid" column="prc_prd_atc_key" />
+    <property name="PriceCode" type="String" column="prc_code" />
+    <property name="PriceAmount" type="Decimal" column="prc_price" />
+    <property name="PricePercent" type="Decimal" column="prc_percent" />
+    <property name="PriceDisplayName" type="String" column="prc_display_name" />
+    <property name="PriceRevenueKey" type="Guid" column="prc_gla_revenue_key" />
+    <property name="PriceStartDate" type="DateTime" column="prc_start_date" />
+    <property name="PriceEndDate" type="DateTime" column="prc_end_date" />
+    <property name="PriceEwebCode" type="String" column="prc_eweb_code" />
+    <property name="RenewUnpaidOrdersFlag" type="Boolean" column="prc_renew_unpaid_orders_flag" />
+    <property name="AllowUnpaidOrdersFlag" type="Boolean" column="prc_allow_unpaid_orders_flag" />
+
+  </class>
+</hibernate-mapping>

@@ -1,0 +1,102 @@
+﻿@model List<Aafp.Also.Web.ViewModels.CourseListViewModel>
+@{
+    ViewBag.Title = "ALSO/BLSO Course List -- CME";
+}
+
+<div class="container mt-3">
+    <div class="row">
+        <div class="col-12 no-padding">
+            <hgroup class="horizontal-gradient">
+                <h1 class="horizontal-gradient">ALSO/BLSO Course List</h1>
+            </hgroup>
+        </div>
+    </div>
+</div>
+<div class="container main-content pb-3">
+	<div class="no-padding">
+		<div class="row">
+			<div class="col-12">
+				<p id="errorAlertBox" class="alert alert-danger" style="display: none;">
+					<strong class="text" id="errorMessageParagraph"></strong>
+				</p>
+				<p id="successAlertBox" class="alert alert-info" style="display: none;">
+					<strong class="text " id="successMessageParagraph"></strong>
+				</p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="ml-3 pl-3">
+				<img class="img-fluid" src="~/Content/imgs/ALSO.BLSO.jpg" />
+			</div>
+		</div>
+		<div class="toolbar-desktop ">
+			<div role="toolbar" class="float-right pr-0 pl-0 mt-0 mr-3 mb-1" aria-label="Toolbar with quick filters">
+				<div class="btn-group">
+					<label class="pr-1 text-right">View:</label>
+				</div>
+				<div class="btn-group btn-group-sm" role="group" aria-label="Quick filters">
+					<button id="filter-all" type="button" class="btn btn-outline-medium">All</button>
+					<button id="filter-precourse" type="button" class="btn btn-outline-medium">Pre-Course View</button>
+					<button id="filter-approvalPending" type="button" class="btn btn-outline-medium">Approval Pending</button>
+					<button id="filter-approved" type="button" class="btn btn-outline-medium">Approved</button>
+					<button id="filter-completionPending" type="button" class="btn btn-outline-medium">Completion Pending</button>
+				</div>
+			</div>
+		</div>
+		<div class="toolbar-mobile">
+			<div class="btn-toolbar btn-group mb-1" aria-label="Toolbar with quick filters">
+				<div class="col-5 text-right no-padding">
+					<label for="view-filter-select" class="pr-2">View:</label>
+				</div>
+				<div class="col-5 text-left no-padding">
+					<select id="view-filter-select" class="form-control form-control-sm">
+						<option value="all" selected>All</option>
+						<option value="precourseView">Pre-Course View</option>
+						<option value="approvalPending">Approval Pending</option>
+						<option value="approved">Approved</option>
+						<option value="completionPending">Completion Pending</option>
+					</select>
+				</div>
+			</div>
+		</div>
+
+		<table id="CourseListTable" class="table table-hover table-striped table-bordered table-sm course-list-table" style="width:100%;">
+			<thead>
+				<tr>
+					<th class="payment__table-head-cell center-text">Number</th>
+					<th class="payment__table-head-cell center-text">Location</th>
+					<th class="payment__table-head-cell center-text">Sponsor</th>
+					<th class="payment__table-head-cell center-text">Dates</th>
+					<th class="payment__table-head-cell center-text">Course</th>
+					<th class="payment__table-head-cell center-text">Status</th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach (var activity in Model)
+				{
+				<tr id="@activity.ActivityNumber">
+					<td class="center-text">
+						<a href="@activity.ActivityDetailsUrl">@activity.ActivityNumber</a>
+					</td>
+					<td class="center-text">
+						@activity.ActivityCity, @activity.ActivityState
+					</td>
+					<td class="center-text">
+						@activity.ActivitySponsorName
+					</td>
+					<td class="center-text">
+						@activity.ActivityDateDisplay
+					</td>
+					<td class="center-text">
+						@activity.ActivityCourseType
+					</td>
+					<td class="center-text">
+						@activity.Status
+					</td>
+				</tr>
+				}
+			</tbody>
+		</table>
+
+	</div>
+</div>

@@ -1,0 +1,25 @@
+body {
+  padding:20px 20px;
+}
+
+.results tr[visible='false'], .no-result {
+  display:none;
+}
+
+.results tr[visible='true'] {
+  display:table-row;
+}
+
+.counter {
+  padding:8px;
+  color:#ccc;
+}
+
+/* Define the default color for all the table rows */
+.clickable-row tr {
+    background: #b8d1f3;
+}
+
+.table-hover > tbody > tr:hover {
+    background-color: #dce3e8;
+}

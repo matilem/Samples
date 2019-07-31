@@ -1,0 +1,25 @@
+﻿@{
+    ViewBag.Title = "File Upload";
+}
+
+<script type="text/javascript">
+        $(document).ready(function () {
+            $("#input-24").fileinput({
+                theme: "fa",
+                deleteUrl: "/site/file-delete",
+                overwriteInitial: false,
+                showUpload: true,
+                showRemove: false,
+                showCancel: false,
+                uploadUrl: "../../fileupload/ajaxupload",
+                maxFileSize: 100000,
+                maxFilePreviewSize: 10240
+            });
+
+        });
+</script>
+
+<div class="file-loading">
+    <input id="input-24" name="input24[]" type="file" multiple>
+</div>
+

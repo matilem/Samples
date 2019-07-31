@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+  <class name="Aafp.Also.Api.Models.AlsoStatus, Aafp.Also.Api" table="client_aafp_a02_also_status" where="a02_delete_flag = 0">
+    <id name="Key" column="a02_key" type="Guid" unsaved-value="00000000-0000-0000-0000-000000000000">
+      <generator class="guid" />
+    </id>
+
+    <!-- NetForum Fields -->
+    <property name="AddUser" type="String" column="a02_add_user" />
+    <property name="AddDate" type="DateTime" column="a02_add_date" />
+    <property name="ChangeUser" type="String" column="a02_change_user" />
+    <property name="ChangeDate" type="DateTime" column="a02_change_date" />
+    <property name="IsDeleted" type="Boolean" column="a02_delete_flag" />
+    <property name="EntityKey" type="Guid" column="a02_entity_key" />
+
+    <!-- Domain Fields -->
+    <property name="CustomerKey" type="Guid" column="a02_cst_key" />
+    <property name="AlsoStatusTypeKey" type="Guid" column="a02_cst_key" />
+    <property name="StartDate" type="DateTime" column="a02_start_date" />
+    <property name="ExpirationDate" type="DateTime" column="a02_expire_date" />
+    <property name="ApproveDate" type="DateTime" column="a02_approve_date" />
+
+  </class>
+</hibernate-mapping><?xml version="1.0" encoding="utf-8" ?> 

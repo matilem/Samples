@@ -1,0 +1,10 @@
+select, textarea {
+  width:170px;
+  height:30px;
+  font-size:15px;
+  padding-right:20px;
+}
+
+.btn.btn-default.active {
+    float:right;
+  }
