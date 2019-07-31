@@ -1,0 +1,6 @@
+C:\Projects\PlayLand\UnzipDecrypt\UnzipDecrypt\Encryption\bin\Debug\Encryption.dll
+C:\Projects\PlayLand\UnzipDecrypt\UnzipDecrypt\Encryption\bin\Debug\Encryption.pdb
+C:\Projects\PlayLand\UnzipDecrypt\UnzipDecrypt\Encryption\bin\Debug\BouncyCastle.Crypto.dll
+C:\Projects\PlayLand\UnzipDecrypt\UnzipDecrypt\Encryption\obj\Debug\ResolveAssemblyReference.cache
+C:\Projects\PlayLand\UnzipDecrypt\UnzipDecrypt\Encryption\obj\Debug\Encryption.dll
+C:\Projects\PlayLand\UnzipDecrypt\UnzipDecrypt\Encryption\obj\Debug\Encryption.pdb

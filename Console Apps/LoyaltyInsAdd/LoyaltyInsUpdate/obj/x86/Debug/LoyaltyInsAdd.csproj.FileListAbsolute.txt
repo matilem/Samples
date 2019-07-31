@@ -1,0 +1,12 @@
+C:\Projects\Legacy\Applications\Automated\LoyaltyInsUpdate\LoyaltyInsUpdate\bin\Debug\LoyaltyInsUpdate.exe.config
+C:\Projects\Legacy\Applications\Automated\LoyaltyInsUpdate\LoyaltyInsUpdate\obj\x86\Debug\LoyaltyInsUpdate.exe
+C:\Projects\Legacy\Applications\Automated\LoyaltyInsUpdate\LoyaltyInsUpdate\obj\x86\Debug\LoyaltyInsUpdate.pdb
+C:\Projects\Legacy\Applications\Automated\LoyaltyInsUpdate\LoyaltyInsUpdate\bin\Debug\LoyaltyInsUpdate.exe
+C:\Projects\Legacy\Applications\Automated\LoyaltyInsUpdate\LoyaltyInsUpdate\bin\Debug\LoyaltyInsUpdate.pdb
+C:\Projects\Legacy\Applications\Automated\LoyaltyInsUpdate\LoyaltyInsUpdate\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Projects\Legacy\Applications\Automated\LoyaltyInsAdd\LoyaltyInsUpdate\bin\Debug\LoyaltyInsUpdate.exe.config
+C:\Projects\Legacy\Applications\Automated\LoyaltyInsAdd\LoyaltyInsUpdate\obj\x86\Debug\LoyaltyInsUpdate.exe
+C:\Projects\Legacy\Applications\Automated\LoyaltyInsAdd\LoyaltyInsUpdate\obj\x86\Debug\LoyaltyInsUpdate.pdb
+C:\Projects\Legacy\Applications\Automated\LoyaltyInsAdd\LoyaltyInsUpdate\bin\Debug\LoyaltyInsUpdate.exe
+C:\Projects\Legacy\Applications\Automated\LoyaltyInsAdd\LoyaltyInsUpdate\bin\Debug\LoyaltyInsUpdate.pdb
+C:\Projects\Legacy\Applications\Automated\LoyaltyInsAdd\LoyaltyInsUpdate\obj\x86\Debug\ResolveAssemblyReference.cache

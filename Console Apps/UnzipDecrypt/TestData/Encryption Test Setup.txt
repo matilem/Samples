@@ -1,0 +1,5 @@
+Encrypt
+-e -a "C:\Projects\PlayLand\UnzipDecrypt\TestData\test.txt" "C:\Projects\PlayLand\UnzipDecrypt\TestData\public_key.txt" "C:\Documents and Settings\megan.a.matile\Desktop"
+
+Decrypt
+-d "C:\Projects\PlayLand\UnzipDecrypt\TestData\test.txt.asc" "C:\Projects\PlayLand\UnzipDecrypt\TestData\private_key.txt" exam1 "C:\Documents and Settings\megan.a.matile\Desktop" 

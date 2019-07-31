@@ -1,0 +1,12 @@
+C:\Projects\PlayLand\UnzipDecrypt\UnzipDecrypt\UnzipDecrypt\bin\Debug\UnzipDecrypt.exe
+C:\Projects\PlayLand\UnzipDecrypt\UnzipDecrypt\UnzipDecrypt\bin\Debug\UnzipDecrypt.pdb
+C:\Projects\PlayLand\UnzipDecrypt\UnzipDecrypt\UnzipDecrypt\bin\Debug\BouncyCastle.Crypto.dll
+C:\Projects\PlayLand\UnzipDecrypt\UnzipDecrypt\UnzipDecrypt\bin\Debug\Encryption.dll
+C:\Projects\PlayLand\UnzipDecrypt\UnzipDecrypt\UnzipDecrypt\bin\Debug\ICSharpCode.SharpZipLib.dll
+C:\Projects\PlayLand\UnzipDecrypt\UnzipDecrypt\UnzipDecrypt\bin\Debug\Unzip File.dll
+C:\Projects\PlayLand\UnzipDecrypt\UnzipDecrypt\UnzipDecrypt\bin\Debug\Encryption.pdb
+C:\Projects\PlayLand\UnzipDecrypt\UnzipDecrypt\UnzipDecrypt\bin\Debug\Unzip File.pdb
+C:\Projects\PlayLand\UnzipDecrypt\UnzipDecrypt\UnzipDecrypt\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Projects\PlayLand\UnzipDecrypt\UnzipDecrypt\UnzipDecrypt\obj\x86\Debug\UnzipDecrypt.exe
+C:\Projects\PlayLand\UnzipDecrypt\UnzipDecrypt\UnzipDecrypt\obj\x86\Debug\UnzipDecrypt.pdb
+C:\Projects\PlayLand\UnzipDecrypt\UnzipDecrypt\UnzipDecrypt\bin\Debug\UnzipDecrypt.exe.config

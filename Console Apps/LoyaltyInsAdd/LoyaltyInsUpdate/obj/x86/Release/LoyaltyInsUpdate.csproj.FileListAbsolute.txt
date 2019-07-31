@@ -1,0 +1,9 @@
+C:\Documents and Settings\megan.a.matile\My Documents\Visual Studio 2010\Projects\LoyaltyInsUpdate\LoyaltyInsUpdate\bin\Release\LoyaltyInsUpdate.exe.config
+C:\Documents and Settings\megan.a.matile\My Documents\Visual Studio 2010\Projects\LoyaltyInsUpdate\LoyaltyInsUpdate\bin\Release\LoyaltyInsUpdate.exe
+C:\Documents and Settings\megan.a.matile\My Documents\Visual Studio 2010\Projects\LoyaltyInsUpdate\LoyaltyInsUpdate\bin\Release\LoyaltyInsUpdate.pdb
+C:\Documents and Settings\megan.a.matile\My Documents\Visual Studio 2010\Projects\LoyaltyInsUpdate\LoyaltyInsUpdate\obj\x86\Release\ResolveAssemblyReference.cache
+C:\Documents and Settings\megan.a.matile\My Documents\Visual Studio 2010\Projects\LoyaltyInsUpdate\LoyaltyInsUpdate\obj\x86\Release\LoyaltyInsUpdate.exe
+C:\Documents and Settings\megan.a.matile\My Documents\Visual Studio 2010\Projects\LoyaltyInsUpdate\LoyaltyInsUpdate\obj\x86\Release\LoyaltyInsUpdate.pdb
+C:\Projects\Legacy\Applications\Automated\LoyaltyInsUpdate\LoyaltyInsUpdate\bin\Release\LoyaltyInsUpdate.exe.config
+C:\Projects\Legacy\Applications\Automated\LoyaltyInsUpdate\LoyaltyInsUpdate\obj\x86\Release\LoyaltyInsUpdate.exe
+C:\Projects\Legacy\Applications\Automated\LoyaltyInsUpdate\LoyaltyInsUpdate\obj\x86\Release\LoyaltyInsUpdate.pdb

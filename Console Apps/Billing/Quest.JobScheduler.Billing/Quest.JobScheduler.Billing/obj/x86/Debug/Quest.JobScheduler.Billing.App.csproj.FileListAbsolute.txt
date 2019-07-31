@@ -1,0 +1,10 @@
+C:\Projects\Playland\Quest.JobScheduler.Billing\Quest.JobScheduler.Billing\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Projects\Playland\Quest.JobScheduler.Billing\Quest.JobScheduler.Billing\bin\Debug\Quest.JobScheduler.Billing.App.exe.config
+C:\Projects\Playland\Quest.JobScheduler.Billing\Quest.JobScheduler.Billing\bin\Debug\Quest.JobScheduler.Billing.App.exe
+C:\Projects\Playland\Quest.JobScheduler.Billing\Quest.JobScheduler.Billing\bin\Debug\Quest.JobScheduler.Billing.App.pdb
+C:\Projects\Playland\Quest.JobScheduler.Billing\Quest.JobScheduler.Billing\bin\Debug\Quest.JobScheduler.Billing.Library.dll
+C:\Projects\Playland\Quest.JobScheduler.Billing\Quest.JobScheduler.Billing\bin\Debug\Quest.JobScheduler.Billing.Repo.dll
+C:\Projects\Playland\Quest.JobScheduler.Billing\Quest.JobScheduler.Billing\bin\Debug\Quest.JobScheduler.Billing.Library.pdb
+C:\Projects\Playland\Quest.JobScheduler.Billing\Quest.JobScheduler.Billing\bin\Debug\Quest.JobScheduler.Billing.Repo.pdb
+C:\Projects\Playland\Quest.JobScheduler.Billing\Quest.JobScheduler.Billing\obj\x86\Debug\Quest.JobScheduler.Billing.App.exe
+C:\Projects\Playland\Quest.JobScheduler.Billing\Quest.JobScheduler.Billing\obj\x86\Debug\Quest.JobScheduler.Billing.App.pdb

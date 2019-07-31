@@ -1,0 +1,6 @@
+C:\Documents and Settings\megan.a.matile\My Documents\Visual Studio 2010\Projects\LoyaltyInsUpdate\LoyaltyInsUpdate\bin\Debug\LoyaltyInsUpdate.exe.config
+C:\Documents and Settings\megan.a.matile\My Documents\Visual Studio 2010\Projects\LoyaltyInsUpdate\LoyaltyInsUpdate\bin\Debug\LoyaltyInsUpdate.exe
+C:\Documents and Settings\megan.a.matile\My Documents\Visual Studio 2010\Projects\LoyaltyInsUpdate\LoyaltyInsUpdate\bin\Debug\LoyaltyInsUpdate.pdb
+C:\Documents and Settings\megan.a.matile\My Documents\Visual Studio 2010\Projects\LoyaltyInsUpdate\LoyaltyInsUpdate\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\megan.a.matile\My Documents\Visual Studio 2010\Projects\LoyaltyInsUpdate\LoyaltyInsUpdate\obj\x86\Debug\LoyaltyInsUpdate.exe
+C:\Documents and Settings\megan.a.matile\My Documents\Visual Studio 2010\Projects\LoyaltyInsUpdate\LoyaltyInsUpdate\obj\x86\Debug\LoyaltyInsUpdate.pdb

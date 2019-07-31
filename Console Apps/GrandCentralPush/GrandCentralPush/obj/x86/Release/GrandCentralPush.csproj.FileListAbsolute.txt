@@ -1,0 +1,6 @@
+C:\Projects\GrandCentral\GrandCentralPush\GrandCentralPush\bin\Release\GrandCentralPush.exe.config
+C:\Projects\GrandCentral\GrandCentralPush\GrandCentralPush\obj\x86\Release\ResolveAssemblyReference.cache
+C:\Projects\GrandCentral\GrandCentralPush\GrandCentralPush\bin\Release\GrandCentralPush.exe
+C:\Projects\GrandCentral\GrandCentralPush\GrandCentralPush\bin\Release\GrandCentralPush.pdb
+C:\Projects\GrandCentral\GrandCentralPush\GrandCentralPush\obj\x86\Release\GrandCentralPush.exe
+C:\Projects\GrandCentral\GrandCentralPush\GrandCentralPush\obj\x86\Release\GrandCentralPush.pdb
