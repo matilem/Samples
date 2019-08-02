@@ -1,0 +1,75 @@
+@import '../../node_modules/angular-generics/lib/styles/all.css';
+@import '../../node_modules/@fortawesome/fontawesome-free/css/all.min.css';
+
+/* Overrides */
+:root {
+  /* General Colors */
+  --primaryBackgroundColor: white;
+  --primaryFontColor: #111;
+  --buttonFontColor: white;
+  --seperatorColor: rgba(49, 108, 156, 0.685);
+  --footerBorderColor: rgb(32, 32, 32);
+  --shadowDark: rgb(34, 34, 34);
+  --disabledBackground: rgb(221, 232, 239);
+  --disabledBorder: rgb(99, 127, 151);
+
+  /* input colors */
+  --inputOutlineColor: rgb(171, 192, 216);
+  --inputOutline: 1px solid var(--inputOutlineColor);
+  --inputShadow: inset 0 0 3px 0px #f2fdff;
+  --inputLabelColor: #4a5668;
+
+  /* sizes */
+  --inputFontSize: 13px;
+  --inputLabelFontSize: 13px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  height: 100vh;
+  font-family: 14px/20px 'Lato', sans-serif;
+}
+
+.mat-tab-group {
+  display: grid !important;
+}
+
+
+.modal {
+  box-sizing: border-box;
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  padding: 50px 20px 20px 20px;
+  display: grid;
+  place-content: center center;
+}
+
+th {
+  background-color: rgb(237, 242, 245);
+  font-family: 'Lato', sans-serif;
+  font-weight: 700;
+  font-size: 0.80em;
+  margin-left: 5px;
+  margin-right: 5px;
+  margin-top: 2px;
+  margin-bottom: 2px;
+  border: 1px solid rgb(0, 112, 161);
+}
+
+td {
+  font-family: 'Lato', sans-serif;
+  font-size: 0.80em;
+  border-top: 3px solid rgb(0, 112, 161);
+  border-bottom: 1px solid rgb(233, 236, 239);
+  border-left: 1px solid rgb(233, 236, 239);
+  border-right: 1px solid rgb(233, 236, 239);
+  text-align: center;
+}

@@ -1,0 +1,47 @@
+<ag-el>
+  <mat-tab-group>
+    <mat-tab label="Summary">
+      <ng-template matTabContent>
+        <hamilton-claim-summary></hamilton-claim-summary>
+      </ng-template>
+    </mat-tab>
+    <mat-tab label="Imports">
+      <ng-template matTabContent>
+        <hamilton-claim-imports></hamilton-claim-imports>
+      </ng-template>
+    </mat-tab>
+    <mat-tab label="Exports/Destroy Articles">
+      <ng-template matTabContent>
+        <hamilton-claim-exports></hamilton-claim-exports>
+      </ng-template>
+    </mat-tab>
+    <mat-tab label="Manufacture/Produced Articles">
+      <ng-template matTabContent>
+        <hamilton-claim-manufacture></hamilton-claim-manufacture>
+      </ng-template>
+    </mat-tab>
+    <mat-tab label="Totals">
+      <ng-template matTabContent>
+        <hamilton-claim-totals></hamilton-claim-totals>
+      </ng-template>
+    </mat-tab>
+    <mat-tab label="Documents">
+      <ng-template matTabContent>
+        <hamilton-claim-documents></hamilton-claim-documents>
+      </ng-template>
+    </mat-tab>
+  </mat-tab-group>
+
+  <!-- <div class="col-1 gap-10 pad-10">
+        <div class="col-2">
+          <div class="col-1 btn-div">
+            <div class="form-control">
+              <button type="button" class="btn-primary" (click)="createClaim()">
+                Create
+              </button>
+              <button type="button" class="btn-secondary">Cancel</button>
+            </div>
+          </div>
+        </div>
+      </div> -->
+</ag-el>

@@ -1,0 +1,22 @@
+<ag-el [columns]="2" [pad]="'10px'" [gap]="'10px'">
+  <ag-el>
+    <div class="group-box">
+      <div class="header">Accounting Totals</div>
+      <div class="content">
+          <ag-table #accountingTable [columns]="columns"></ag-table>
+      </div>
+    </div>
+  </ag-el>
+  <ag-el>
+    <div class="group-box">
+      <div class="header">Grand Totals</div>
+      <div class="content">
+        <ag-el [pad]="'5px'" [gap]="'5px'">
+          <ag-input [(ngModel)]="claimTotal.grandTotalDutyAmount">Duty Amount</ag-input>
+          <ag-input [(ngModel)]="claimTotal.grandTotalUserFeeAmount">User Fee Amount</ag-input>
+          <ag-input [(ngModel)]="claimTotal.grandTotalIRTaxAmount">IR Tax Amount</ag-input>
+        </ag-el>
+      </div>
+    </div>
+  </ag-el>
+</ag-el>

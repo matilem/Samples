@@ -1,0 +1,5 @@
+<ag-el>
+    <ag-table-filter [columns]="columns" (search)="filterSearch($event)"></ag-table-filter>
+    <ag-table-pager (pageChanged)="pageChanged($event)"></ag-table-pager>
+    <ag-table #dataTable [query]="inventoryRequest" [columns]="columns"></ag-table>
+</ag-el>

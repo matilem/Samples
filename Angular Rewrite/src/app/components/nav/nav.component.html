@@ -1,0 +1,124 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #drawer class="sidenav" fixedInViewport="true"
+               [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+               [mode]="(isHandset$ | async) ? 'over' : 'side'"
+               [opened]="!(isHandset$ | async)">
+    <div class="left-nav-header">
+      <div class="menu-button">
+        <mat-icon class="menu-icon">menu</mat-icon>
+        <div class="menu-label">Menu</div>
+      </div>
+    </div>
+    <mat-nav-list>
+      <mat-list mat-list-item class="upload-add-menu header-box">
+
+        <div mat-icon-button [matMenuTriggerFor]="uploadMenu">
+          <mat-icon class="pointer">move_to_inbox</mat-icon>
+          <mat-menu #uploadMenu="matMenu">
+            <span>Upload</span>
+            <button mat-menu-item (click)="uploadModal.show()">
+              <span>Inventory</span>
+            </button>
+            <button mat-menu-item disabled>
+              <span>Bill of Material</span>
+            </button>
+            <button mat-menu-item disabled>
+              <span>Sales Information</span>
+            </button>
+            <button mat-menu-item disabled>
+              <span>Entry Number</span>
+            </button>
+            <button mat-menu-item disabled>
+              <span>ABI Response</span>
+            </button>
+          </mat-menu>
+        </div>
+        <div>
+          <mat-icon class="pointer" [matMenuTriggerFor]="addMenu">add_box</mat-icon>
+          <mat-menu #addMenu="matMenu">
+            <button mat-menu-item disabled>
+              <span>Batch</span>
+            </button>
+            <button routerLink="/claim/new" routerLinkActive="active" mat-menu-item>
+              <span>Claim</span>
+            </button>
+            <button mat-menu-item disabled>
+              <span>Sale</span>
+            </button>
+            <button mat-menu-item disabled>
+              <span>CD</span>
+            </button>
+            <button mat-menu-item disabled>
+              <span>Part</span>
+            </button>
+            <button mat-menu-item disabled>
+              <span>Import Data</span>
+            </button>
+            <button mat-menu-item disabled>
+              <span>Export Data</span>
+            </button>
+          </mat-menu>
+        </div>
+
+      </mat-list>
+      <a mat-list-item routerLink="/batches" routerLinkActive="active">
+        <mat-icon>view_module</mat-icon> Batches
+      </a>
+      <a mat-list-item routerLink="/inventory" routerLinkActive="active">
+        <mat-icon>list</mat-icon> Inventory
+      </a>
+      <a mat-list-item routerLink="/boms" routerLinkActive="active">
+        <mat-icon>line_style</mat-icon> BOM
+      </a>
+      <a mat-list-item routerLink="/claims" routerLinkActive="active">
+        <mat-icon>assignment</mat-icon> Claims
+      </a>
+      <a mat-list-item routerLink="/forms" routerLinkActive="active">
+        <mat-icon>work</mat-icon> Forms
+      </a>
+      <a mat-list-item routerLink="/claim-preview" routerLinkActive="active">
+        <mat-icon>assignment</mat-icon> Claim Preview
+      </a>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar color="primary">
+      <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()"
+              *ngIf="isHandset$ | async">
+        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+      </button>
+      <img class="logo" alt="Charter Brokerage Logo" src="assets/images/logo.png">
+      <mat-list class="header-nav">
+        <a class="logout" mat-list-item routerLink="/logout" routerLinkActive="active">
+          Log Off
+        </a>
+        <mat-divider [vertical]="true">
+        </mat-divider>
+        <a class="notification" mat-list-item>
+          <mat-icon>notifications</mat-icon>
+        </a>
+        <mat-divider [vertical]="true">
+        </mat-divider>
+        <a class="account" mat-list-item routerLink="/account" routerLinkActive="active">
+          <mat-icon>account_circle</mat-icon>
+        </a>
+      </mat-list>
+    </mat-toolbar>
+    <ng-content #main></ng-content>
+
+  </mat-sidenav-content>
+</mat-sidenav-container>
+
+<ag-modal #uploadModal
+          [title]="'Upload Inventory'"
+          [buttons]="uploadButtons">
+  <ag-el [pad]="'10px'">
+    <ag-input [type]="'file'" [placeholder]="'Select a file'" (change)="fileChanged($event)">Inventory File</ag-input>
+  </ag-el>
+
+</ag-modal>
+
+<ng-template #uploadButtons>
+  <ag-button (click)="uploadModal.close()">Cancel</ag-button>
+  <ag-button [disabled]="!hasFiles" (click)="uploadFiles()">Upload</ag-button>
+</ng-template>

@@ -1,0 +1,60 @@
+<ag-el [columns]="2" [pad]="'10px'" [gap]="'10px'">
+  <ag-el>
+    <div class="group-box">
+      <div class="header">Basic Info</div>
+      <div class="content">
+        <ag-el [gap]="'5px'" [pad]="'5px'">
+          <ag-input [(ngModel)]="claimPreview.internalId">Claim Internal Id </ag-input>
+          <ag-input [(ngModel)]="claimPreview.entryNumber">Entry / Claim Number </ag-input>
+          <ag-input [(ngModel)]="claimPreview.filingPort">Filing Port</ag-input>
+          <ag-input [type]="'date'" [subtype]="'range'" [(ngModel)]="claimPreview.filingDate">Filing Date</ag-input>
+          <ag-input [(ngModel)]="claimPreview.filerCode">Filer Code</ag-input>
+          <ag-input [(ngModel)]="claimPreview.provision">Provision</ag-input>
+          <ag-input [(ngModel)]="claimPreview.basisOfClaim">Basis of Claim </ag-input>
+        </ag-el>
+      </div>
+    </div>
+  </ag-el>
+
+  <ag-el>
+    <div class="group-box">
+      <div class="header">Contact Info</div>
+      <div class="content">
+        <ag-el [gap]="'5px'" [pad]="'5px'">
+          <ag-input [(ngModel)]="claimPreview.preparerInitials">Preparer Initials </ag-input>
+          <ag-input [(ngModel)]="claimPreview.contactName">Name</ag-input>
+          <ag-input [(ngModel)]="claimPreview.contactPhone">Phone</ag-input>
+          <ag-input [(ngModel)]="claimPreview.contactExt">Ext</ag-input>
+        </ag-el>
+      </div>
+    </div>
+  </ag-el>
+
+  <ag-el>
+    <div class="group-box">
+      <div class="header">Additional Info</div>
+      <div class="content">
+        <ag-el [gap]="'5px'" [pad]="'5px'">
+          <ag-input [(ngModel)]="claimPreview.manufactureRulingNumber">Manufacture Ruling Number</ag-input>
+          <ag-input [(ngModel)]="claimPreview.exportIndicator">Export / Destroy Indicator</ag-input>
+          <ag-input [(ngModel)]="claimPreview.accountingMethodCode">Accounting Method Code</ag-input>
+          <ag-input [(ngModel)]="claimPreview.acceleratedPaymentRequired"> Accelerated Payment Required</ag-input>
+          <ag-input [(ngModel)]="claimPreview.oneTimeWaiver">One Time Waiver </ag-input>
+          <ag-input [(ngModel)]="claimPreview.waiverPriorNotice">Waiver Prior Notice </ag-input>
+          <ag-input [(ngModel)]="claimPreview.cidcr">CID / CR</ag-input>
+          <ag-input [(ngModel)]="claimPreview.electronicPetroleumCertification"> Electronic Petroleum Certification </ag-input>
+          <ag-input [(ngModel)]="claimPreview.oilSpillTaxCertification">Oil Spill Tax Certification</ag-input>
+          <ag-input [(ngModel)]="claimPreview.claimantId">Claimant ID / Importer Record</ag-input>
+          <ag-input [(ngModel)]="claimPreview.claimantIdSuffix">Claimant ID Suffix </ag-input>
+          <ag-input [(ngModel)]="claimPreview.designatedNotifyParty">Designated Notify Party (4811)</ag-input>
+          <ag-input [(ngModel)]="claimPreview.designatedNotifyPartyFEIN">Designated Notify Party FEIN</ag-input>
+          <ag-input [(ngModel)]="claimPreview.designatedNotifyPartyPart">Designated Notify Party Part</ag-input>
+          <ag-input [(ngModel)]="claimPreview.substitutedUnusedWineCertification">Substituted Unused Wine Certification </ag-input>
+          <ag-input [(ngModel)]="claimPreview.certificationForValuationOfDestroyedMerchandise">Destroyed Merchandise Certification</ag-input>
+          <ag-input [(ngModel)]="claimPreview.billOfMaterialsFormulaCertification"> Bill of Materials / Formula Certification</ag-input>
+          <ag-input [(ngModel)]="claimPreview.summaryFilingAction">Summary Filing Action</ag-input>
+        </ag-el>
+      </div>
+    </div>
+  </ag-el>
+</ag-el>

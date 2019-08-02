@@ -1,0 +1,145 @@
+<ag-modal #claimModal [(show)]="showClaimRequest" [title]="'New Claim'" [steps]="3" [buttons]="matchButtons">
+  <ng-container [ngSwitch]="claimModal.step">
+    <ng-container *ngSwitchCase="1">
+      <ag-el>
+        <ag-el [columns]="2" [pad]="'10px'" [gap]="'10px'">
+          <ng-container *ngTemplateOutlet="createClaim"></ng-container>
+        </ag-el>
+      </ag-el>
+    </ng-container>
+    <ng-container *ngSwitchCase="2">
+      <ng-container *ngTemplateOutlet="matchingResults"></ng-container>
+    </ng-container>
+    <ng-container *ngSwitchCase="3">
+      <ng-container *ngTemplateOutlet="previewClaim"></ng-container>
+    </ng-container>
+  </ng-container>
+</ag-modal>
+
+<ng-template #createClaim>
+  <!-- Row 1 Column 1 -->
+  <ag-el>
+    <div class="group-box">
+      <div class="header">General</div>
+      <div class="content">
+        <ag-el [gap]="'5px'" [pad]="'5px'">
+          <ag-input [(ngModel)]="match.clientId" [type]="'select'" [source]="clientSource" [displayProperty]="'name'" [valueProperty]="'id'">Client* </ag-input>
+          <!-- <ag-input [(ngModel)]="match.internalId" [disabled]="true">Interal Id</ag-input> -->
+          <ag-input [(ngModel)]="match.provisionId" [type]="'select'" [source]="provisionSource" [displayProperty]="'id'" [valueProperty]="'id'">Provision* </ag-input>
+          <ag-input [(ngModel)]="match.matchBy" [type]="'select'" [options]="matchBy" [displayProperty]="'name'" [valueProperty]="'id'">Match by</ag-input>
+          <ag-input [(ngModel)]="match.skipRef2DirectId" [type]="'check'">Skip Ref2 / Direct Id</ag-input>
+          <ag-input [(ngModel)]="match.oilSpillTax" [type]="'check'">Oil Spill Tax </ag-input>
+          <ag-input [(ngModel)]="match.alternativesApply" [type]="'check'">Alternatives Apply</ag-input>
+          <ag-input [(ngModel)]="match.multiLevelBom" [type]="'check'">Multi-Level BOM</ag-input>
+          <ag-input [(ngModel)]="match.nafta" [type]="'check'">NAFTA</ag-input>
+          <ag-input [(ngModel)]="match.citrus" [type]="'check'">CITRUS</ag-input>
+          <ag-input [(ngModel)]="match.allowImportDateEqualExportDate" [type]="'check'">Import = Export Date
+          </ag-input>
+        </ag-el>
+      </div>
+    </div>
+  </ag-el>
+
+  <!-- Row 1 Column 2 -->
+  <ag-el>
+    <div class="group-box">
+      <div class="header">Matching Info</div>
+      <div class="content">
+        <!-- <mat-icon class="icon">info</mat-icon><label class="match-info-sub-heading">Provision Rules</label> -->
+      </div>
+    </div>
+  </ag-el>
+
+  <!-- Row 2 Column 1 -->
+  <ag-el>
+    <div class="group-box">
+      <div class="header">Import</div>
+      <div class="content">
+        <ag-el [gap]="'5px'" [pad]="'5px'">
+          <ag-input [(ngModel)]="match.importsPriority" [type]="'select'" [options]="importPriority" [displayProperty]="'name'" [valueProperty]="'id'">Imports Priority*</ag-input>
+          <ag-input [(ngModel)]="match.form7501Id" [type]="'select'" [source]="formSource" [displayProperty]="'entryNumber'" [valueProperty]="'id'">Form 7501</ag-input>
+          <ag-input [(ngModel)]="match.importerId" [type]="'select'" [source]="clientSource" [displayProperty]="'name'" [valueProperty]="'id'">Importer</ag-input>
+          <ag-input [(ngModel)]="match.importRef1" [type]="'text'" [disabled]="true">Ref 1</ag-input>
+          <ag-input [(ngModel)]="match.importDirectId" [type]="'text'" [disabled]="true">Direct ID</ag-input>
+          <ag-input [(ngModel)]="match.importRef3" [type]="'text'" [disabled]="true">Ref 3</ag-input>
+          <ag-input [(ngModel)]="match.importRef4" [type]="'text'" [disabled]="true">Ref 4</ag-input>
+          <ag-input [(ngModel)]="match.cd" [type]="'text'" [disabled]="true">CD</ag-input>
+          <ag-input [(ngModel)]="match.importReceivedRange" [type]="'date'" [subtype]="'range'">Imports Received</ag-input>
+          <ag-input [(ngModel)]="match.importUsedRange" [type]="'date'" [subtype]="'range'">Imports Used</ag-input>
+          <ag-input [(ngModel)]="match.importImportedRange" [type]="'date'" [subtype]="'range'">Imports Imported</ag-input>
+          <ag-input [(ngModel)]="match.domesticFreeApply" [type]="'check'">Domestic / Free Apply</ag-input>
+          
+          
+        </ag-el>
+      </div>
+    </div>
+  </ag-el>
+
+  <!-- Row 2 Column 2 -->
+  <ag-el>
+    <div class="group-box">
+      <div class="header">Export</div>
+      <div class="content">
+        <ag-el [gap]="'5px'" [pad]="'5px'">
+          <ag-input [(ngModel)]="match.exportType" [type]="'select'" [options]="exportTypes" [displayProperty]="'name'" [valueProperty]="'id'">Export Type</ag-input>
+          <ag-input [(ngModel)]="match.exportPriority" [type]="'select'" [options]="exportPriority" [displayProperty]="'name'" [valueProperty]="'id'">Exports Priority</ag-input>
+          <ag-input [(ngModel)]="match.exportBatchId" [type]="'select'" [source]="batchSource" [displayProperty]="'number'" [valueProperty]="'id'">Batch</ag-input>
+          <ag-input [(ngModel)]="match.exportDateRange" [type]="'date'" [subtype]="'range'">Export Date</ag-input>
+          <ag-input [(ngModel)]="match.exporterId" [type]="'select'" [source]="clientSource" [displayProperty]="'name'" [valueProperty]="'id'">Exporter</ag-input>
+          <ag-input [(ngModel)]="match.destinationCountryId" [type]="'select'" [source]="countrySource" [displayProperty]="'name'" [valueProperty]="'id'">Destination Country</ag-input>
+          <ag-input [(ngModel)]="match.exportPartId" [type]="'select'" [source]="partSource" [displayProperty]="'number'" [valueProperty]="'id'">Part</ag-input>
+          <ag-input [(ngModel)]="match.exportProducedRange" [type]="'date'" [subtype]="'range'">Export Produced</ag-input>
+          <ag-input [(ngModel)]="match.exportRef1" [type]="'text'" [disabled]="true">Ref 1</ag-input>
+          <ag-input [(ngModel)]="match.exportDirectId" [type]="'text'" [disabled]="true">Direct ID</ag-input>
+          <ag-input [(ngModel)]="match.exportRef3" [type]="'text'" [disabled]="true">Ref 3</ag-input>
+          <ag-input [(ngModel)]="match.exportRef4" [type]="'text'" [disabled]="true">Ref 4</ag-input>
+        </ag-el>
+      </div>
+    </div>
+  </ag-el>
+
+  <!-- Row 3 Column 1 -->
+  <ag-el>
+    <div class="group-box">
+      <div class="header">Import-Export Range Limit</div>
+      <div class="content">
+        <ag-el [gap]="'5px'" [pad]="'5px'">
+          <ag-input [disabled]="true" [type]="'text'" [labelPosition]="'above'" [labelPlacement]="'end start'">Imports-Exports Range (Import)</ag-input>
+          <ag-input [disabled]="true" [type]="'text'" [labelPosition]="'above'" [labelPlacement]="'end start'">Imports-Exports Range (Entry)</ag-input>
+          <ag-input [disabled]="true" [type]="'text'" [labelPosition]="'above'" [labelPlacement]="'end start'">Market Value Difference (cents)</ag-input>
+        </ag-el>
+      </div>
+    </div>
+  </ag-el>
+
+  <!-- Row 3 Column 2 -->
+  <ag-el>
+
+  </ag-el>
+</ng-template>
+
+<ng-template #matchingResults>
+  <hamilton-matching-results></hamilton-matching-results>
+</ng-template>
+
+<ng-template #previewClaim>
+  <hamilton-claim-preview></hamilton-claim-preview>
+</ng-template>
+
+
+
+<ng-template #matchButtons>
+  <ag-button (click)="claimModal.closeModal()">Cancel</ag-button>
+  <ag-button [disabled]="claimModal.step==1 && !claimModal.loop">Back</ag-button>
+  <ag-button (click)="getMatches()" (click)="isMatched=true" (click)="claimModal.show() && loopSteps=true" (click)="claimModal.nextClicked()" (click)="claimModal.buttons=previewButtons">Match</ag-button>
+  <!-- <ag-button [disabled]="!isMatched" hidden="!isMatched" (click)="claimModal.show() && loopSteps=true">Preview</ag-button>  -->
+</ng-template>
+
+<ng-template #previewButtons>
+  <ag-button (click)="claimModal.closeModal()">Cancel</ag-button>
+  <ag-button [disabled]="claimModal.step==1 && !claimModal.loop" (click)="claimModal.previousClicked()">Back</ag-button>
+  <ag-button (click)="getPreview()" (click)="hasPreview=true" (click)="claimModal.show() && loopSteps=true" (click)="claimModal.nextClicked()">Preview</ag-button>
+  <!-- <ag-button [disabled]="!isMatched" hidden="!isMatched"(click)="getPreview()" (click)="hasPreview=true" (click)="claimModal.show() && loopSteps=true" (click)="claimModal.nextClicked()">Preview</ag-button> -->
+  <!-- <ag-button [disabled]="!hasPreview" hidden="!hasPreview" (click)="createClaim()">Create</ag-button>   -->
+  <ag-button (click)="createClaim()">Create</ag-button>
+</ng-template>

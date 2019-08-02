@@ -1,0 +1,147 @@
+.left-nav-header {
+  color: #e9f2ff;
+  padding: 15px;
+  background: #2f3949;
+  text-decoration: none;
+  box-sizing: border-box;
+  white-space: nowrap;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.menu-button {
+  margin-bottom: 5px;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  place-items: center start;
+  gap: 5px;
+}
+
+.upload-add-menu {
+  color: #e9f2ff;
+  padding: 0 10px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.upload-add-menu a{
+  display: block;
+  text-decoration: none;
+}
+
+.upload-add-menu>div:nth-child(1){
+  text-align: center;
+}
+.upload-add-menu>div:nth-child(2){
+  text-align: center;
+}
+
+.header-box {
+  background: #282f3f;
+  padding: 5px;
+}
+
+.left-nav-header .mat-icon,
+.header-box .mat-icon {
+  height: 25px;
+  width: 25px;
+  font-size: 25px;
+}
+
+.sidenav-container {
+  height: 100%;
+}
+
+.sidenav {
+  background: #354052;
+  width: 180px;
+}
+
+.notification .mat-icon,
+.account .mat-icon {
+  height: auto;
+  width: 100%;
+  font-size: 2.00em;
+}
+
+.notification .mat-icon {
+  color: #a0acbf;
+}
+
+.mat-list-item .mat-icon {
+  margin-right: 8px;
+}
+
+.mat-nav-list>a.mat-list-item {
+  display: block;
+  text-decoration: none;
+  color: #a0acbf;
+  font-size: 12px;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.mat-nav-list>a.mat-list-item.active {
+  color: #fff;
+  background: #2f3949;
+}
+
+.mat-nav-list>a.mat-list-item:hover {
+  color: #fff;
+  background: #49a7e2;
+  transition: background 0.2s;
+}
+
+.mat-toolbar-single-row {
+  padding: 0;
+}
+
+.mat-toolbar.mat-primary {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: #fff;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #ccc;
+  padding-left: 10px;
+  height: 63px;
+}
+
+.mat-toolbar>img.logo {
+  height: auto;
+  width: 350px;
+}
+
+.mat-sidenav-content .mat-list-base {
+  align-content: flex-end;
+  display: flex;
+}
+
+.mat-toolbar .header-nav>a {
+  display: block;
+  box-sizing: border-box;
+  border: none;
+  text-decoration: none;
+  margin: 0 2px;
+}
+
+.mat-divider-vertical {
+  border-right-color: rgb(47, 57, 73, 0.5);
+}
+
+.logout {
+  color: rgb(47, 57, 73, 0.75);
+  font-size: 14px;
+}
+
+.account {
+  color: rgb(0, 112, 161);
+}
+
+.account.mat-list-item .mat-icon {
+  height: 40px;
+  width: 40px;
+  font-size: 40px;
+}
